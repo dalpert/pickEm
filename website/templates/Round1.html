@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="/static/javascript/csvManagement.js"></script>
+  </head>
+  <body>
+    {% extends "layout.html" %}
+    {% block content %}
+      <div class="picks">
+        <h1>Round 1</h1>
+		    <form>
+          Team Name: <input type="text" name="TeamName" size="50"><br>
+          Question 1: <input type="text" name="Question1" size="50"><br>
+          Question 2: <input type="text" name="Question2" size="50"><br>
+          Question 3: <input type="text" name="Question3" size="50"><br>
+          Question 4: <input type="text" name="Question4" size="50"><br>
+          Question 5: <input type="text" name="Question5" size="50"><br>
+          Question 6: <input type="text" name="Question6" size="50"><br>
+          <input type="button" value="submit" onclick="DownloadCsv(this.form)">
+        </form>
+      </div>
+    {% endblock %}
+  </body>
+</html>
