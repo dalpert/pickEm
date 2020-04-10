@@ -27,7 +27,7 @@ flask run
   - Open a web browser and navigate to ```localhost:5000```
         
     - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
-    - ```ctrl + c``` to stop the flask app.
+    - Enter ```ctrl + c``` to stop the flask app.
 
 5.) Create and push your changes to a remote branch.
 ```bash
