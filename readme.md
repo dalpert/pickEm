@@ -1,19 +1,26 @@
 To make changes to this repository, follow these steps:
 1.) Clone this repo locally:
-	git init
-	git clone https://github.com/alassman/TownHallTrivia.git
+```bash
+git init
+git clone https://github.com/ablassman/TownHallTrivia.git
+```
 	
-2.) create a working branch
-	git checkout -b newBranchName
+2.) create a local working branch
+```bash
+git checkout -b <newBranchName>
+```
 
-4.) Make all the changes you want
+4.) Test your changes
+  1.) Run the following python command in the same directory as ```application.py```
+```python
+flask run
+```
+  2.) Open a web browser and navigate to ```localhost:5000```
+    * Be sure to clear the browser cache every time you make a change to code
+    * You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
 
-5.) Issue Pull Request
-	git push origin newBranchName
-
+5.) Create and push your changes to a remote branch.
+```bash
+git push -u origin <newBranchName>
+```
 6.) Let other's review your changes before merging the changes to master through the Github UI
-
-azure login: https://signup.azure.com/signup?offer=MS-AZR-0063P&appid=MyVSSPortal&Ref=MyVSSPortal
-
-to see azure benefits for microsoft account: https://my.visualstudio.com/Benefits
-how to deploy app service on azure: https://docs.microsoft.com/en-us/azure/app-service/containers/quickstart-python?tabs=bash
