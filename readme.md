@@ -12,7 +12,11 @@ git checkout -b <newBranchName>
 ```
   - type ```git branch``` to see a list of all the local branches you have
   
-3.) Make local changes
+3.) Make local changes and commit them (locally)
+```bash
+git add <fileName>
+git commit -m "<message>"
+```
 
 4.) Test your changes locally
 
