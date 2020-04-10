@@ -9,16 +9,19 @@ git clone https://github.com/ablassman/TownHallTrivia.git
 ```bash
 git checkout -b <newBranchName>
 ```
-  * type ```git branch``` to see a list of all the local branches you have
+  - type ```git branch``` to see a list of all the local branches you have
+  
 3.) Make local changes
+
 4.) Test your changes
+
   1.) To run the flask app, enter the following python command in the same directory as the file ```application.py```
 ```python
 flask run
 ```
   2.) Open a web browser and navigate to ```localhost:5000```
-    * Be sure to clear the browser cache every time you make a change to code
-    * You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
+        
+    - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
 
 5.) Create and push your changes to a remote branch.
 ```bash
