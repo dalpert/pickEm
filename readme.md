@@ -26,7 +26,8 @@ git checkout -b <newBranchName>
 git add <fileName>
 git commit -m "<message>"
 ```
-  - If you add any new dependencies (aka you have to run ```pip install``` at some point to get something working), please be sure to add them to ```requirments.txt```. To write all current dependencies in your virtual environment to ```requirements.txt```, run the following command:
+  - If you add any new dependencies (aka you have to run ```pip install``` at some point to get something working), please be sure to add them to ```requirments.txt```. This is because the Azure App Service creates a virtual environment with all dependencies listed in ```requirments.txt``` before deploying our code.
+    - To write all current dependencies in your virtual environment to ```requirements.txt```, run the following command:
 ```bash
 pip freeze > requirements.txt
 ```
