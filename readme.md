@@ -9,6 +9,7 @@ git clone https://github.com/ablassman/TownHallTrivia.git
 ```bash
 git checkout -b <newBranchName>
 ```
+  * type ```git branch``` to see a list of all the local branches you have
 
 4.) Test your changes
   1.) Run the following python command in the same directory as ```application.py```
