@@ -82,4 +82,7 @@ function DownloadCsv(form) {
   hiddenElement.target = '_blank';
   hiddenElement.download = form.TeamName.value + '.csv';
   hiddenElement.click();
+
+  // Save CSV
+  
 }

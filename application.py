@@ -34,4 +34,4 @@ def Round6():
     return render_template('Round6.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

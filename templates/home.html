@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+  	<script src="/static/javascript/scripts.js"></script>
+  </head>
   <body>
     {% extends "layout.html" %}
     {% block content %}
       <div class="home">
         <h1>Welcome to Town Hall Trvia</h1>
         <p>This will be the best night of your week!</p>
+        <form>
+          Team Name: <input type="text" name="TeamName" size="50"><br>
+          <input type="button" value="submit" onclick="SaveTeamName(this.form)">
+        </form>
       </div>
     {% endblock %}
   </body>
