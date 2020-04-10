@@ -34,4 +34,7 @@ flask run
 git push -u origin <newBranchName>
 ```
 
-6.) Let other's review your changes before merging the changes to master through the Github UI
+6.) Go to this branch in the GitHub UI and create a pull request.
+
+  - To complete your PR, you will need at least one person's approval.
+  - Completing the PR will deploy these changes to the website.
