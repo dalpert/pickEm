@@ -10,9 +10,9 @@ git clone https://github.com/ablassman/TownHallTrivia.git
 git checkout -b <newBranchName>
 ```
   * type ```git branch``` to see a list of all the local branches you have
-
+3.) Make local changes
 4.) Test your changes
-  1.) Run the following python command in the same directory as ```application.py```
+  1.) To run the flask app, enter the following python command in the same directory as the file ```application.py```
 ```python
 flask run
 ```
