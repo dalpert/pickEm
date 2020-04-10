@@ -1,19 +1,57 @@
 To make changes to this repository, follow these steps:
+
 1.) Clone this repo locally:
-	git init
-	git clone https://github.com/alassman/TownHallTrivia.git
+```bash
+git init
+git clone https://github.com/ablassman/TownHallTrivia.git
+cd TownHallTrivia
+```
+
+2.) Create a virtual environment and install the necessary dependencies from ```requirements.txt```.
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+export FLASK_APP=app.py
+```
 	
-2.) create a working branch
-	git checkout -b newBranchName
+3.) Create a local working branch
+```bash
+git checkout -b <newBranchName>
+```
+  - type ```git branch``` to see a list of all the local branches you have
+  
+4.) Make local changes and commit them (locally)
+```bash
+git add <fileName>
+git commit -m "<message>"
+```
+  - If you add any new dependencies (aka you have to run ```pip install``` at some point to get something working), please be sure to add them to ```requirments.txt```. This is because the Azure App Service creates a virtual environment with all dependencies listed in ```requirments.txt``` before deploying our code.
+  
+    - To write all dependencies in your virtual environment to ```requirements.txt```, run the following command:
+```bash
+pip freeze > requirements.txt
+```
 
-4.) Make all the changes you want
+5.) Test your changes locally
 
-5.) Issue Pull Request
-	git push origin newBranchName
+  - To run the flask app, enter the following python command in the same directory as the file ```application.py```
+```python
+flask run
+```
+  - Open a web browser and navigate to ```localhost:5000```
+        
+    - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
+    - Enter ```ctrl + c``` to stop the flask app.
 
-6.) Let other's review your changes before merging the changes to master through the Github UI
+6.) Create and push your changes to a remote branch.
+```bash
+git push -u origin <newBranchName>
+```
 
-azure login: https://signup.azure.com/signup?offer=MS-AZR-0063P&appid=MyVSSPortal&Ref=MyVSSPortal
+7.) Go to ```https://github.com/ablassman/TownHallTrivia``` and use the GUI to create a pull request with the remote branch that you created in step 6.
 
-to see azure benefits for microsoft account: https://my.visualstudio.com/Benefits
-how to deploy app service on azure: https://docs.microsoft.com/en-us/azure/app-service/containers/quickstart-python?tabs=bash
+  - To complete your PR, you will need at least one person's approval.
+  - Completing the PR will automatically deploy your changes to the website.
+  
+8.) Go checkout www.TownHallTrivia.com to see the final product!
