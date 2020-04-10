@@ -16,13 +16,13 @@ git checkout -b <newBranchName>
 
 4.) Test your changes locally
 
-   1.) To run the flask app, enter the following python command in the same directory as the file ```application.py```
+  1.) To run the flask app, enter the following python command in the same directory as the file ```application.py```
 ```python
 flask run
 ```
-   2.) Open a web browser and navigate to ```localhost:5000```
+  2.) Open a web browser and navigate to ```localhost:5000```
         
-   - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
+    - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
 
 5.) Create and push your changes to a remote branch.
 ```bash
