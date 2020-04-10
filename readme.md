@@ -28,7 +28,7 @@ git commit -m "<message>"
 ```
   - If you add any new dependencies (aka you have to run ```pip install``` at some point to get something working), please be sure to add them to ```requirments.txt```. This is because the Azure App Service creates a virtual environment with all dependencies listed in ```requirments.txt``` before deploying our code.
   
-    - To write all current dependencies in your virtual environment to ```requirements.txt```, run the following command:
+    - To write all dependencies in your virtual environment to ```requirements.txt```, run the following command:
 ```bash
 pip freeze > requirements.txt
 ```
@@ -49,7 +49,7 @@ flask run
 git push -u origin <newBranchName>
 ```
 
-7.) Go to this branch in the GitHub UI and create a pull request.
+7.) Go to ```https://github.com/ablassman/TownHallTrivia``` and use the GUI to create a pull request with the remote branch that you created in step 6.
 
   - To complete your PR, you will need at least one person's approval.
   - Completing the PR will automatically deploy your changes to the website.
