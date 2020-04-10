@@ -6,20 +6,32 @@ git init
 git clone https://github.com/ablassman/TownHallTrivia.git
 cd TownHallTrivia
 ```
+
+2.) Create a virtual environment and install the necessary dependencies from ```requirements.txt```.
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+export FLASK_APP=application.py
+```
 	
-2.) create a local working branch
+3.) Create a local working branch
 ```bash
 git checkout -b <newBranchName>
 ```
   - type ```git branch``` to see a list of all the local branches you have
   
-3.) Make local changes and commit them (locally)
+4.) Make local changes and commit them (locally)
 ```bash
 git add <fileName>
 git commit -m "<message>"
 ```
+  - If you add any new dependencies (aka you have to run ```pip install``` at some point to get something working), please be sure to add them to ```requirments.txt```. To write all current dependencies in your virtual environment to ```requirements.txt```, run the following command:
+```bash
+pip freeze > requirements.txt
+```
 
-4.) Test your changes locally
+5.) Test your changes locally
 
   - To run the flask app, enter the following python command in the same directory as the file ```application.py```
 ```python
@@ -30,12 +42,12 @@ flask run
     - You can leave the flask app running while making a code change, just be sure to clear the cache in the web browser and reload the page and your code changes will appear.
     - Enter ```ctrl + c``` to stop the flask app.
 
-5.) Create and push your changes to a remote branch.
+6.) Create and push your changes to a remote branch.
 ```bash
 git push -u origin <newBranchName>
 ```
 
-6.) Go to this branch in the GitHub UI and create a pull request.
+7.) Go to this branch in the GitHub UI and create a pull request.
 
   - To complete your PR, you will need at least one person's approval.
-  - Completing the PR will deploy these changes to the website.
+  - Completing the PR will automatically deploy your changes to the website.
