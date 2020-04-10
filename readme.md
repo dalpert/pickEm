@@ -53,3 +53,5 @@ git push -u origin <newBranchName>
 
   - To complete your PR, you will need at least one person's approval.
   - Completing the PR will automatically deploy your changes to the website.
+  
+8.) Go checkout www.TownHallTrivia.com to see the final product!
