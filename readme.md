@@ -4,6 +4,7 @@ To make changes to this repository, follow these steps:
 ```bash
 git init
 git clone https://github.com/ablassman/TownHallTrivia.git
+cd TownHallTrivia
 ```
 	
 2.) create a local working branch
