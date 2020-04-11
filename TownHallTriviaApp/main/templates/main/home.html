@@ -2,18 +2,18 @@
 
 <html>
   <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   </head>
   <body>
-    {% extends "main/layout.html" %}
-    {% block content %}
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
       <div class="home">
         <h1>Welcome to Town Hall Trvia</h1>
-        <p>This will be the best night of your week!</p>
-        <form>
-          Team Name: <input type="text" name="TeamName" size="50"><br>
-          <input type="button" value="submit" onclick="SaveTeamName(this.form)">
-        </form>
+        <p>You must register with a team name to proceed</p>
+        <a href = "{{ url_for('main.login') }}">Click Here to Register</a><br>
       </div>
-    {% endblock %}
   </body>
 </html>
