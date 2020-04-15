@@ -78,7 +78,10 @@ function DownloadCsv(form) {
   const csvOutput = exporter.ConvertToCSV();
 
   // Download csv
+  var hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvOutput);
+  hiddenElement.target = '_blank';
+  hiddenElement.download = form.TeamName.value + '.csv';
+  hiddenElement.click();
   
-
-  // Save CSV
 }
