@@ -1,5 +1,6 @@
 # importing csv module 
 import csv, string, os, math
+import operator
 
 # Globals
 allTeamAnswers = []
@@ -64,7 +65,8 @@ def ReadCsvs():
     with open(teamAnswerFiles, 'r') as csvfile: 
         teamAnswersReader = csv.reader(csvfile)
         answerFields = next(teamAnswersReader)
-        for row in teamAnswersReader: 
+        sortedlist = sorted(teamAnswersReader, key=lambda row: row[1].lower(), reverse=False)
+        for row in sortedlist: 
             allTeamAnswers.append(row)
 
 def CompareCleansedAnswers(teamAnswer, officialAnswer):
