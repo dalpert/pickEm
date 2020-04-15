@@ -2,7 +2,10 @@
 
 <html>
   <body>
+  	{% extends "admin/layout.html" %}
+    {% block content %} 
     <h1>Admin Page</h1>
     <p>{{ session }}</p>
+    {% endblock %}
   </body>
 </html>

@@ -1,0 +1,17 @@
+<html>  
+  <head>  
+    <title>getting the session</title>  
+  </head>  
+  <body> 
+    {% extends "admin/layout.html" %}
+    {% block content %} 
+    <p>The session is set with value: <strong>{{ session }}</strong></p>  
+    <p>Info from redis cache: <strong>{{ info }}</strong></p> 
+    <form method = "post" action = "{{ url_for('admin.teamAnswers') }}">
+      Team ID: <input type="text" name="teamId" size="50"><br>
+      Round Number: <input type="text" name="roundNumber" size="50"><br>
+      <input type="submit" value="Submit">
+    </form>
+    {% endblock %}
+  </body>  
+</html>  
