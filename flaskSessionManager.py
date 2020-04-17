@@ -10,6 +10,7 @@ class FlaskSessionManager:
         self.roundNumber = "roundNumber"
         self.adminGameId = "adminGameId"
         self.playerGameId = "playerGameId"
+        self.message = "message"
     
     def isTeamRegistered(self):
         return self.teamName in session
@@ -34,6 +35,12 @@ class FlaskSessionManager:
 
     def setPlayerGameId(self, gameId):
         session[self.playerGameId] = gameId
+
+    def setMessage(self, message):
+        session[self.message] = message
+
+    def getMessage(self):
+        return session[self.message]
 
     def getPlayerGameId(self):
         return session[self.playerGameId]

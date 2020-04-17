@@ -15,11 +15,13 @@ def validateGameId():
     if redisManager.doesGameExist(request.form["gameId"]):
         sessionManager.setPlayerGameId(request.form["gameId"])
         if redisManager.isGameEnabled(request.form["gameId"]):
-            return redirect(url_for("main.registerTeam", message="Let's get ready to rumble!"))
+            sessionManager.setMessage("Let's get ready to rumble!")
+            return redirect(url_for("main.registerTeam"))
         else:
             return redirect(url_for("main.gameWaitingRoom"))
     else:
-        return redirect(url_for("main.error", gameId=request.form["gameId"], message="Your Game Id isn't valid"))
+        sessionManager.setMessage("Your Game Id isn't valid")
+        return redirect(url_for("main.error", gameId=request.form["gameId"]))
 
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
@@ -30,11 +32,11 @@ def gameWaitingRoom():
 
 @main.route('/registerTeam')
 def registerTeam():
-    return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId(), message=request.args.get('message'))
+    return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId(), message=sessionManager.getMessage())
 
 @main.route('/error')
 def error():
-    return render_template("main/error.html", gameId=request.args.get('gameId'), message=request.args.get('message'))
+    return render_template("main/error.html", gameId=request.args.get('gameId'), message=sessionManager.getMessage())
 
 @main.route('/teamRegisterSuccess', methods = ["POST"])
 def teamRegisterSuccess():
@@ -42,35 +44,34 @@ def teamRegisterSuccess():
         if sessionManager.isTeamRegistered():
             sessionManager.unregisterTeam()
         if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
-            return redirect(url_for("main.registerTeam", message="Team Name: " + request.form["teamName"] + " has already been taken, please choose another name."))
+            sessionManager.setMessage("WHOOPS, Team Name Taken!\nTeam Name \"" + request.form["teamName"] + "\" has already been taken by another team, please choose another name.")
+            return redirect(url_for("main.registerTeam"))
         sessionManager.setTeamName(request.form["teamName"])
-        return redirect(url_for("main.confirmation", message="Succesfull registration!"))
+        sessionManager.setMessage("Succesfull registration!")
+        return redirect(url_for("main.confirmation"))
 
 @main.route('/confirmation')
 def confirmation():
-    return render_template("main/confirmation.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName(), message=request.args.get('message'))
+    return render_template("main/confirmation.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName(), message=sessionManager.getMessage())
 
 @main.route('/gamePlayRoom')
 def gamePlayRoom():
     return render_template("main/gamePlayRoom.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName())
 
-@main.route('/startRound', methods = ["POST"])
-def startRound():
+@main.route('/playRound', methods = ["POST"])
+def playRound():
     if request.method == "POST":
         roundId = request.form["roundId"]
         if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), roundId):
-            return redirect(url_for("main.round", roundId=roundId))
+            return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=roundId)
         return redirect(url_for("main.gamePlayRoom"))
-
-@main.route('/round')
-def round():
-    return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=request.args.get('roundId'))
 
 @main.route('/submitTeamAnswers', methods = ["POST"])
 def submitTeamAnswers():
     if request.method == "POST":
         redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), request.form)
-        return redirect(url_for("main.confirmation", message=request.form["roundId"] + " Answer Submission Confirmation"))
+        sessionManager.setMessage(request.form["roundId"] + " Answer Submission Confirmation")
+        return redirect(url_for("main.confirmation"))
 
 @main.route('/endGame')
 def endGame():
