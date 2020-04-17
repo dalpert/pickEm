@@ -9,6 +9,13 @@ roundNumber = "roundNumber"
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
+@main.route('/joinSession/')
+def joinSession():
+    if canAccessPage():
+        return redirect(url_for("main.Round1"))
+    sessionManager.setSessionId("1")
+    return render_template("main/home.html")
+
 @main.route('/')  
 def home():
     if teamName in session:
@@ -101,4 +108,18 @@ def WriteToCache():
         sessionManager.incrementRoundNumber()
         pageName = "main.Round" + str(sessionManager.getRoundNumber())
         return redirect(url_for(pageName))
-    return redirect(url_for("main.home")) 
+    return redirect(url_for("main.home"))
+
+def canAccessPage(isRoundPage):
+    canAccess = True
+    if sessionId not in session:
+        canAccess = False
+    if teamName not in session:
+        canAccess = False
+    return canAccess
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
+    <div class="home">
+      <h1>Please Create a Team To participate in this Trivia Session</h1>
+      <form method = "post" action = "{{ url_for('main.joinSession') }}">
+        <label for="sessionId">Trivia Session Id:</label><br>
+        <input type="text" id="sessionId" name="sessionId"><br><br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+  </body>
+</html> 
