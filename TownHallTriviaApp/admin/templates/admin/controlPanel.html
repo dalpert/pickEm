@@ -4,19 +4,20 @@
   </head>  
   <body> 
     {% extends "admin/layout.html" %}
-    {% block content %} 
+    {% block content %}
+    <h2>Update Message: {{ message }}</h2>
     <h1>Game Id: {{ gameId }}</h1>
-    <p>Is Game Enabled {{ isGameEnabled }}</p>
+    <p>Is Game Enabled: {{ isGameEnabled }}</p>
     <form method="post" action="{{ url_for('admin.toggleGame') }}">
       <label for="toggleGame">Enable/Disable Game:</label>
       <select id="toggleGame" name="toggleGame">
-        <option value="enableGame">Enable Game</option>
-        <option value="disableGame">Disable Game</option>
+        <option value="Game Enabled">Enable Game</option>
+        <option value="Game Disabled">Disable Game</option>
       </select>
-      <input type="submit" name="submit" value="submit"/>
+      <input type="submit" name="submit"/>
     </form>
 
-    <h2>List of Enabled Rounds: {{ enabled Rounds }}</h2>
+    <h2>List of Enabled Rounds: {{ enabledRounds }}</h2>
     <form method="post" action="{{ url_for('admin.toggleRound') }}">
       <label for="enableRound">Select A Round To ENABLE:</label>
       <select id="enableRound" name="roundId">
@@ -27,7 +28,7 @@
         <option value="Round_5">Round 5</option>
         <option value="Round_6">Round 6</option>
       </select>
-      <input type="submit" name="submit" value="enableRound"/>
+      <input type="submit" name="submit" value="Enabled"/>
     </form>
 
     <form method="post" action="{{ url_for('admin.toggleRound') }}">
@@ -40,7 +41,7 @@
         <option value="Round_5">Round 5</option>
         <option value="Round_6">Round 6</option>
       </select>
-      <input type="submit" name="submit" value="disableRound"/>
+      <input type="submit" name="submit" value="Disabled"/>
     </form>
 
     <form method="post" action="{{ url_for('admin.getRoundResults') }}">
@@ -53,7 +54,7 @@
         <option value="Round_5">Round 5</option>
         <option value="Round_6">Round 6</option>
       </select>
-      <input type="submit" name="submit"/>
+      <input type="submit" name="Submit"/>
     </form>
     {% endblock %}
   </body>  

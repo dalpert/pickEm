@@ -5,13 +5,17 @@
   <body> 
     {% extends "admin/layout.html" %}
     {% block content %} 
-    <form action = "{{ url_for('admin.checkGameId') }}">
-      Create New Game: <input type="text" name="gameId" size="50"><br>
-      <input type="submit" value="Create">
+    <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
+      <label for="gameId">Create Game:</label><br>
+      <input type="text" id="gameId" name="gameId"><br><br>
+      <input type="hidden" name="operation" value="Create">
+      <input type="submit" value="Submit">
     </form>
-    <form action = "{{ url_for('admin.checkGameId') }}">
-      Existing Session Id: <input type="text" name="gameId" size="50"><br>
-      <input type="submit" value="Find">
+    <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
+      <label for="gameId">Find Existing Game:</label><br>
+      <input type="text" id="gameId" name="gameId"><br><br>
+      <input type="hidden" name="operation" value="Find">
+      <input type="submit" value="Submit">
     </form>
     {% endblock %}
   </body>  

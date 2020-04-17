@@ -7,63 +7,70 @@ redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
 @admin.route('/')
-def Index():
+def index():
     return render_template('admin/index.html')
 
+@admin.route('/checkGameId', methods=["POST"])
 def checkGameId():
-    if request.form["submit"] == "Create":
+    print(request.form)
+    print(request.form["gameId"])
+    if request.form["operation"] == "Create":
         if not redisManager.doesGameExist(request.form["gameId"]):
             redisManager.createGame(request.form["gameId"])
             sessionManager.setAdminGameId(request.form["gameId"])
-            return redirect(url_for('admin.controlPanel'))
+            return redirect(url_for('admin.controlPanel', message="Game Created!"))
         else:
-            return redirect(url_for("admin.gameIdError", message="Game ID already exists, choose another :)"))
-    elif request.form["submit"] == "Find":
+            return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Game ID already exists, choose another :)"))
+    elif request.form["operation"] == "Find":
         if redisManager.doesGameExist(request.form["gameId"]):
             sessionManager.setAdminGameId(request.form["gameId"])
-            return redirect(url_for('admin.controlPanel'))
+            return redirect(url_for('admin.controlPanel', message="Game Found!"))
         else:
-            return redirect(url_for("admin.gameIdError", message="Game ID doesn't exists, fix spelling or create a new game."))
+            return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Game ID doesn't exists, fix spelling or create a new game."))
 
-@admin.route('/gameIdError/')
+@admin.route('/gameIdError')
 def gameIdError():
-    render_template('admin/gameIdError.html', gameId=sessionManager.getAdminGameId(), message=request.args.get('message'))
+    return render_template('admin/gameIdError.html', gameId=request.args.get('gameId'), message=request.args.get('message'))
 
-@admin.route('/controlPanel/')
+@admin.route('/controlPanel')
 def controlPanel():
     return render_template(
         'admin/controlPanel.html',
+        message=request.args.get('message'),
         gameId=sessionManager.getAdminGameId(),
         isGameEnabled=redisManager.isGameEnabled(sessionManager.getAdminGameId()),
         enabledRounds=redisManager.getEnabledRounds(sessionManager.getAdminGameId()))
 
-@admin.route('/toggleGame/')
+@admin.route('/toggleGame', methods=["POST"])
 def toggleGame():
     if request.method == "POST":
-        request.form["toggleGame"] == "enableGame":
+        if request.form["toggleGame"] == "Game Enabled":
             redisManager.enableGame(sessionManager.getAdminGameId())
-        request.form["toggleGame"] == "disableGame":
+        elif request.form["toggleGame"] == "Game Disabled":
             redisManager.disableGame(sessionManager.getAdminGameId())
-    return redirect(url_for('admin.controlPanel'))
+        else:
+            return redirect(url_for("admin.gameIdError", gameId=sessionManager.getAdminGameId(), message="Expected: Game Enabled/Game Disabled Actual: " + request.form["toggleGame"]))
+    return redirect(url_for('admin.controlPanel', message=request.form["toggleGame"]))
 
-@admin.route('/toggleRound/', methods=["POST"])
+@admin.route('/toggleRound', methods=["POST"])
 def toggleRound():
     if request.method == "POST":
-        request.form["submit"] == "disableRound":
-            redisManager.disableRound(request.form["roundId"])
-        request.form["submit"] == "enableRound":
+        if request.form["submit"] == "Enabled":
             redisManager.enableRound(request.form["roundId"])
-    return redirect(url_for('admin.controlPanel'))
+        elif request.form["submit"] == "Disabled":
+            redisManager.disableRound(request.form["roundId"])
+        else:
+            return redirect(url_for("admin.gameIdError", gameId=sessionManager.getAdminGameId(), message="Expected: Enabled/Disabled" + request.form["submit"]))
+    return redirect(url_for('admin.controlPanel', message=request.form["submit"] + " " + request.form["roundId"]))
 
-@admin.route('/getRoundResults/', methods=["POST"])
-def toggleRound():
+@admin.route('/getRoundResults', methods=["POST"])
+def getRoundResults():
     if request.method == "POST":
         roundAnswers = redisManager.getRoundAnswers(sessionManager.getAdminGameId(), request.form["roundId"])
         # Download Files
-    return redirect(url_for('admin.controlPanel'))
+    return redirect(url_for('admin.controlPanel', message="Downloaded Files For " + request.form["roundId"]))
 
 
 
 
 
-    
