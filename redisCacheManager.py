@@ -13,6 +13,80 @@ class RedisClass:
         sslEnabledPort = True
         self.redisCxn = redis.StrictRedis(host=myHostname, port=port, password=myPassword, ssl=sslEnabledPort)
         self.flaskSessionManager = flaskManager.FlaskSessionManager()
+        self.GameIdKey = "GameIds"
+        self.EnabledRounds = "_EnabledRounds"
+        self.RoundResults = "_RoundResults"
+        self.teams = "_teams"
+
+    ##########################
+    ## Functions for Admins ##
+    ##########################
+
+    def doesGameExist(self, gameId):
+        # Check GameIds Map
+        key = self.GameIdKey
+        return True
+
+    def createGame(self, gameId):
+        # Add gameId to GameIds map
+        key = self.GameIdKey
+        pass
+
+    def isGameEnabled(self, gameId):
+        # check value associated with gameId in GameIds table
+        key = self.GameIdKey
+        return True
+
+    def getEnabledRounds(self, gameId):
+        # Return list of round numbers
+        key = gameId + self.EnabledRounds
+        return ["Round_1", "Round_4"]
+
+    def enableGame(self, gameId):
+        # Set gameId value to True
+        key = self.GameIdKey
+
+    def disableGame(self, gameId):
+        # set gameId value to False
+        key = self.GameIdKey
+
+    def enableRound(self, gameId):
+        # Add round to the Enabled Rounds Table
+        key = gameId + self.EnabledRounds
+
+    def disableRound(self, gameId):
+        # Remove round from Enabled Rounds Table
+        key = gameId + self.EnabledRounds
+
+    def getRoundAnswers(self, gameId, roundId):
+        # return round Answers for all teams
+        key = gameId + self.RoundResults
+
+
+    def addTeamToGame(self, gameId, teamId):
+        # Add team to Teams list
+        # check to ensure team name is unique
+        key = gameId + self.teams
+        return True
+
+    def submitTeamAnswers(self, gameId, teamId, answers):
+        # Add round answers for the given team
+        key = gameId + self.RoundResults
+        subkey = teamId
+
+    def isRoundEnabled(self, gameId, roundId):
+        enabledRounds = self.getEnabledRounds(gameId)
+        return roundId in enabledRounds
+
+
+
+############
+## May not need any functions below this break point
+############
+
+
+
+
 
     def testConnection():
         isSuccess = r.ping()

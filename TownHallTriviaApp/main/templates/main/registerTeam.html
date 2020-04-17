@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
+    <h1>Team Registration</h1>
+    <h3>Game Id: {{ gameId }}</h3>
+    <h4> {{ message }} </h4>
+    <form method = "post" action = "{{ url_for('main.teamRegisterSuccess') }}">
+      <label for="teamName">Register Your Team For This Game:</label><br>
+      <input type="text" id="teamName" name="teamName"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
