@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1 class="logo">Town Hall Trivia</h1>
+        <strong><nav>
+          <ul class="menu">
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit" value="Round 1" />
+                <input type="hidden" name="roundId" value="Round_1">
+              </form>
+            </li>
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit"value="Round 2" />
+                <input type="hidden" name="roundId" value="Round_2">
+              </form>
+            </li>
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit"value="Round 3" />
+                <input type="hidden" name="roundId" value="Round_3">
+              </form>
+            </li>
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit"value="Round 4" />
+                <input type="hidden" name="roundId" value="Round_4">
+              </form>
+            </li>
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit"value="Round 5" />
+                <input type="hidden" name="roundId" value="Round_5">
+              </form>
+            </li>
+            <li>
+              <form method="post" action="{{ url_for('main.startRound') }}">
+                <input type="submit"value="Round 6" />
+                <input type="hidden" name="roundId" value="Round_6">
+              </form>
+            </li>
+          </ul>
+        </nav></strong>
+      </div>
+    </header>
+    <h1>Game Play Room</h1>
+    <h3>Game Id: {{ gameId }}</h3>
+    <h3>Team Name: {{ teamName }}</h3>
+    <p>This is the main page you will interact with.</p>
+    <p>When the trivia Adam and Austin start a round, you will be able to click on the round number at the top and a form will be displayed for you to enter your answers.</p>
+    <p>However, when a Round is not being played, clicking on the Round links above will do nothing for you.</p>
+    <h1>Enjoy</h1>
+  </body>
+</html>

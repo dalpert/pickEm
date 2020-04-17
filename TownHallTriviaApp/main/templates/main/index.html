@@ -10,10 +10,10 @@
       <div class="container">
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
-      <div class="home">
-        <h1>Welcome to Town Hall Trvia</h1>
-        <p>You must register with a team name to proceed</p>
-        <a href = "{{ url_for('main.login') }}">Click Here to Register</a><br>
-      </div>
+    <form method = "post" action = "{{ url_for('main.validateGameId') }}">
+      <label for="gameId">Enter Game Id:</label><br>
+      <input type="text" id="gameId" name="gameId"><br><br>
+      <input type="submit" value="Submit">
+    </form>
   </body>
 </html>

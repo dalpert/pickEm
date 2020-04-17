@@ -16,6 +16,7 @@ class RedisClass:
         self.GameIdKey = "GameIds"
         self.EnabledRounds = "_EnabledRounds"
         self.RoundResults = "_RoundResults"
+        self.teams = "_teams"
 
     ##########################
     ## Functions for Admins ##
@@ -39,7 +40,7 @@ class RedisClass:
     def getEnabledRounds(self, gameId):
         # Return list of round numbers
         key = gameId + self.EnabledRounds
-        return ["Round_1", "Round_2", "Round_3", "Round_4", "Round_5", "Round_6"]
+        return ["Round_1", "Round_4"]
 
     def enableGame(self, gameId):
         # Set gameId value to True
@@ -60,6 +61,27 @@ class RedisClass:
     def getRoundAnswers(self, gameId, roundId):
         # return round Answers for all teams
         key = gameId + self.RoundResults
+
+
+    def addTeamToGame(self, gameId, teamId):
+        # Add team to Teams list
+        # check to ensure team name is unique
+        key = gameId + self.teams
+        return True
+
+    def submitTeamAnswers(self, gameId, teamId, answers):
+        # Add round answers for the given team
+        key = gameId + self.RoundResults
+        subkey = teamId
+
+    def isRoundEnabled(self, gameId, roundId):
+        enabledRounds = self.getEnabledRounds(gameId)
+        return roundId in enabledRounds
+
+
+
+
+
 
 
 

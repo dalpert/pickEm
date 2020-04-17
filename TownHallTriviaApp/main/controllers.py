@@ -9,115 +9,73 @@ roundNumber = "roundNumber"
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
-@main.route('/joinSession/')
-def joinSession():
-    if canAccessPage():
-        return redirect(url_for("main.Round1"))
-    sessionManager.setSessionId("1")
-    return render_template("main/home.html")
 
-@main.route('/')  
-def home():
-    if teamName in session:
-        return redirect(url_for("main.Round1"))
-    sessionManager.setSessionId("1")
-    return render_template("main/home.html") 
- 
-@main.route('/login')  
-def login():
-    return render_template("main/login.html")
- 
-@main.route('/success', methods = ["POST"])  
-def success():  
+
+@main.route('/')
+def index():
+    return render_template('main/index.html')
+
+@main.route('/validateGameId', methods = ["POST"])
+def validateGameId():
+    if redisManager.doesGameExist(request.form["gameId"]):
+        sessionManager.setPlayerGameId(request.form["gameId"])
+        if redisManager.isGameEnabled(request.form["gameId"]):
+            return redirect(url_for("main.registerTeam", message="Let's get ready to rumble!"))
+        else:
+            return redirect(url_for("main.gameWaitingRoom"))
+    else:
+        return redirect(url_for("main.error", gameId=request.form["gameId"], message="Your Game Id isn't valid"))
+
+@main.route('/gameWaitingRoom')
+def gameWaitingRoom():
+    if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
+        return redirect(url_for("main.registerTeam"))
+    else:
+        return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
+
+@main.route('/registerTeam')
+def registerTeam():
+    return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId(), message=request.args.get('message'))
+
+@main.route('/error')
+def error():
+    return render_template("main/error.html", gameId=request.args.get('gameId'), message=request.args.get('message'))
+
+@main.route('/teamRegisterSuccess', methods = ["POST"])
+def teamRegisterSuccess():
     if request.method == "POST":
-        sessionManager.setTeamName(request.form[teamName])
-        sessionManager.setTeamId()
-        redisManager.registerTeam()
-        return render_template('main/success.html', teamName=sessionManager.getTeamName())
-    return redirect(url_for("main.home")) 
- 
-@main.route('/logout')  
-def logout():  
-    if teamName in session:  
-        session.pop(teamName, None)
-        return render_template('main/logout.html');
-    else:  
-        return redirect(url_for("main.home"))
+        if sessionManager.isTeamRegistered():
+            session.pop(teamName, None)
+        if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
+            return redirect(url_for("main.registerTeam", message="Team Name: " + request.form["teamName"] + " has already been taken, please choose another name."))
+        sessionManager.setTeamName(request.form["teamName"])
+        return redirect(url_for("main.confirmation", message="Succesfull registration!"))
 
-@main.route('/Round1/')
-def Round1():
-    if teamName in session:
-        session[roundNumber] = 1
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
+@main.route('/confirmation')
+def confirmation():
+    return render_template("main/confirmation.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName(), message=request.args.get('message'))
 
-@main.route('/Round2/')
-def Round2():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 2
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
+@main.route('/gamePlayRoom')
+def gamePlayRoom():
+    return render_template("main/gamePlayRoom.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName())
 
-@main.route('/Round3/')
-def Round3():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 3
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
+@main.route('/startRound', methods = ["POST"])
+def startRound():
+    if request.method == "POST":
+        roundId = request.form["roundId"]
+        if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), roundId):
+            return redirect(url_for("main.round", roundId=roundId))
+        return redirect(url_for("main.gamePlayRoom"))
 
-@main.route('/Round4/')
-def Round4():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 4
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
+@main.route('/round')
+def round():
+    return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=request.args.get('roundId'))
 
-@main.route('/Round5/')
-def Round5():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 5
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
-
-@main.route('/Round6/')
-def Round6():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 6
-        return render_template('main/Round.html', teamName=session[teamName], roundNumber=session[roundNumber])
-    else:
-        return redirect(url_for("main.home"))
-
-@main.route('/Round7/')
-def Round7():
-    if teamName in session and roundNumber in session:
-        session[roundNumber] = 7
-        return redirect(url_for("main.logout"))
-    else:
-        return redirect(url_for("main.home"))
-
-@main.route('/SubmitRoundAnswers/', methods = ["POST"])
-def WriteToCache():
-    if request.method == "POST":  
-        redisManager.writeFormAnswers(request.form)
-        currentroundNumber = request.form[roundNumber]
-        sessionManager.incrementRoundNumber()
-        pageName = "main.Round" + str(sessionManager.getRoundNumber())
-        return redirect(url_for(pageName))
-    return redirect(url_for("main.home"))
-
-def canAccessPage(isRoundPage):
-    canAccess = True
-    if sessionId not in session:
-        canAccess = False
-    if teamName not in session:
-        canAccess = False
-    return canAccess
-
+@main.route('/submitTeamAnswers', methods = ["POST"])
+def submitTeamAnswers():
+    if request.method == "POST":
+        redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), request.form)
+        return redirect(url_for("main.confirmation", message=request.form["roundId"] + " Answer Submission Confirmation"))
 
 
 
