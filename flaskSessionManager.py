@@ -9,6 +9,7 @@ class FlaskSessionManager:
         self.teamId = "teamId"
         self.roundNumber = "roundNumber"
         self.sessionId = "sessionId"
+        self.adminGameId = "adminGameId"
     
     def setTeamName(self, teamNameInput):
         session[self.teamName] = teamNameInput
@@ -24,6 +25,12 @@ class FlaskSessionManager:
 
     def setSessionId(self, sessionId):
         session[self.sessionId] = sessionId
+
+    def setAdminGameId(self, gameId):
+        session[self.adminGameId] = gameId
+
+    def getAdminGameId(self):
+        return session[self.adminGameId]
 
     def doesSessionIdExist(self):
         return self.sessionId in session

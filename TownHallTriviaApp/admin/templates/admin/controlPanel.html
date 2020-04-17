@@ -1,0 +1,60 @@
+<html>  
+  <head>  
+    <title>getting the session</title>  
+  </head>  
+  <body> 
+    {% extends "admin/layout.html" %}
+    {% block content %} 
+    <h1>Game Id: {{ gameId }}</h1>
+    <p>Is Game Enabled {{ isGameEnabled }}</p>
+    <form method="post" action="{{ url_for('admin.toggleGame') }}">
+      <label for="toggleGame">Enable/Disable Game:</label>
+      <select id="toggleGame" name="toggleGame">
+        <option value="enableGame">Enable Game</option>
+        <option value="disableGame">Disable Game</option>
+      </select>
+      <input type="submit" name="submit" value="submit"/>
+    </form>
+
+    <h2>List of Enabled Rounds: {{ enabled Rounds }}</h2>
+    <form method="post" action="{{ url_for('admin.toggleRound') }}">
+      <label for="enableRound">Select A Round To ENABLE:</label>
+      <select id="enableRound" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <input type="submit" name="submit" value="enableRound"/>
+    </form>
+
+    <form method="post" action="{{ url_for('admin.toggleRound') }}">
+      <label for="disableRound">Select A Round To DISABLE:</label>
+      <select id="disableRound" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <input type="submit" name="submit" value="disableRound"/>
+    </form>
+
+    <form method="post" action="{{ url_for('admin.getRoundResults') }}">
+      <label for="getRoundResults">GetRoundResults:</label>
+      <select id="getRoundResults" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <input type="submit" name="submit"/>
+    </form>
+    {% endblock %}
+  </body>  
+</html>  

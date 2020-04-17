@@ -1,0 +1,18 @@
+<html>  
+  <head>  
+    <title>getting the session</title>  
+  </head>  
+  <body> 
+    {% extends "admin/layout.html" %}
+    {% block content %} 
+    <form action = "{{ url_for('admin.checkGameId') }}">
+      Create New Game: <input type="text" name="gameId" size="50"><br>
+      <input type="submit" value="Create">
+    </form>
+    <form action = "{{ url_for('admin.checkGameId') }}">
+      Existing Session Id: <input type="text" name="gameId" size="50"><br>
+      <input type="submit" value="Find">
+    </form>
+    {% endblock %}
+  </body>  
+</html>  
