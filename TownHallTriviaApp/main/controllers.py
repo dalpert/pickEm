@@ -3,13 +3,8 @@ import redisCacheManager
 import flaskSessionManager
 
 main = Blueprint("main", __name__, template_folder="templates")
-teamName = "teamName"
-teamId = "teamId"
-roundNumber = "roundNumber"
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
-
-
 
 @main.route('/')
 def index():
@@ -45,7 +40,7 @@ def error():
 def teamRegisterSuccess():
     if request.method == "POST":
         if sessionManager.isTeamRegistered():
-            session.pop(teamName, None)
+            sessionManager.unregisterTeam()
         if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
             return redirect(url_for("main.registerTeam", message="Team Name: " + request.form["teamName"] + " has already been taken, please choose another name."))
         sessionManager.setTeamName(request.form["teamName"])
@@ -76,8 +71,3 @@ def submitTeamAnswers():
     if request.method == "POST":
         redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), request.form)
         return redirect(url_for("main.confirmation", message=request.form["roundId"] + " Answer Submission Confirmation"))
-
-
-
-
-

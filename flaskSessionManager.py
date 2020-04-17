@@ -14,6 +14,9 @@ class FlaskSessionManager:
     def isTeamRegistered(self):
         return self.teamName in session
 
+    def unregisterTeam(self):
+        session.pop(self.teamName, None)
+
     def setTeamName(self, teamName):
         session[self.teamName] = teamName
 
