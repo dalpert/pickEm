@@ -71,3 +71,8 @@ def submitTeamAnswers():
     if request.method == "POST":
         redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), request.form)
         return redirect(url_for("main.confirmation", message=request.form["roundId"] + " Answer Submission Confirmation"))
+
+@main.route('/endGame')
+def endGame():
+    sessionManager.unregisterTeam()
+    return render_template("main/endGame.html")
