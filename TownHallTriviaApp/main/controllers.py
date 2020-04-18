@@ -99,7 +99,7 @@ def submitTeamAnswers():
             sessionManager.setMessage(sessionManager.getRoundId() + " Answer Submission Confirmation")
             return redirect(url_for("main.confirmation"))
         else:
-            redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), None)
+            redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), sessionManager.getRoundId(), {})
             sessionManager.setMessage("You unfortunately were not able to submit your form in time for " + sessionManager.getRoundId() + ". Try to submit earlier for the next round!")
             return redirect(url_for("main.confirmation"))
 

@@ -105,7 +105,7 @@ class RedisClass:
         header = ','.join(map(str, form.keys()))
         answers = ','.join(map(str, form.values()))
         finalCsv = '\n'.join([header, answers])
-        # print(finalCsv)
+        print(finalCsv)
         self.redisCxn.hset(key, teamName, finalCsv)
 
     # Get all all answers
