@@ -117,7 +117,7 @@ class RedisClass:
         key = gameId + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
         # Return as dictionary teamName:[Answers]
-        rowsOfRows = [["Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]]
+        rowsOfRows = [["teamName", "Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]]
         for key in teamAnswerDict:
             row = [key]
             row.extend(teamAnswerDict[key].split(self.WordDelimiter))
