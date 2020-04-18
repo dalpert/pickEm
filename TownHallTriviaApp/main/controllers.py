@@ -48,7 +48,7 @@ def validateGameId():
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
     if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
-        sessionManager.setMessage("thank you for your patience, let's get your team registered!")
+        sessionManager.setMessage("Thanks for your patience. Now let's get your team registered!")
         return redirect(url_for("main.registerTeam"))
     else:
         return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
@@ -71,7 +71,7 @@ def teamRegisterSuccess():
             sessionManager.unregisterTeam()
         if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
             # Team name has been taken and they need to re-register
-            sessionManager.setMessage("WHOOPS, Team Name Taken!\nTeam Name \"" + request.form["teamName"] + "\" has already been taken by another team, please choose another name.")
+            sessionManager.setMessage("WHOOPS, Team Name Taken! The team name \"" + request.form["teamName"] + "\" has already been selected by another team, guess you gotta sign up earlier next time.")
             return redirect(url_for("main.registerTeam"))
         else:
             sessionManager.setTeamName(request.form["teamName"])
