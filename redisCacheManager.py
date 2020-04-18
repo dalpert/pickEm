@@ -19,6 +19,8 @@ class RedisClass:
         self.TeamsKey = "_teams"
         self.Enabled = "Enabled"
         self.Disabled = "Disabled"
+        self.WordDelimiter = "]::["
+        self.LineDelimeter = "(\n)"
 
 # Game Level Functions
     def createGame(self, gameId):
@@ -102,18 +104,25 @@ class RedisClass:
 # Round Answer Operations
     def submitTeamAnswers(self, gameId, teamName, roundId, form):
         key = gameId + '_' + roundId
-        header = ','.join(map(str, form.keys()))
-        answers = ','.join(map(str, form.values()))
-        finalCsv = '\n'.join([header, answers])
-        print(finalCsv)
-        self.redisCxn.hset(key, teamName, finalCsv)
+        answers = ""
+        print("SUBMITTING ANSWERS")
+        if len(form) > 0:
+            print("UPDATING ANSWERS")
+            answers = self.WordDelimiter.join(map(str, form.values()))
+            print(answers)
+        self.redisCxn.hset(key, teamName, answers)
 
     # Get all all answers
     def getRoundAnswers(self, gameId, roundId):
         key = gameId + '_' + roundId
-        returnValue = self.redisCxn.hgetall(key)
-        print(returnValue)
-        return returnValue
+        teamAnswerDict = self.redisCxn.hgetall(key)
+        # Return as dictionary teamName:[Answers]
+        rowsOfRows = [["Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]]
+        for key in teamAnswerDict:
+            row = [key]
+            row.extend(teamAnswerDict[key].split(self.WordDelimiter))
+            rowsOfRows.append(row)
+        return rowsOfRows
 
 # General Redis Functions
     def testConnection():

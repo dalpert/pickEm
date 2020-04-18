@@ -11,6 +11,7 @@
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
     <h1>Team Registration</h1>
+    <h2>{{ message }}</h2>
     <h3>Game Id: {{ gameId }}</h3>
     <form method = "post" action = "{{ url_for('main.teamRegisterSuccess') }}">
       <label for="teamName">Register Your Team For This Game:</label><br>
