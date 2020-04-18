@@ -22,6 +22,7 @@ export CUSTOMCONNSTR_ADMIN_PASSWORD=password
 export CUSTOMCONNSTR_REDIS_CACHE_HOSTNAME=<ask me>
 export CUSTOMCONNSTR_REDIS_CACHE_PRIMARY_KEY=<ask me>
 ```
+  - To see all of your current environment variables, run the command ```printenv```
 	
 3.) Create a local working branch
 ```bash
