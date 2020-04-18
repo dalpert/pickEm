@@ -48,14 +48,16 @@ def validateGameId():
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
     if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
-        sessionManager.setMessage("Thanks for the patience!")
         return redirect(url_for("main.registerTeam"))
     else:
         return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
 
 @main.route('/registerTeam')
 def registerTeam():
-    return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId(), message=sessionManager.getMessage())
+    if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
+        return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId())
+    else:
+        return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
 
 @main.route('/error')
 def error():

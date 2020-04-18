@@ -13,6 +13,8 @@
     <h1>Welcome to the Game Waiting room where you can wait for the game to start.</h1>
     <h2>Waiting for Game with Game Id: {{ gameId }}</h2>
     <h2>Once we enable this game, you will be able to register a team with the link below, until then the link won't get you anywhere.</h2>
-    <h2><a href="{{ url_for('main.gameWaitingRoom') }}">Register Your Team</a></h2>
+    <form method="get" action="{{ url_for('main.registerTeam') }}">
+      <input type="submit" value="Register Your Team" />
+    </form>
   </body>
 </html>

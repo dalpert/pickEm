@@ -11,6 +11,13 @@ class FlaskSessionManager:
         self.adminGameId = "adminGameId"
         self.playerGameId = "playerGameId"
         self.message = "message"
+        self.adminLogin = "adminLogin"
+
+    def toggleAdminLoggedInState(self, loggedIn):
+        session[self.adminLogin] = loggedIn
+
+    def isAdminLoggedIn(self):
+        return session[self.adminLogin] == True
     
     def isTeamRegistered(self):
         return self.teamName in session
