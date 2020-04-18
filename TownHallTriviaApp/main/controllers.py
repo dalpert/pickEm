@@ -6,6 +6,28 @@ main = Blueprint("main", __name__, template_folder="templates")
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
+
+@main.route('/testing')
+def testing():
+    message = ""
+    gameId = "GameId"
+    teamName = "TeamName2"
+    roundId = "Round_1"
+    message += "CreateGame: " + str(redisManager.createGame(gameId))
+    message += "| DoesGameExist: " + str(redisManager.doesGameExist(gameId))
+    message += "| isGameEnabled: " + str(redisManager.isGameEnabled(gameId))
+    message += "| enableGame: " + str(redisManager.enableGame(gameId))
+    message += "| isGameEnabled: " + str(redisManager.isGameEnabled(gameId))
+    message += "| addTeamToGame: " + str(redisManager.addTeamToGame(gameId, teamName))
+    message += "| getEnabledRounds: " + str(redisManager.getEnabledRounds(gameId))
+    message += "| enableRound: " + str(redisManager.enableRound(gameId, roundId))
+    message += "| getEnabledRounds: " + str(redisManager.getEnabledRounds(gameId))
+    message += "| isRoundEnabled: " + str(redisManager.isRoundEnabled(gameId, roundId))
+    message += "| disableRound: " + str(redisManager.disableRound(gameId, roundId))
+    message += "| getEnabledRounds: " + str(redisManager.getEnabledRounds(gameId))
+    return render_template('main/testRedisCache.html', message=message)
+
+
 @main.route('/')
 def index():
     return render_template('main/index.html')
@@ -26,6 +48,7 @@ def validateGameId():
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
     if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
+        sessionManager.setMessage("Thanks for the patience!")
         return redirect(url_for("main.registerTeam"))
     else:
         return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
@@ -61,17 +84,22 @@ def gamePlayRoom():
 @main.route('/playRound', methods = ["POST"])
 def playRound():
     if request.method == "POST":
-        roundId = request.form["roundId"]
-        if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), roundId):
-            return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=roundId)
+        sessionManager.setRoundId(request.form["roundId"])
+        if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
+            return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=sessionManager.getRoundId())
         return redirect(url_for("main.gamePlayRoom"))
 
 @main.route('/submitTeamAnswers', methods = ["POST"])
 def submitTeamAnswers():
     if request.method == "POST":
-        redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), request.form)
-        sessionManager.setMessage(request.form["roundId"] + " Answer Submission Confirmation")
-        return redirect(url_for("main.confirmation"))
+        if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
+            redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), sessionManager.getRoundId(), request.form)
+            sessionManager.setMessage(sessionManager.getRoundId() + " Answer Submission Confirmation")
+            return redirect(url_for("main.confirmation"))
+        else:
+            redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), None)
+            sessionManager.setMessage("You unfortunately were not able to submit your form in time for " + sessionManager.getRoundId() + ". Try to submit earlier for the next round!")
+            return redirect(url_for("main.confirmation"))
 
 @main.route('/endGame')
 def endGame():
