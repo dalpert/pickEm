@@ -7,7 +7,7 @@ class FlaskSessionManager:
     def __init__(self):
         self.teamName = "teamName"
         self.teamId = "teamId"
-        self.roundNumber = "roundNumber"
+        self.roundId = "roundId"
         self.adminGameId = "adminGameId"
         self.playerGameId = "playerGameId"
         self.message = "message"
@@ -24,11 +24,8 @@ class FlaskSessionManager:
     def setTeamId(self):
         session[self.teamId] = str(uuid.uuid4())
 
-    def setRoundNumber(self, roundNumberInput):
-        session[self.roundNumber] = roundNumberInput
-
-    def incrementRoundNumber(self):
-        session[self.roundNumber] += 1
+    def setRoundId(self, roundId):
+        session[self.roundId] = roundId
 
     def setAdminGameId(self, gameId):
         session[self.adminGameId] = gameId
@@ -48,8 +45,8 @@ class FlaskSessionManager:
     def getAdminGameId(self):
         return session[self.adminGameId]
 
-    def getRoundNumber(self):
-        return session[self.roundNumber]
+    def getRoundId(self):
+        return session[self.roundId]
 
     def getTeamName(self):
         return session[self.teamName]

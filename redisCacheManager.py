@@ -11,117 +11,110 @@ class RedisClass:
         myPassword = os.environ['CUSTOMCONNSTR_REDIS_CACHE_PRIMARY_KEY']
         port = 6380
         sslEnabledPort = True
-        self.redisCxn = redis.StrictRedis(host=myHostname, port=port, password=myPassword, ssl=sslEnabledPort)
+        db=0
+        self.redisCxn = redis.StrictRedis(host=myHostname, port=port, password=myPassword, db=db, ssl=sslEnabledPort, socket_timeout=None, decode_responses=True)
         self.flaskSessionManager = flaskManager.FlaskSessionManager()
-        self.GameIdKey = "GameIds"
         self.EnabledRounds = "_EnabledRounds"
         self.RoundResults = "_RoundResults"
-        self.teams = "_teams"
+        self.TeamsKey = "_teams"
+        self.Enabled = "Enabled"
+        self.Disabled = "Disabled"
 
-    ##########################
-    ## Functions for Admins ##
-    ##########################
+# Game Level Functions
+    def createGame(self, gameId):
+        gameKey = gameId
+        # print("in createGame")
+        if self.redisCxn.exists(gameKey):
+            # Game already Exists
+            return False
+        return self.redisCxn.set(gameKey, self.Disabled)
 
     def doesGameExist(self, gameId):
-        # Check GameIds Map
-        key = self.GameIdKey
-        return True
-
-    def createGame(self, gameId):
-        # Add gameId to GameIds map
-        key = self.GameIdKey
-        pass
+        # print("in doesGameExist")
+        key = gameId
+        return self.redisCxn.exists(key)
 
     def isGameEnabled(self, gameId):
-        # check value associated with gameId in GameIds table
-        key = self.GameIdKey
-        return True
-
-    def getEnabledRounds(self, gameId):
-        # Return list of round numbers
-        key = gameId + self.EnabledRounds
-        return ["Round_1", "Round_4"]
+        # print("in isGameEnabled")
+        key = gameId
+        return self.Enabled == self.redisCxn.get(key)
 
     def enableGame(self, gameId):
-        # Set gameId value to True
-        key = self.GameIdKey
+        key = gameId
+        return self.redisCxn.set(key, self.Enabled)
 
     def disableGame(self, gameId):
-        # set gameId value to False
-        key = self.GameIdKey
+        key = gameId
+        return self.redisCxn.set(key, self.Disabled)
 
-    def enableRound(self, gameId):
-        # Add round to the Enabled Rounds Table
+# Team Operations
+    def addTeamToGame(self, gameId, teamName):
+        key = gameId + self.TeamsKey
+        teamsListLength = self.redisCxn.llen(key)
+        expectedLength = teamsListLength + 1
+        existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
+        if existingTeams == None:
+            # appending the first Team
+            return expectedLength == self.redisCxn.rpush(key, teamName)
+        # print("existingTeams: ")
+        # print(existingTeams)
+        if teamName not in existingTeams:
+            # print("adding team to list")
+            # print("teamName: " + teamName)
+            #  rpush returns the number of objects successfully appended
+            return expectedLength == self.redisCxn.rpush(key, teamName)
+        else:
+            # Team already exists
+            return False
+
+# Round Operations
+    def getEnabledRounds(self, gameId):
         key = gameId + self.EnabledRounds
+        enabledRounds = []
+        if self.redisCxn.exists(key):
+            roundsListLength = self.redisCxn.llen(key)
+            enabledRounds = self.redisCxn.lrange(key, 0, roundsListLength)
+        return enabledRounds
 
-    def disableRound(self, gameId):
-        # Remove round from Enabled Rounds Table
+    def enableRound(self, gameId, roundId):
         key = gameId + self.EnabledRounds
+        expectedListLength = self.redisCxn.llen(key) + 1
+        returnValue = self.redisCxn.rpush(key, roundId)
+        # print("In ENABLEROUND")
+        # print("expectedListLength: " + str(expectedListLength) + " returnValue: " + str(returnValue))
+        return expectedListLength == returnValue
 
-    def getRoundAnswers(self, gameId, roundId):
-        # return round Answers for all teams
-        key = gameId + self.RoundResults
-
-
-    def addTeamToGame(self, gameId, teamId):
-        # Add team to Teams list
-        # check to ensure team name is unique
-        key = gameId + self.teams
-        return True
-
-    def submitTeamAnswers(self, gameId, teamId, answers):
-        # Add round answers for the given team
-        key = gameId + self.RoundResults
-        subkey = teamId
+    def disableRound(self, gameId, roundId):
+        key = gameId + self.EnabledRounds
+        returnValue = self.redisCxn.lrem(key, 0, roundId)
+        # print("IN DISABLEROUND")
+        # print("expectedListLength: " + str(1) + " returnValue: " + str(returnValue))
+        return 1 == returnValue
 
     def isRoundEnabled(self, gameId, roundId):
         enabledRounds = self.getEnabledRounds(gameId)
         return roundId in enabledRounds
 
+# Round Answer Operations
+    def submitTeamAnswers(self, gameId, teamName, roundId, form):
+        key = gameId + '_' + roundId
+        header = ','.join(map(str, form.keys()))
+        answers = ','.join(map(str, form.values()))
+        finalCsv = '\n'.join([header, answers])
+        # print(finalCsv)
+        self.redisCxn.hset(key, teamName, finalCsv)
 
+    # Get all all answers
+    def getRoundAnswers(self, gameId, roundId):
+        key = gameId + '_' + roundId
+        returnValue = self.redisCxn.hgetall(key)
+        print(returnValue)
+        return returnValue
 
-############
-## May not need any functions below this break point
-############
-
-
-
-
-
+# General Redis Functions
     def testConnection():
         isSuccess = r.ping()
         return isSuccess
-
-    def readFormAnswers(self, teamId, roundNumber):
-        formSubmission = ""
-        for questionName in QuestionNames:
-            key = str(teamId) + str(roundNumber) + questionName
-            if self.redisCxn.exists(key):
-                result = self.redisCxn.get(key)
-                formSubmission += result.decode("utf-8") + "\t"
-        return formSubmission
-
-    def writeFormAnswers(self, form):
-        teamId = self.flaskSessionManager.getTeamId()
-        roundNumber = self.flaskSessionManager.getRoundNumber()
-        for questionName in QuestionNames:
-            key = str(teamId) + str(roundNumber) + questionName
-            value = form[questionName]
-            print("did cache write succeed? : " + str(self.redisCxn.set(key, value)))
-
-    def registerTeam(self):
-        key = "TeamList-" + self.flaskSessionManager.getSessionId()
-        result = self.redisCxn.hset(key, self.flaskSessionManager.getTeamId(), self.flaskSessionManager.getTeamName())
-
-    def getAllTeams(self):
-        key = "TeamList-" + self.flaskSessionManager.getSessionId()
-        if self.redisCxn.exists(key):
-            return self.redisCxn.hgetall(key)
-        return None
-
-    def read(self, key):
-        result = self.redisCxn.get(firstKey)
-        return result.decode("utf-8")
 
     def getClientList(self):
         result = self.redisCxn.client_list()

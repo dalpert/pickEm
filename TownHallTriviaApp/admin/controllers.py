@@ -16,9 +16,11 @@ def checkGameId():
     print(request.form["gameId"])
     if request.form["operation"] == "Create":
         if not redisManager.doesGameExist(request.form["gameId"]):
-            redisManager.createGame(request.form["gameId"])
-            sessionManager.setAdminGameId(request.form["gameId"])
-            return redirect(url_for('admin.controlPanel', message="Game Created!"))
+            if redisManager.createGame(request.form["gameId"]):
+                sessionManager.setAdminGameId(request.form["gameId"])
+                return redirect(url_for('admin.controlPanel', message="Game "+ request.form["gameId"] + " created!"))
+            else:
+                return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Failed to initialize Game ID, please try again."))
         else:
             return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Game ID already exists, choose another :)"))
     elif request.form["operation"] == "Find":
@@ -56,9 +58,9 @@ def toggleGame():
 def toggleRound():
     if request.method == "POST":
         if request.form["submit"] == "Enabled":
-            redisManager.enableRound(request.form["roundId"])
+            redisManager.enableRound(sessionManager.getAdminGameId(), request.form["roundId"])
         elif request.form["submit"] == "Disabled":
-            redisManager.disableRound(request.form["roundId"])
+            redisManager.disableRound(sessionManager.getAdminGameId(), request.form["roundId"])
         else:
             return redirect(url_for("admin.gameIdError", gameId=sessionManager.getAdminGameId(), message="Expected: Enabled/Disabled" + request.form["submit"]))
     return redirect(url_for('admin.controlPanel', message=request.form["submit"] + " " + request.form["roundId"]))
