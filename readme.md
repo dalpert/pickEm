@@ -15,6 +15,13 @@ pip install --upgrade pip
 pip install -r requirements.txt
 export FLASK_APP=app.py
 ```
+
+3.) Set some local enviroment variables to be able to login to the admin page.
+```bash
+export CUSTOMCONNSTR_ADMIN_PASSWORD=password
+export CUSTOMCONNSTR_REDIS_CACHE_HOSTNAME=<ask me>
+export CUSTOMCONNSTR_REDIS_CACHE_PRIMARY_KEY=<ask me>
+```
 	
 3.) Create a local working branch
 ```bash
