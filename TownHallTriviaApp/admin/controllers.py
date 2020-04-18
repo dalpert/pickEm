@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, url_for, redirect, request
 import redisCacheManager
 import flaskSessionManager
-import os
+import os, csv
 
 admin = Blueprint("admin", __name__, template_folder="templates")
 redisManager = redisCacheManager.RedisClass()
@@ -34,12 +34,14 @@ def checkGameId():
         if request.method == "POST":
             if request.form["operation"] == "Create":
                 if not redisManager.doesGameExist(request.form["gameId"]):
+                    # Game doesn't exist, so we create a new one
                     if redisManager.createGame(request.form["gameId"]):
                         sessionManager.setAdminGameId(request.form["gameId"])
                         return redirect(url_for('admin.controlPanel', message="Game "+ request.form["gameId"] + " created!"))
                     else:
                         return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Failed to initialize Game ID, please try again."))
                 else:
+                    # Game already exists
                     return redirect(url_for("admin.gameIdError", gameId=request.form["gameId"], message="Game ID already exists, choose another :)"))
             elif request.form["operation"] == "Find":
                 if redisManager.doesGameExist(request.form["gameId"]):
@@ -101,7 +103,15 @@ def getRoundResults():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
             roundAnswers = redisManager.getRoundAnswers(sessionManager.getAdminGameId(), request.form["roundId"])
-            # Download Files
+            print("In ADMIN CONTROLLER.PY")
+            print(roundAnswers)
+            with open("results/rawAnswers.csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerows(roundAnswers)
+
+
+            # THIS IS WHERE WE INVOKE AUTOMATIC GRADING
+
         return redirect(url_for('admin.controlPanel', message="Downloaded Files For " + request.form["roundId"]))
     else:
         redirect(url_for("admin.adminLogin"))
