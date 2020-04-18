@@ -72,6 +72,11 @@ def getRoundResults():
         # Download Files
     return redirect(url_for('admin.controlPanel', message="Downloaded Files For " + request.form["roundId"]))
 
+@admin.route('/flushDb', methods=["POST"])
+def flushDb():
+    if request.method == "POST":
+        roundAnswers = redisManager.flushDb()
+        return redirect(url_for("admin.index"))
 
 
 

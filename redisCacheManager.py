@@ -47,6 +47,10 @@ class RedisClass:
         key = gameId
         return self.redisCxn.set(key, self.Disabled)
 
+    def flushDb(self):
+        self.redisCxn.flushdb()
+
+
 # Team Operations
     def addTeamToGame(self, gameId, teamName):
         key = gameId + self.TeamsKey
