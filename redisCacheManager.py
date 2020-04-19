@@ -19,6 +19,7 @@ class RedisClass:
         self.TeamsKey = "_teams"
         self.Enabled = "Enabled"
         self.Disabled = "Disabled"
+        self.AnswerKey = "_AnswerKey"
         self.WordDelimiter = "]::["
         self.LineDelimeter = "(\n)"
 
@@ -123,6 +124,19 @@ class RedisClass:
             row.extend(teamAnswerDict[key].split(self.WordDelimiter))
             rowsOfRows.append(row)
         return rowsOfRows
+
+# Answer Key Operations
+    def submitAnswerKey(self, gameId, roundId, answers, pointValues):
+        key = gameId + '_' + roundId + self.AnswerKey
+        answersString = self.WordDelimiter.join(answers)
+        pointValuesString = self.WordDelimiter.join(pointValues)
+        finalAnswerKeyString = answersString + self.LineDelimeter + pointValuesString
+        self.redisCxn.set(key, finalAnswerKeyString)
+
+    def getAnswerKey(self, gameId, roundId):
+        key = gameId + '_' + roundId + self.AnswerKey
+        response = self.redisCxn.get(key)
+        print(response)
 
 # General Redis Functions
     def testConnection():

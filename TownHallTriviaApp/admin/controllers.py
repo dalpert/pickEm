@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, url_for, redirect, request
 import redisCacheManager
 import flaskSessionManager
+import automaticGrading.autoGrader as autoGrader
 import os, csv
 
 admin = Blueprint("admin", __name__, template_folder="templates")
@@ -103,6 +104,7 @@ def getRoundResults():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
             roundAnswers = redisManager.getRoundAnswers(sessionManager.getAdminGameId(), request.form["roundId"])
+            answerKey = redisManager.get
             print("In ADMIN CONTROLLER.PY")
             print(roundAnswers)
             with open("results/rawAnswers.csv", "w", newline="") as f:
@@ -110,11 +112,40 @@ def getRoundResults():
                 writer.writerows(roundAnswers)
 
 
+
             # THIS IS WHERE WE INVOKE AUTOMATIC GRADING
+
+
 
         return redirect(url_for('admin.controlPanel', message="Downloaded Files For " + request.form["roundId"]))
     else:
         redirect(url_for("admin.adminLogin"))
+
+@admin.route('/answerKey')
+def answerKey():
+    if sessionManager.isAdminLoggedIn():
+        return render_template("admin/answerKey.html")
+
+@admin.route('/submitAnswerKey', methods=["POST"])
+def submitAnswerKeySuccess():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            answers =
+            [request.form['Question1'],
+            request.form['Question2'],
+            request.form['Question3'],
+            request.form['Question4'],
+            request.form['Question5'],
+            request.form['Question6']]
+            pointValues = 
+            [request.form['Question1_ExpectedPoints'],
+            request.form['Question2_ExpectedPoints'],
+            request.form['Question3_ExpectedPoints'],
+            request.form['Question4_ExpectedPoints'],
+            request.form['Question5_ExpectedPoints'],
+            request.form['Question6_ExpectedPoints']]
+            redisManager.submitAnswerKey(sessionManager.getAdminGameId(), request.form["roundId"], answers, pointValues)
+            return redirect(url_for("admin.controlPanel"))
 
 @admin.route('/flushDb', methods=["POST"])
 def flushDb():

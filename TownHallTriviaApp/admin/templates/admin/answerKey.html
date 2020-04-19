@@ -1,0 +1,34 @@
+<html>  
+  <head>  
+    <title>getting the session</title>  
+  </head>  
+  <body> 
+    {% extends "admin/layout.html" %}
+    {% block content %} 
+    <form method = "post" action = "{{ url_for('admin.submitAnswerKeySuccess') }}">
+      <label for="roundId">Choose your round:</label>
+      <select id="getRoundResults" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select><br>
+      Question 1: <input type="text" name="Question1" size="50"><br>
+      Expected points: <input type="text" name="Question1_ExpectedPoints" size="20"><br>
+      Question 2: <input type="text" name="Question2" size="50"><br>
+      Expected points: <input type="text" name="Question2_ExpectedPoints" size="20"><br>
+      Question 3: <input type="text" name="Question3" size="50"><br>
+      Expected points: <input type="text" name="Question3_ExpectedPoints" size="20"><br>
+      Question 4: <input type="text" name="Question4" size="50"><br>
+      Expected points: <input type="text" name="Question4_ExpectedPoints" size="20"><br>
+      Question 5: <input type="text" name="Question5" size="50"><br>
+      Expected points: <input type="text" name="Question5_ExpectedPoints" size="20"><br>
+      Question 6: <input type="text" name="Question6" size="50"><br>
+      Expected points: <input type="text" name="Question6_ExpectedPoints" size="20"><br>
+      <input type="submit" value="Submit">
+    </form>
+    {% endblock %}
+  </body>  
+</html>  
