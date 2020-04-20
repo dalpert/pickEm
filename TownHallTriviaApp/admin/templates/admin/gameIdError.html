@@ -1,13 +1,10 @@
 <html>  
-  <head>  
-    <title>getting the session</title>  
-  </head>  
   <body> 
     {% extends "admin/layout.html" %}
     {% block content %} 
     <h1>Game Id Entered: {{ gameId }}</h1>
     <h1>{{ message }}</h1>
-    <a href="{{ url_for('admin.home') }}">Let's try this again</a>
+    <a href="{{ url_for('admin.getGameId') }}">Let's try this again</a>
     {% endblock %}
   </body>  
 </html>  

@@ -1,22 +1,25 @@
-<html>  
-  <head>  
-    <title>getting the session</title>  
-  </head>  
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
   <body> 
-    {% extends "admin/layout.html" %}
-    {% block content %} 
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
     <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
       <label for="gameId">Create Game:</label><br>
-      <input type="text" id="gameId" name="gameId"><br><br>
+      <input type="text" id="gameId" name="gameId"><br>
       <input type="hidden" name="operation" value="Create">
       <input type="submit" value="Submit">
-    </form>
+    </form><br>
     <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
       <label for="gameId">Find Existing Game:</label><br>
-      <input type="text" id="gameId" name="gameId"><br><br>
+      <input type="text" id="gameId" name="gameId"><br>
       <input type="hidden" name="operation" value="Find">
       <input type="submit" value="Submit">
-    </form>
-    {% endblock %}
+    </form><br>
   </body>  
-</html>  
+</html> 
