@@ -5,6 +5,10 @@
   <body> 
     {% extends "admin/layout.html" %}
     {% block content %} 
+    <h2>This will submit an answer key for the game with gameId: {{ gameId }}</h2>
+    <form method="get" action="{{ url_for('admin.getGameId') }}">
+      <input type="submit" value="Click here to change the gameId!" />
+    </form>
     <form method = "post" action = "{{ url_for('admin.submitAnswerKeySuccess') }}">
       <label for="roundId">Choose your round:</label>
       <select id="getRoundResults" name="roundId">

@@ -5,9 +5,9 @@
   <body> 
     {% extends "admin/layout.html" %}
     {% block content %} 
-    <h1>Game Id Entered: {{ gameId }}</h1>
-    <h1>{{ message }}</h1>
-    <a href="{{ url_for('admin.getGameId') }}">Let's try this again</a>
+    <h2>Total Number of teams: {{ teamsCount }}</h2>
+    <h3>Registered Teams:</h3>
+    <h3>{{ teamsList }}</h3>
     {% endblock %}
   </body>  
 </html>  

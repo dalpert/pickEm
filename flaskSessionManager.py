@@ -17,7 +17,17 @@ class FlaskSessionManager:
         session[self.adminLogin] = loggedIn
 
     def isAdminLoggedIn(self):
-        return session[self.adminLogin] == True
+        loggedIn = self.adminLogin in session
+        if loggedIn:
+            loggedIn = session[self.adminLogin] == True
+        return loggedIn
+
+    def isAdminGameIdSet(self):
+        return self.adminGameId in session
+
+    def removeAdminGame(self):
+        if self.adminGameId in session:
+            session.pop(self.adminGameId, None)
     
     def isTeamRegistered(self):
         return self.teamName in session
@@ -44,19 +54,36 @@ class FlaskSessionManager:
         session[self.message] = message
 
     def getMessage(self):
-        return session[self.message]
+        if self.message in session:
+            return session[self.message]
+        else:
+            return None
 
     def getPlayerGameId(self):
-        return session[self.playerGameId]
+        if self.playerGameId in session:
+            return session[self.playerGameId]
+        return None
 
     def getAdminGameId(self):
-        return session[self.adminGameId]
+        if self.adminGameId in session:
+            return session[self.adminGameId]
+        else:
+            return None
 
     def getRoundId(self):
-        return session[self.roundId]
+        if self.roundId in session:
+            return session[self.roundId]
+        else:
+            return None
 
     def getTeamName(self):
-        return session[self.teamName]
+        if self.teamName in session:
+            return session[self.teamName]
+        else:
+            return None
 
     def getTeamId(self):
-        return session[self.teamId]
+        if self.teamId in session:
+            return session[self.teamId]
+        else:
+            return None

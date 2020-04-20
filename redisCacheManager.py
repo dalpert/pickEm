@@ -74,6 +74,12 @@ class RedisClass:
             # Team already exists
             return False
 
+    def getAllTeams(self, gameId):
+        key = gameId + self.TeamsKey
+        teamsListLength = self.redisCxn.llen(key)
+        teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
+        return teamNames
+
 # Round Operations
     def getEnabledRounds(self, gameId):
         key = gameId + self.EnabledRounds
@@ -118,11 +124,21 @@ class RedisClass:
         key = gameId + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
         # Return as dictionary teamName:[Answers]
-        rowsOfRows = [["teamName", "Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]]
+        rowsOfRows = []
         for key in teamAnswerDict:
             row = [key]
             row.extend(teamAnswerDict[key].split(self.WordDelimiter))
             rowsOfRows.append(row)
+
+        # Get List of teams that didn't submit answers
+        # Append these teams with no answers
+        teamsList = self.getAllTeams(gameId)
+        difference = set(teamsList).symmetric_difference(set(teamAnswerDict.keys()))
+        missingTeams = list(difference)
+        for missingTeam in missingTeams:
+            row = [missingTeam, "", "", "", "", "", ""]
+            rowsOfRows.append(row)
+
         return rowsOfRows
 
 # Answer Key Operations
@@ -131,12 +147,20 @@ class RedisClass:
         answersString = self.WordDelimiter.join(answers)
         pointValuesString = self.WordDelimiter.join(pointValues)
         finalAnswerKeyString = answersString + self.LineDelimeter + pointValuesString
+        print("redis . IN SUBMIT ANSWER KEY")
+        print(finalAnswerKeyString)
         self.redisCxn.set(key, finalAnswerKeyString)
 
     def getAnswerKey(self, gameId, roundId):
         key = gameId + '_' + roundId + self.AnswerKey
         response = self.redisCxn.get(key)
-        print(response)
+        rowsOfRows = []
+        if not response == None:
+            rows = response.split(self.LineDelimeter)
+            for row in rows:
+                row = row.split(self.WordDelimiter)
+                rowsOfRows.append(row)
+        return rowsOfRows
 
 # General Redis Functions
     def testConnection():
