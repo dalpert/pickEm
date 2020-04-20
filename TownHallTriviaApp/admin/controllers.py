@@ -121,10 +121,11 @@ def getRoundResults():
             print(answerKey)
             print("controller.py:: Running Auto Grader:")
             print(os.listdir())
-            filelist = [ f for f in os.listdir("TownHallTriviaApp/admin/roundResults") ]
+            pathToResultsFolder = os.path.join(admin.static_folder, "roundResults")
+            filelist = [ f for f in os.listdir(pathToResultsFolder) ]
             for file in filelist:
                 print("FILE: " + file)
-                os.remove(os.path.join("TownHallTriviaApp/admin/roundResults", file))
+                os.remove(os.path.join(pathToResultsFolder, file))
             autoGrader.gradeAndWriteFiles(roundAnswers, answerKey, request.form["roundId"])
             # Empty Results Folder
             zipFileName = autoGrader.createZipFile()
@@ -135,7 +136,7 @@ def getRoundResults():
             # print(root_dir)
             # return send_from_directory(os.path.join(root_dir, 'TownHallTrivia', "TownHallTriviaApp", 'roundResults'), zipFileName)
             # return admin.send_static_file(os.path.join(admin.static_folder, "roundResults", zipFileName))
-            return send_file(os.path.join(admin.static_folder, "roundResults", zipFileName), attachment_filename=zipFileName, as_attachment = False, cache_timeout=0)
+            return send_file(os.path.join(pathToResultsFolder, zipFileName), attachment_filename=zipFileName, as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))
 
