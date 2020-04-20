@@ -66,12 +66,6 @@ div {
   background-color: #ddd;
 }
 
-div.form-group {
-  padding-bottom: 10px;
-  margin-bottom: 0;
-  padding-top:10px;
-}
-
 /* Round.html */
 p.teamName {
   margin-bottom: 0px;
@@ -79,6 +73,12 @@ p.teamName {
   padding-left: 20px;
   padding-bottom: 20px;
   color: #022149;
+}
+
+div.form-group {
+  padding-bottom: 10px;
+  margin-bottom: 0;
+  padding-top: 10px;
 }
 
 body.body {
