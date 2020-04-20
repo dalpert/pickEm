@@ -57,6 +57,10 @@
       <input type="submit" name="Submit"/>
     </form>
 
+    <form method="get" action="{{ url_for('admin.getAllTeams') }}">
+      <input type="submit" value="Get a list of all registered teams" />
+    </form>
+
     <h4>DANGER ZONE below this point (mainly used for testing)</h4>
     <form method="post" action="{{ url_for('admin.flushDb') }}">
       <input type="submit" value="Flush the database" />
