@@ -7,8 +7,8 @@ redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
 @main.route('/')
-def index():
-    return render_template('main/index.html')
+def enterGameId():
+    return render_template('main/enterGameId.html')
 
 @main.route('/validateGameId', methods = ["POST"])
 def validateGameId():
@@ -49,14 +49,25 @@ def teamRegisterSuccess():
     if request.method == "POST":
         if sessionManager.isTeamRegistered():
             sessionManager.unregisterTeam()
+        sessionManager.setTeamName(request.form["teamName"])
         if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
+            # Allow team to login as existing team
+            return redirect(url_for("main.loginAsExistingTeam"))
+
             # Team name has been taken and they need to re-register
             sessionManager.setMessage("WHOOPS, Team Name Taken! The team name \"" + request.form["teamName"] + "\" has already been selected by another team, guess you gotta sign up earlier next time.")
             return redirect(url_for("main.registerTeam"))
         else:
-            sessionManager.setTeamName(request.form["teamName"])
             sessionManager.setMessage("Succesfull registration!")
             return redirect(url_for("main.confirmation"))
+
+@main.route('/loginAsExistingTeam')
+def loginAsExistingTeam():
+    if sessionManager.isTeamRegistered():
+        return render_template('main/loginAsExistingTeam.html', teamName=sessionManager.getTeamName())
+    else:
+        sessionManager.setMessage("You have to register a team before playing!")
+        return redirect(url_for("main.registerTeam"))
 
 @main.route('/confirmation')
 def confirmation():
