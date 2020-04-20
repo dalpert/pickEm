@@ -14,7 +14,7 @@
       <div class="picks">
         <h1>{{ roundId }}</h1>
         <p class="teamName">Team: {{ teamName }}</p>
-		    <form method = "post" action = "{{ url_for('main.submitTeamAnswers') }}">
+		    <form method="post" action="{{ url_for('main.submitTeamAnswers') }}">
           <div class="form-group">
             <label for="Question1">Question 1</label>
             <input type="text" class="form-control" name="Question1" id="Question1">
