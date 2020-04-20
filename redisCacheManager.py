@@ -117,13 +117,15 @@ class RedisClass:
             print("UPDATING ANSWERS")
             answers = self.WordDelimiter.join(map(str, form.values()))
             print(answers)
-        self.redisCxn.hset(key, teamName, answers)
+            self.redisCxn.hset(key, teamName, answers)
 
     # Get all all answers
     def getRoundAnswers(self, gameId, roundId):
         key = gameId + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
         # Return as dictionary teamName:[Answers]
+        print("redis. IN GETROUND ANSWERS")
+        print(teamAnswerDict)
         rowsOfRows = []
         for key in teamAnswerDict:
             row = [key]
