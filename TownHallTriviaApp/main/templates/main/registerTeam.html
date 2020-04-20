@@ -4,19 +4,20 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="body">
     <header>
       <div class="container">
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
     <h1>Team Registration</h1>
-    <h2>{{ message }}</h2>
-    <h3>Game Id: {{ gameId }}</h3>
-    <form method = "post" action = "{{ url_for('main.teamRegisterSuccess') }}">
-      <label for="teamName">Register Your Team For This Game:</label><br>
-      <input type="text" id="teamName" name="teamName"><br><br>
-      <input type="submit" value="Submit">
+    <form method="post" class="registration" action="{{ url_for('main.teamRegisterSuccess') }}">
+      <div class="form-group">
+        <label for="teamName">Enter your team name:</label>
+        <input type="text" class="form-control" name="teamName" id="teamName">
+      </div>
+      <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Let's Go!</button>
     </form>
   </body>
 </html>
