@@ -4,23 +4,42 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="body">
     <header>
       <div class="container">
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
       <div class="picks">
         <h1>{{ roundId }}</h1>
-        <p> Logged in as {{ teamName }}</p>
+        <p class="teamName"> Logged in as: {{ teamName }}</p>
 		    <form method = "post" action = "{{ url_for('main.submitTeamAnswers') }}">
-          Question 1: <input type="text" id="Question1" name="Question1" size="50"><br>
-          Question 2: <input type="text" id="Question2" name="Question2" size="50"><br>
-          Question 3: <input type="text" id="Question3" name="Question3" size="50"><br>
-          Question 4: <input type="text" id="Question4" name="Question4" size="50"><br>
-          Question 5: <input type="text" id="Question5" name="Question5" size="50"><br>
-          Question 6: <input type="text" id="Question6" name="Question6" size="50"><br>
-          <input type="submit" value="Submit">
+          <div class="form-group">
+            <label for="Question1">Question 1</label>
+            <input type="text" class="form-control" name="Question1" id="Question1">
+          </div>
+          <div class="form-group">
+            <label for="Question2">Question 2</label>
+            <input type="text" class="form-control" name="Question2" id="Question2">
+          </div>
+          <div class="form-group">
+            <label for="Question3">Question 3</label>
+            <input type="text" class="form-control" name="Question3" id="Question3">
+          </div>
+          <div class="form-group">
+            <label for="Question4">Question 4</label>
+            <input type="text" class="form-control" name="Question4" id="Question4">
+          </div>
+          <div class="form-group">
+            <label for="Question5">Question 5</label>
+            <input type="text" class="form-control" name="Question5" id="Question5" >
+          </div>
+          <div class="form-group">
+            <label for="Question6">Question 6</label>
+            <input type="text" class="form-control" name="Question6" id="Question6">
+          </div>
+          <button type="submit" value="Submit" class="btn btn-primary submit text-right pull-right submitButton">Submit</button>
         </form>
       </div>
   </body>
