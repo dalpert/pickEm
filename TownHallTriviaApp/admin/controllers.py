@@ -166,7 +166,7 @@ def submitAnswerKeySuccess():
             request.form['Question5_ExpectedPoints'],
             request.form['Question6_ExpectedPoints']]
             redisManager.submitAnswerKey(sessionManager.getAdminGameId(), request.form["roundId"], answers, pointValues)
-            sessionManager.setMessage("Answer Submission Successful for " + request.form["roundId"])
+            sessionManager.setMessage("Answer Key Submission Successful for " + request.form["roundId"])
             return redirect(url_for("admin.controlPanel"))
 
 @admin.route('/getAllTeams')
