@@ -1,7 +1,14 @@
-<html> 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
   <body> 
-    {% extends "admin/layout.html" %}
-    {% block content %} 
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
     <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
       <label for="gameId">Create Game:</label><br>
       <input type="text" id="gameId" name="gameId"><br><br>
@@ -14,6 +21,5 @@
       <input type="hidden" name="operation" value="Find">
       <input type="submit" value="Submit">
     </form>
-    {% endblock %}
   </body>  
-</html>  
+</html> 
