@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, session, url_for, redirect, request, send_file
+from flask import Blueprint, render_template, session, url_for, redirect, request, send_file, send_from_directory
 import redisCacheManager
 import flaskSessionManager
 import autoGrader as autoGraderClass
 import os, csv
 
-admin = Blueprint("admin", __name__, template_folder="templates")
+admin = Blueprint("admin", __name__, template_folder="templates", static_folder="")
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 autoGrader = autoGraderClass.autoGraderClass()
@@ -128,7 +128,14 @@ def getRoundResults():
             autoGrader.gradeAndWriteFiles(roundAnswers, answerKey, request.form["roundId"])
             # Empty Results Folder
             zipFileName = autoGrader.createZipFile()
-            return send_file(os.path.join("admin/roundResults", zipFileName), attachment_filename=zipFileName, as_attachment = False, cache_timeout=0)
+            # print(admin.static_folder)
+            # print(os.path.join(admin.static_folder, "roundResults", zipFileName))
+            # root_dir = os.path.dirname(os.getcwd())
+            # print("root_dir")
+            # print(root_dir)
+            # return send_from_directory(os.path.join(root_dir, 'TownHallTrivia', "TownHallTriviaApp", 'roundResults'), zipFileName)
+            # return admin.send_static_file(os.path.join(admin.static_folder, "roundResults", zipFileName))
+            return send_file(os.path.join(admin.static_folder, "roundResults", zipFileName), attachment_filename=zipFileName, as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))
 
