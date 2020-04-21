@@ -59,7 +59,7 @@ def teamRegisterSuccess():
             return redirect(url_for("main.registerTeam"))
         else:
             sessionManager.setMessage("Succesfull registration!")
-            return redirect(url_for("main.confirmation"))
+            return redirect(url_for("main.gamePlayRoom"))
 
 @main.route('/loginAsExistingTeam')
 def loginAsExistingTeam():

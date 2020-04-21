@@ -85,7 +85,16 @@ div.form-group {
 }
 
 form.registration {
-    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+button.registrationButton {
+  margin-left: 150px;
+  text-align: center !important;
+  width: 107px;
 }
 /* Forms */
 
