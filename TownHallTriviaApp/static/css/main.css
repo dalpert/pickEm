@@ -125,3 +125,10 @@ body.body {
   justify-content: center;
 }
 /* gameWaitingRoom.html */
+
+/* error.html */
+.errorContainer {
+  display: flex;
+  justify-content: center;
+}
+/* error.html */
