@@ -114,3 +114,9 @@ body.body {
 }
 /* Round.html */
 
+/* error.html */
+.errorContainer {
+  display: flex;
+  justify-content: center;
+}
+/* error.html */
