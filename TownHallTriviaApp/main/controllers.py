@@ -53,10 +53,6 @@ def teamRegisterSuccess():
         if not redisManager.addTeamToGame(sessionManager.getPlayerGameId(), request.form["teamName"]):
             # Allow team to login as existing team
             return redirect(url_for("main.loginAsExistingTeam"))
-
-            # Team name has been taken and they need to re-register
-            sessionManager.setMessage("WHOOPS, Team Name Taken! The team name \"" + request.form["teamName"] + "\" has already been selected by another team, guess you gotta sign up earlier next time.")
-            return redirect(url_for("main.registerTeam"))
         else:
             sessionManager.setMessage("Succesfull registration!")
             return redirect(url_for("main.gamePlayRoom"))
