@@ -12,12 +12,14 @@
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
     <h1>Welcome to Town Hall Trivia</h1>
-    <form class="registration" method="post" action="{{ url_for('main.validateGameId') }}">
-      <div class="form-group">
-        <label for="gameId">Enter game id:</label>
-        <input type="text" class="form-control" name="gameId" id="gameId">
-      </div>
-      <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton registrationButton">Submit</button>
-    </form>
+    <div class="registrationContainer">
+      <form class="registration" method="post" action="{{ url_for('main.validateGameId') }}">
+        <div class="form-group">
+          <label for="gameId">Enter game id:</label>
+          <input type="text" class="form-control" name="gameId" id="gameId">
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Submit</button>
+      </form>
+    </div>
   </body>
 </html>

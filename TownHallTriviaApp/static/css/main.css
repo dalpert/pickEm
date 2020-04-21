@@ -84,17 +84,15 @@ div.form-group {
   padding-top: 10px;
 }
 
-form.registration {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+.registrationContainer {
+  justify-content: center;
+  margin-top: 20px;
+  padding: 0px !important;
+  display: flex;
 }
 
-button.registrationButton {
-  margin-left: 150px;
-  text-align: center !important;
-  width: 107px;
+form.registration {
+  width: 40%;
 }
 /* Forms */
 

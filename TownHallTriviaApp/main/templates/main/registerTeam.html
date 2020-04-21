@@ -12,12 +12,14 @@
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
     <h1>Team Registration</h1>
-    <form method="post" class="registration" action="{{ url_for('main.teamRegisterSuccess') }}">
-      <div class="form-group">
-        <label for="teamName">Enter your team name:</label>
-        <input type="text" class="form-control" name="teamName" id="teamName">
-      </div>
-      <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton registrationButton">Let's Go!</button>
-    </form>
+    <div class="registrationContainer">
+      <form method="post" class="registration" action="{{ url_for('main.teamRegisterSuccess') }}">
+        <div class="form-group">
+          <label for="teamName">Enter your team name:</label>
+          <input type="text" class="form-control" name="teamName" id="teamName">
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Let's Go!</button>
+      </form>
+    </div>
   </body>
 </html>
