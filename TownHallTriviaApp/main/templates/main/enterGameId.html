@@ -4,16 +4,22 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="body">
     <header>
       <div class="container">
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
-    <form method = "post" action = "{{ url_for('main.validateGameId') }}">
-      <label for="gameId">Enter Game Id:</label><br>
-      <input type="text" id="gameId" name="gameId"><br><br>
-      <input type="submit" value="Submit">
-    </form>
+    <h1>Welcome to Town Hall Trivia</h1>
+    <div class="registrationContainer">
+      <form class="registration" method="post" action="{{ url_for('main.validateGameId') }}">
+        <div class="form-group">
+          <label for="gameId">Enter game id:</label>
+          <input type="text" class="form-control" name="gameId" id="gameId">
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Submit</button>
+      </form>
+    </div>
   </body>
 </html>
