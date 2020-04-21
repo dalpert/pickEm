@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+      <h1 class="logo">Town Hall Trivia</h1>
+    </header>
+    <h1>{{ message }}</h1>
+    <h2>You're logged in as "{{ teamName }}"</h2>
+    <h2>Don't forget, you are playing Town Hall Trivia with Game ID: {{ gameId }}</h2>
+    <h2>Let's continue with the game!</h2>
+    <form action="{{ url_for('main.gamePlayRoom') }}">
+      <input type="submit" value="Go to the Game Play Room" />
+    </form>
+  </body>
+</html>
