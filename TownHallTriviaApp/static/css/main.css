@@ -11,9 +11,13 @@ h1 {
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 h2 {
   margin-left: 20px;
+  margin-right: 20px;
+  font-family: verdana;
 }
 h1.logo {
 	color: white;
@@ -114,3 +118,9 @@ body.body {
 }
 /* Round.html */
 
+/* gameWaitingRoom.html */
+.waitingRoomContainer {
+  display: flex;
+  justify-content: center;
+}
+/* gameWaitingRoom.html */
