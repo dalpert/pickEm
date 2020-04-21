@@ -21,7 +21,7 @@ def validateGameId():
             sessionManager.setMessage("")
             return redirect(url_for("main.gameWaitingRoom"))
     else:
-        sessionManager.setMessage("Your Game id isn't valid")
+        sessionManager.setMessage("That game id isn't valid")
         return redirect(url_for("main.error", gameId=request.form["gameId"]))
 
 @main.route('/gameWaitingRoom')
