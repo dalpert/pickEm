@@ -1,24 +1,8 @@
-body {
-  background-color: #c7eef5; 
-  margin: 20px;
-  padding: 0;
-  color: #022149;
-}
-
-h1 {
-  font-family: verdana;
-  font-size: 300%;
-  margin: 0 auto;
-  padding: 0;
-  text-align: center;
-  margin-left: 20px;
-  margin-right: 20px;
-}
 h2 {
   margin-left: 20px;
   margin-right: 20px;
   font-family: verdana;
-  text-align: center;
+  font-stretch: 32px;
 }
 h1.logo {
 	color: white;
@@ -73,14 +57,26 @@ div {
   background-color: #ddd;
 }
 
+/* Header */
+img.logo { 
+  width: 100%;
+  margin-bottom: 20px;
+}
+h1.title {
+  font-size: 60px !important;
+  text-align: center;
+}
+/* Header */
+
 /* Forms */
 button.submitButton {
   float: right;
   margin-right: 20px;
   margin-top: 10px;
   margin-bottom: 20px;
-  background-color: #f07c41;
-  border-color: #f07c41;
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 28px
 }
 
 div.form-group {
@@ -91,16 +87,15 @@ div.form-group {
 
 .registrationContainer {
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 0px !important;
   display: flex;
 }
 
 form.registration {
-  width: 40%;
+  width: 80%;
 }
 /* Forms */
-
 
 
 /* Round.html */
@@ -109,22 +104,19 @@ p.teamName {
   margin-left: 0px;
   padding-left: 20px;
   padding-bottom: 20px;
-  color: #022149;
+  color: white;
 }
 
 body.body {
-  background: #c7eef5;
-  margin: 20px;
-  color: #022149;
+  background-color: #030302; 
+  margin-bottom: 60px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 0;
+  color: white;
 }
 /* Round.html */
 
-/* gameWaitingRoom.html */
-.waitingRoomContainer {
-  display: flex;
-  justify-content: center;
-}
-/* gameWaitingRoom.html */
 
 /* error.html */
 .errorContainer {
@@ -132,3 +124,57 @@ body.body {
   justify-content: center;
 }
 /* error.html */
+
+
+/* enterGameId.html and registerTeam.html */
+label.primaryLabel {
+  padding: 0px;
+}
+small.secondaryLabel {
+  margin-bottom: 10px !important;
+  margin-top: 0px;
+}
+label.label {
+  font-size: 34px;
+}
+/* enterGameId.html and registerTeam.html  */
+
+
+/* gamePlayRoom.html */
+div.play {
+  margin-left: 234px;
+}
+/* gamePlayRoom.html */
+
+
+/* gameWaitingRoom.html */
+div.titleSmall {
+  margin-top: 20px;
+  font-size: 40px;
+  padding: 0;
+}
+div.wait {
+  margin-left: 275px;
+}
+.waitingRoomContainer {
+  display: flex;
+  justify-content: center;
+}
+h2.waitingRoom {
+  text-align: center;
+}
+/* gameWaitingRoom.html */
+
+/* loginAsExistingTeam.html */
+form.existingTeam{
+  display: flex;
+  justify-content: center;
+}
+/* loginAsExistingTeam.html */
+
+
+/* endGame.html */
+h2.endGame {
+  text-align: center;
+}
+/* endGame.html */

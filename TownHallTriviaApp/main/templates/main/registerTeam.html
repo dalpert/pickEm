@@ -6,21 +6,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
-    <header>
-      <div class="container">
-      <h1 class="logo">Town Hall Trivia</h1>
-    </header>
-    <h1>{{ message }}</h1>
-    <h1>Team Registration</h1>
-    <div class="registrationContainer">
-      <form method="post" class="registration" action="{{ url_for('main.teamRegisterSuccess') }}">
-        <div class="form-group">
-          <label for="teamName">Enter your team name:</label>
-          <input type="text" class="form-control" name="teamName" id="teamName">
-        </div>
-        <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Let's Go!</button>
-      </form>
+    <div class="container">
+      <h1 class="title">TEAM REGISTRATION</h1>
+      <div class="registrationContainer">
+        <form class="registration" method="post" action="{{ url_for('main.teamRegisterSuccess') }}">
+          <div class="form-group">
+            <label class="label col-form-label" for="teamName">ENTER YOUR TEAM NAME:</label>
+            <input type="text" class="form-control form-control-lg" name="teamName" id="teamName">
+          </div>
+          <button type="submit" value="Submit" class="btn btn-primary submit submitButton">LET'S PLAY!</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>

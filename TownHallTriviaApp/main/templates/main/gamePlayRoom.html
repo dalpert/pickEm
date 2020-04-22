@@ -3,11 +3,12 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">  
+    <body class="body">
     <header>
       <div class="container">
-        <h1 class="logo">Town Hall Trivia</h1>
         <strong><nav>
           <ul class="menu">
             <li>
@@ -55,12 +56,19 @@
         </nav></strong>
       </div>
     </header>
-    <h1>Game Play Room</h1>
-    <h3>Game Id: {{ gameId }}</h3>
-    <h3>Team Name: {{ teamName }}</h3>
-    <p>This is the main page you will interact with.<br><br>
-    When Adam and Austin start a round, you will be able to click on the Round Buttons <strong>at the top of the page</strong>. When you click on the buttons, a form will be displayed for you to enter your answers.<br><br>
-    However, when a round is not being played, clicking on the buttons above will do nothing for you.</p>
-    <h1>Enjoy!</h1>
+    <div class="container">
+      <div class="titleSmall play">YOU'RE IN</div>
+      <h1 class="title">THE GAME PLAY ROOM</h1><br><br><br>
+
+      <h1>Game Play Room</h1>
+      <h1>Game Id: {{ gameId }}</h1>
+      <h1>Team Name: {{ teamName }}</h1><br><br><br>
+
+      <h2>You're in the game!<br><br>
+        Welcome to the game play room. This will be your homescreen in-between rounds.<br><br>
+        Once your hosts announce that a round has been unlocked, use the navigation buttons to go to that round's answer form.<br><br>
+        Good luck!
+      </h2><br>
+    </div>
   </body>
 </html>

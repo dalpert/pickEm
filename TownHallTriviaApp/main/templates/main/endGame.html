@@ -4,18 +4,15 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
-    <header>
-      <div class="container">
-      <ul>
-        <form method="get" action="{{ url_for('main.enterGameId') }}">
-          <input type="submit" value="Enter a new Game" />
-        </form>
-      </ul>
-      <h1 class="logo">Town Hall Trivia</h1>
-    </header>
-    <h1>Thanks for Playing!</h1>
-    <h1>We'll be announcing the scores shortly</h1>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <body class="body">
+    <br><br>
+    <h1 class="title">THANKS FOR PLAYING!</h1>
+    <h2 class="endGame">WE'LL ANNOUNCE THE SCORES SHORTLY</h2><br>
+    <form method="get" class="existingTeam" action="{{ url_for('main.enterGameId') }}">
+      <button type="submit" value="Submit" class="btn btn-primary submit submitButton">JOIN A NEW GAME</button>
+    </form>
   </body>
 </html>

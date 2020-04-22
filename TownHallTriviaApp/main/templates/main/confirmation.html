@@ -4,18 +4,21 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
-    <header>
-      <div class="container">
-      <h1 class="logo">Town Hall Trivia</h1>
-    </header>
-    <h1>{{ message }}</h1>
-    <h2>You're logged in as "{{ teamName }}"</h2>
-    <h2>Don't forget, you are playing Town Hall Trivia with Game ID: {{ gameId }}</h2>
-    <h2>Let's continue with the game!</h2>
-    <form action="{{ url_for('main.gamePlayRoom') }}">
-      <input type="submit" value="Go to the Game Play Room" />
-    </form>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <body class="body">
+    <div class="container">
+      <h1 class="title">{{ message }}</h1><br><br><br>
+      <h2 class="waitingRoom">TEAM: {{ teamName }}<br>
+      GAME: {{ gameId }}<br><br>
+      LET'S CONTINUE WITH THE GAME!
+      </h2><br>
+      <div class="waitingRoomContainer">
+        <form action="{{ url_for('main.gamePlayRoom') }}">
+          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">GAME PLAY ROOM</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
