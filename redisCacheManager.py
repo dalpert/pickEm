@@ -150,7 +150,7 @@ class RedisClass:
         sortedRowsOfRows = sorted(rowsOfRows, key=lambda row: row[0].lower(), reverse=False)
         # print("sortedlist")
         # print(sortedRowsOfRows)
-        return rowsOfRows
+        return sortedRowsOfRows
 
     def getTeamResponseCount(self, gameId, roundId):
         key = gameId.lower() + '_' + roundId
