@@ -8,24 +8,30 @@ sessionManager = flaskSessionManager.FlaskSessionManager()
 
 @main.route('/')
 def enterGameId():
+    sessionManager.removePlayerGame()
+    sessionManager.unregisterTeam()
     return render_template('main/enterGameId.html')
 
-@main.route('/validateGameId', methods = ["POST"])
+@main.route('/validateGameId', methods = ["POST", "GET"])
 def validateGameId():
-    if redisManager.doesGameExist(request.form["gameId"]):
+    if request.method == "POST":
         sessionManager.setPlayerGameId(request.form["gameId"])
+        if not redisManager.doesGameExist(request.form["gameId"]):
+            sessionManager.setMessage("That game id isn't valid")
+            return redirect(url_for("main.error", ))
         if redisManager.isGameEnabled(request.form["gameId"]):
             sessionManager.setMessage("Let's get ready to rumble!")
             return redirect(url_for("main.registerTeam"))
         else:
-            sessionManager.setMessage("")
             return redirect(url_for("main.gameWaitingRoom"))
     else:
-        sessionManager.setMessage("That game id isn't valid")
-        return redirect(url_for("main.error", gameId=request.form["gameId"]))
+        return redirect(url_for("main.enterGameId"))
 
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
+    if not sessionManager.isPlayerGameIdSet():
+        sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+        return redirect(url_for("main.error"))
     if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
         sessionManager.setMessage("Thanks for your patience. Now let's get your team registered!")
         return redirect(url_for("main.registerTeam"))
@@ -34,17 +40,20 @@ def gameWaitingRoom():
 
 @main.route('/registerTeam')
 def registerTeam():
+    if not sessionManager.isPlayerGameIdSet():
+        # Don't have a valid gameId set
+        sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+        return redirect(url_for("main.error"))
     if redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
         return render_template("main/registerTeam.html", gameId=sessionManager.getPlayerGameId(), message=sessionManager.getMessage())
     else:
-        sessionManager.setMessage("")
         return render_template("main/gameWaitingRoom.html", gameId=sessionManager.getPlayerGameId())
 
 @main.route('/error')
 def error():
-    return render_template("main/error.html", gameId=request.args.get('gameId'), message=sessionManager.getMessage())
+    return render_template("main/error.html", gameId=sessionManager.getPlayerGameId(), message=sessionManager.getMessage())
 
-@main.route('/teamRegisterSuccess', methods = ["POST"])
+@main.route('/teamRegisterSuccess', methods = ["POST", "GET"])
 def teamRegisterSuccess():
     if request.method == "POST":
         if sessionManager.isTeamRegistered():
@@ -56,37 +65,69 @@ def teamRegisterSuccess():
         else:
             sessionManager.setMessage("Succesfull registration!")
             return redirect(url_for("main.gamePlayRoom"))
+    else:
+        sessionManager.setMessage("Stick to clicking buttons, entering url's directly wont get you anywhere. Let's start over.")
+        return redirect(url_for("main.error"))
 
 @main.route('/loginAsExistingTeam')
 def loginAsExistingTeam():
-    if sessionManager.isTeamRegistered():
-        return render_template('main/loginAsExistingTeam.html', teamName=sessionManager.getTeamName())
-    else:
+    if not sessionManager.isPlayerGameIdSet():
+        sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+        return redirect(url_for("main.error"))
+    if not sessionManager.isTeamRegistered():
         sessionManager.setMessage("You have to register a team before playing!")
         return redirect(url_for("main.registerTeam"))
+    return render_template('main/loginAsExistingTeam.html', teamName=sessionManager.getTeamName())
 
 @main.route('/confirmation')
 def confirmation():
+    if not sessionManager.isPlayerGameIdSet():
+        sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+        return redirect(url_for("main.error"))
+    if not sessionManager.isTeamRegistered():
+        sessionManager.setMessage("You have to register a team before playing!")
+        return redirect(url_for("main.registerTeam"))
     return render_template("main/confirmation.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName(), message=sessionManager.getMessage())
 
 @main.route('/gamePlayRoom')
 def gamePlayRoom():
+    if not sessionManager.isPlayerGameIdSet():
+        sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+        return redirect(url_for("main.error"))
+    if not sessionManager.isTeamRegistered():
+        sessionManager.setMessage("You have to register a team before playing!")
+        return redirect(url_for("main.registerTeam", gameId=sessionManager.getPlayerGameId()))
     return render_template("main/gamePlayRoom.html", gameId=sessionManager.getPlayerGameId(), teamName=sessionManager.getTeamName())
 
-@main.route('/playRound', methods = ["POST"])
+@main.route('/playRound', methods = ["POST", "GET"])
 def playRound():
     if request.method == "POST":
+        if not sessionManager.isPlayerGameIdSet():
+            sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+            return redirect(url_for("main.error"))
+        if not sessionManager.isTeamRegistered():
+            sessionManager.setMessage("You have to register a team before playing!")
+            return redirect(url_for("main.registerTeam", gameId=sessionManager.getPlayerGameId()))
         if not redisManager.isGameEnabled(sessionManager.getPlayerGameId()):
             sessionManager.setMessage("Trivia Game \"" + sessionManager.getPlayerGameId() + "\" is no longer Enabled")
             return redirect(url_for("main.gameWaitingRoom"))
         sessionManager.setRoundId(request.form["roundId"])
         if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
             return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=sessionManager.getRoundId())
-        return redirect(url_for("main.gamePlayRoom"))
+        return redirect(url_for("main.gamePlayRoom", message="Woah there... " + request.form["roundId"] + " isn't enabled yet, hold your horses!"))
+    else:
+        sessionManager.setMessage("Stick to clicking buttons, entering url's directly wont get you anywhere. Let's start over.")
+        return redirect(url_for("main.error"))
 
-@main.route('/submitTeamAnswers', methods = ["POST"])
+@main.route('/submitTeamAnswers', methods = ["POST", "GET"])
 def submitTeamAnswers():
     if request.method == "POST":
+        if not sessionManager.isPlayerGameIdSet():
+            sessionManager.setMessage("We couldn't process your game id. You'll have to re-enter it to continue.")
+            return redirect(url_for("main.error"))
+        if not sessionManager.isTeamRegistered():
+            sessionManager.setMessage("You have to register a team before playing!")
+            return redirect(url_for("main.registerTeam", gameId=sessionManager.getPlayerGameId()))
         if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
             redisManager.submitTeamAnswers(sessionManager.getPlayerGameId(), sessionManager.getTeamName(), sessionManager.getRoundId(), request.form)
             sessionManager.setMessage(sessionManager.getRoundId() + " Answer Submission Confirmation")
@@ -94,8 +135,12 @@ def submitTeamAnswers():
         else:
             sessionManager.setMessage("You unfortunately were not able to submit your form in time for " + sessionManager.getRoundId() + ". Try to submit earlier for the next round!")
             return redirect(url_for("main.confirmation"))
+    else:
+        sessionManager.setMessage("Stick to clicking buttons, entering url's directly wont get you anywhere. Let's start over.")
+        return redirect(url_for("main.error"))
 
 @main.route('/endGame')
 def endGame():
+    sessionManager.removePlayerGame()
     sessionManager.unregisterTeam()
     return render_template("main/endGame.html")
