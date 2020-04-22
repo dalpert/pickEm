@@ -8,13 +8,20 @@
   </head>
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
+
+    <div class="teamBanner">
+      <h1 class="teamBannerTitle">TEAM NAME: </h1>
+      <h1 class="teamBannerSeparator"> {{ teamName }}</h1>
+      <h1 class="teamBannerTitle">GAME ID: </h1>
+      <h1> {{ gameId }}</h1>
+    </div>
+
     <div class="container">
       <h1 class="title">{{ roundId }}</h1>
-      <p class="teamName">Team: {{ teamName }}</p>
       <form class="registration" method="post" action="{{ url_for('main.submitTeamAnswers') }}">
         <div class="form-group">
           <label for="Question1" class="label">QUESTION 1</label>
-          <input type="text" class="form-control form-control-lg" name="Question1" id="Question1">
+          <input type="text" placeholder="Your answer here" class="form-control form-control-lg" name="Question1" id="Question1">
         </div>
         <div class="form-group">
           <label for="Question2" class="label">QUESTION 2</label>
