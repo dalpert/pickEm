@@ -43,7 +43,6 @@ class autoGraderClass:
                 officialAnswer.remove(teamAnswerPart)
         return correct
     
-    
     def CheckAnswers(self, teamName, teamAnswers):
         print("autoGrader . in CHECK ANSWERS")
         print("teamName: " + teamName)
