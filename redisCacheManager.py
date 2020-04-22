@@ -1,6 +1,7 @@
 import redis, os
 from flask import session
 import flaskSessionManager as flaskManager
+import numpy
 
 QuestionNames = ["Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]
 
@@ -143,7 +144,15 @@ class RedisClass:
             row = [missingTeam, "", "", "", "", "", ""]
             rowsOfRows.append(row)
 
-        return rowsOfRows
+        # Sort rows based on first column
+        print("IN redis. GETROUND ANSWERS")
+        # sorted_array = rowsOfRows[numpy.argsort(rowsOfRows[0])]
+        # print(sorted_array)
+        # print("sorted_array")
+        sortedRowsOfRows = sorted(rowsOfRows, key=lambda row: row[0].lower(), reverse=False)
+        print("sortedlist")
+        print(sortedRowsOfRows)
+        return sortedRowsOfRows
 
     def getTeamResponseCount(self, gameId, roundId):
         key = gameId.lower() + '_' + roundId
