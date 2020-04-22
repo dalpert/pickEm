@@ -22,6 +22,7 @@ class RedisClass:
         self.AnswerKey = "_AnswerKey"
         self.WordDelimiter = "]::["
         self.LineDelimeter = "(\n)"
+        self.RegisterTeamForNextWeek = "NextWeek"
 
 # Game Level Functions
     def createGame(self, gameId):
@@ -78,6 +79,20 @@ class RedisClass:
 
     def getAllTeams(self, gameId):
         key = gameId.lower() + self.TeamsKey
+        teamsListLength = self.redisCxn.llen(key)
+        teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
+        return teamNames
+
+    def registerTeamForNextWeek(self, gameId, teamName, contactEmail):
+        key = gameId.lower() + self.RegisterTeamForNextWeek
+        teamInfoString = ", ".join(["[" + teamName, contactEmail + "]"])
+        teamsListLength = self.redisCxn.llen(key)
+        expectedLength = teamsListLength + 1
+        existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
+        return expectedLength == self.redisCxn.rpush(key, teamInfoString)
+
+    def getTeamsForNextWeek(self, gameId):
+        key = gameId.lower() + self.RegisterTeamForNextWeek
         teamsListLength = self.redisCxn.llen(key)
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames

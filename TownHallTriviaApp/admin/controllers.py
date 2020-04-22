@@ -177,6 +177,14 @@ def getAllTeams():
         teamNameString = ",  ".join(teamNames)
         return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
 
+@admin.route('/getTeamsForNextWeek')
+def getTeamsForNextWeek():
+    if sessionManager.isAdminLoggedIn():
+        teamNames = redisManager.getTeamsForNextWeek(sessionManager.getAdminGameId())
+        teamsCount = len(teamNames)
+        teamNameString = ",  ".join(teamNames)
+        return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
+
 @admin.route('/getTeamResponseCount', methods=["POST"])
 def getTeamResponseCount():
     if sessionManager.isAdminLoggedIn():

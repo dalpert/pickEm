@@ -141,6 +141,12 @@ def submitTeamAnswers():
 
 @main.route('/endGame')
 def endGame():
-    sessionManager.removePlayerGame()
     sessionManager.unregisterTeam()
     return render_template("main/endGame.html")
+
+@main.route('/registerTeamForNextWeek', methods = ["POST"])
+def registerTeamForNextWeek():
+    if request.method == "POST":
+        if not redisManager.registerTeamForNextWeek(sessionManager.getPlayerGameId(), request.form["teamName"], request.form["emailContact"]):
+            return redirect(url_for("main.endGame"))
+        return redirect(url_for("main.enterGameId"))
