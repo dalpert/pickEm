@@ -36,8 +36,6 @@ div {
   margin: 0;
   overflow: hidden;
   padding: 0;
-  position: fixed;
-  top: 0;
 }
 
 .menu li {
@@ -135,20 +133,46 @@ label.label {
 
 
 /* gamePlayRoom.html */
-div.play {
-  margin-left: 234px;
-}
 div.teamBanner {
+  background: #cf2971;
+  display: flex;
+  justify-content: center;
+  padding: 10px !important;
+  border-radius: 20px;
+}
+h2.teamBannerTitle {
+  padding: 0px;
+}
+h2.teamBannerSeparator {
+  padding-right: 300px;
+}
+div.navMenuBanner {
   background: #262625;
   display: flex;
   justify-content: center;
+  padding: 10px !important;
 }
-h1.teamBannerTitle {
+input.navMenu {
+  background: transparent;
+  color: #999999;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+h1.navMenuBannerTitle {
   color: #cf2971;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 h1.teamBannerSeparator {
-  padding-right: 400px;
+  padding-right: 300px;
+}
+form.navMenu {
+  padding-right: 10px;
+  padding-left: 10px;
+  border-left: 1px #999999 solid;
+}
+form.navMenuLastItem {
+  border-right: 1px #999999 solid;
 }
 /* gamePlayRoom.html */
 
@@ -158,9 +182,13 @@ div.titleSmall {
   margin-top: 20px;
   font-size: 40px;
   padding: 0;
+
 }
 div.wait {
   margin-left: 275px;
+}
+div.lobby {
+  margin-left: 305px;
 }
 .waitingRoomContainer {
   display: flex;

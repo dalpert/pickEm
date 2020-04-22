@@ -6,70 +6,59 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">  
-    <body class="body">
-    <header>
-      <div class="container">
-        <strong><nav>
-          <ul class="menu">
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit" value="Round 1" />
-                <input type="hidden" name="roundId" value="Round_1">
-              </form>
-            </li>
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit"value="Round 2" />
-                <input type="hidden" name="roundId" value="Round_2">
-              </form>
-            </li>
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit"value="Round 3" />
-                <input type="hidden" name="roundId" value="Round_3">
-              </form>
-            </li>
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit"value="Round 4" />
-                <input type="hidden" name="roundId" value="Round_4">
-              </form>
-            </li>
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit"value="Round 5" />
-                <input type="hidden" name="roundId" value="Round_5">
-              </form>
-            </li>
-            <li>
-              <form method="post" action="{{ url_for('main.playRound') }}">
-                <input type="submit"value="Round 6" />
-                <input type="hidden" name="roundId" value="Round_6">
-              </form>
-            </li>
-            <li>
-              <form action="{{ url_for('main.endGame') }}">
-                <input type="submit"value="End Game" />
-              </form>
-            </li>
-          </ul>
-        </nav></strong>
-      </div>
-    </header>
+  <body class="body">
 
-    <div class="teamBanner">
-      <h1 class="teamBannerTitle">TEAM NAME: </h1>
-      <h1 class="teamBannerSeparator"> {{ teamName }}</h1>
-      <h1 class="teamBannerTitle">GAME ID: </h1>
-      <h1> {{ gameId }}</h1>
+    <div class="navMenuBanner">
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 1" />
+        <input type="hidden" name="roundId" value="Round_1">
+      </form>
+
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 2" />
+        <input type="hidden" name="roundId" value="Round_2">
+      </form>
+
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 3" />
+        <input type="hidden" name="roundId" value="Round_3">
+      </form>
+   
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 4" />
+        <input type="hidden" name="roundId" value="Round_4">
+      </form>
+    
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 5" />
+        <input type="hidden" name="roundId" value="Round_5">
+      </form>
+    
+      <form method="post" class="navMenu" action="{{ url_for('main.playRound') }}">
+        <input type="submit" class="navMenu" value="ROUND 6" />
+        <input type="hidden" name="roundId" value="Round_6">
+      </form>
+    
+      <form class="navMenu navMenuLastItem" action="{{ url_for('main.endGame') }}">
+        <input type="submit" class="navMenu" value="END GAME" />
+      </form>
     </div>
 
     <div class="container">
-      <div class="titleSmall play">YOU'RE IN</div>
-      <h1 class="title">THE GAME PLAY ROOM</h1><br><br><br>
+      <div class="titleSmall lobby">YOU'RE IN</div>
+      <h1 class="title">THE GAME LOBBY</h1>
+      <br>
 
-      <h2>You're in the game!<br><br>
-        Welcome to the game play room. This will be your homescreen in-between rounds.<br><br>
+    <div class="teamBanner">
+      <h2 class="teamBannerTitle">TEAM NAME: </h2>
+      <h2 class="teamBannerSeparator"> {{ teamName }}</h2>
+      <h2 class="teamBannerTitle">GAME ID: </h2>
+      <h2> {{ gameId }}</h2>
+    </div>
+
+      <br>
+      <h2>Welcome to Town Hall Trivia! And Happy Earth Day :)<br><br>
+        You're in the game lobby. This will be your homescreen in-between rounds.<br><br>
         Once your hosts announce that a round has been unlocked, use the navigation buttons to go to that round's answer form.<br><br>
         Good luck!
       </h2><br>
