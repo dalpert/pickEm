@@ -25,7 +25,7 @@ class RedisClass:
 
 # Game Level Functions
     def createGame(self, gameId):
-        gameKey = gameId
+        gameKey = gameId.lower()
         # print("in createGame")
         if self.redisCxn.exists(gameKey):
             # Game already Exists
@@ -34,20 +34,20 @@ class RedisClass:
 
     def doesGameExist(self, gameId):
         # print("in doesGameExist")
-        key = gameId
+        key = gameId.lower()
         return self.redisCxn.exists(key)
 
     def isGameEnabled(self, gameId):
         # print("in isGameEnabled")
-        key = gameId
+        key = gameId.lower()
         return self.Enabled == self.redisCxn.get(key)
 
     def enableGame(self, gameId):
-        key = gameId
+        key = gameId.lower()
         return self.redisCxn.set(key, self.Enabled)
 
     def disableGame(self, gameId):
-        key = gameId
+        key = gameId.lower()
         return self.redisCxn.set(key, self.Disabled)
 
     def flushDb(self):
@@ -56,7 +56,7 @@ class RedisClass:
 
 # Team Operations
     def addTeamToGame(self, gameId, teamName):
-        key = gameId + self.TeamsKey
+        key = gameId.lower() + self.TeamsKey
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
         existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
@@ -65,7 +65,9 @@ class RedisClass:
             return expectedLength == self.redisCxn.rpush(key, teamName)
         # print("existingTeams: ")
         # print(existingTeams)
-        if teamName not in existingTeams:
+        existingTeams = [eachTeam.lower() for eachTeam in existingTeams]
+        teamNameLower = teamName.lower()
+        if teamNameLower not in existingTeams:
             # print("adding team to list")
             # print("teamName: " + teamName)
             #  rpush returns the number of objects successfully appended
@@ -75,14 +77,14 @@ class RedisClass:
             return False
 
     def getAllTeams(self, gameId):
-        key = gameId + self.TeamsKey
+        key = gameId.lower() + self.TeamsKey
         teamsListLength = self.redisCxn.llen(key)
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
 # Round Operations
     def getEnabledRounds(self, gameId):
-        key = gameId + self.EnabledRounds
+        key = gameId.lower() + self.EnabledRounds
         enabledRounds = []
         if self.redisCxn.exists(key):
             roundsListLength = self.redisCxn.llen(key)
@@ -90,7 +92,7 @@ class RedisClass:
         return enabledRounds
 
     def enableRound(self, gameId, roundId):
-        key = gameId + self.EnabledRounds
+        key = gameId.lower() + self.EnabledRounds
         expectedListLength = self.redisCxn.llen(key) + 1
         returnValue = self.redisCxn.rpush(key, roundId)
         # print("In ENABLEROUND")
@@ -98,19 +100,19 @@ class RedisClass:
         return expectedListLength == returnValue
 
     def disableRound(self, gameId, roundId):
-        key = gameId + self.EnabledRounds
+        key = gameId.lower() + self.EnabledRounds
         returnValue = self.redisCxn.lrem(key, 0, roundId)
         # print("IN DISABLEROUND")
         # print("expectedListLength: " + str(1) + " returnValue: " + str(returnValue))
         return 1 == returnValue
 
     def isRoundEnabled(self, gameId, roundId):
-        enabledRounds = self.getEnabledRounds(gameId)
+        enabledRounds = self.getEnabledRounds(gameId.lower())
         return roundId in enabledRounds
 
 # Round Answer Operations
     def submitTeamAnswers(self, gameId, teamName, roundId, form):
-        key = gameId + '_' + roundId
+        key = gameId.lower() + '_' + roundId
         answers = ""
         print("SUBMITTING ANSWERS")
         if len(form) > 0:
@@ -121,7 +123,7 @@ class RedisClass:
 
     # Get all all answers
     def getRoundAnswers(self, gameId, roundId):
-        key = gameId + '_' + roundId
+        key = gameId.lower() + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
         # Return as dictionary teamName:[Answers]
         print("redis. IN GETROUND ANSWERS")
@@ -143,9 +145,14 @@ class RedisClass:
 
         return rowsOfRows
 
+    def getTeamResponseCount(self, gameId, roundId):
+        key = gameId.lower() + '_' + roundId
+        teamAnswerDict = self.redisCxn.hgetall(key)
+        return len(teamAnswerDict), len(self.getAllTeams(gameId))
+
 # Answer Key Operations
     def submitAnswerKey(self, gameId, roundId, answers, pointValues):
-        key = gameId + '_' + roundId + self.AnswerKey
+        key = gameId.lower() + '_' + roundId + self.AnswerKey
         answersString = self.WordDelimiter.join(answers)
         pointValuesString = self.WordDelimiter.join(pointValues)
         finalAnswerKeyString = answersString + self.LineDelimeter + pointValuesString
@@ -154,7 +161,7 @@ class RedisClass:
         self.redisCxn.set(key, finalAnswerKeyString)
 
     def getAnswerKey(self, gameId, roundId):
-        key = gameId + '_' + roundId + self.AnswerKey
+        key = gameId.lower() + '_' + roundId + self.AnswerKey
         response = self.redisCxn.get(key)
         rowsOfRows = []
         if not response == None:

@@ -177,6 +177,16 @@ def getAllTeams():
         teamNameString = ",  ".join(teamNames)
         return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
 
+@admin.route('/getTeamResponseCount', methods=["POST"])
+def getTeamResponseCount():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            teamsThatHaveAnswered, totalTeamCount = redisManager.getTeamResponseCount(sessionManager.getAdminGameId(), request.form["roundId"])
+            sessionManager.setMessage(str(teamsThatHaveAnswered) + "/" + str(totalTeamCount) + " have responded")
+            return redirect(url_for("admin.controlPanel"))
+    else:
+        return redirect(url_for("admin.adminLogin"))
+
 @admin.route('/flushDb', methods=["POST"])
 def flushDb():
     if sessionManager.isAdminLoggedIn():

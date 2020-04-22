@@ -2,9 +2,10 @@
   <body> 
     {% extends "admin/layout.html" %}
     {% block content %}
-    <h2>Update Message: {{ message }}</h2>
     <h1>Game Id: {{ gameId }}</h1>
-    <p>Is Game Enabled: {{ isGameEnabled }}</p>
+    <h2>Update Message: <strong>{{ message }}</strong></h2>
+    <h3>Game Management Zone</h3>
+    <h4>Is Game Enabled: {{ isGameEnabled }}</h4>
     <form method="post" action="{{ url_for('admin.toggleGame') }}">
       <label for="toggleGame">Enable/Disable Game:</label>
       <select id="toggleGame" name="toggleGame">
@@ -14,7 +15,8 @@
       <input type="submit" name="submit"/>
     </form>
 
-    <h2>List of Enabled Rounds: {{ enabledRounds }}</h2>
+    <h3>Round Management Zone</h3>
+    <h4>List of Enabled Rounds: {{ enabledRounds }}</h4>
     <form method="post" action="{{ url_for('admin.toggleRound') }}">
       <label for="enableRound">Select A Round To ENABLE:</label>
       <select id="enableRound" name="roundId">
@@ -41,6 +43,20 @@
       <input type="submit" name="submit" value="Disabled"/>
     </form>
 
+    <h3>Round Answer Zone</h3>
+    <form method="post" action="{{ url_for('admin.getTeamResponseCount') }}">
+      <label for="getTeamResponseCount">Get team response count:</label>
+      <select id="getTeamResponseCount" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <input type="submit" name="Submit"/>
+    </form>
+
     <form method="post" action="{{ url_for('admin.getRoundResults') }}">
       <label for="getRoundResults">GetRoundResults:</label>
       <select id="getRoundResults" name="roundId">
@@ -54,11 +70,7 @@
       <input type="submit" name="Submit"/>
     </form>
 
-    <form method="get" action="{{ url_for('admin.getAllTeams') }}">
-      <input type="submit" value="Get a list of all registered teams" />
-    </form>
-
-    <h4>DANGER ZONE below this point (mainly used for testing)</h4>
+    <h3>DANGER ZONE below this point (mainly used for testing)</h3>
     <form method="post" action="{{ url_for('admin.flushDb') }}">
       <input type="submit" value="Flush the database" />
     </form>
