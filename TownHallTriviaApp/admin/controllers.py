@@ -153,12 +153,12 @@ def answerKey():
 def submitAnswerKeySuccess():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
-            answers = [request.form['Question1'],
-            request.form['Question2'],
-            request.form['Question3'],
-            request.form['Question4'],
-            request.form['Question5'],
-            request.form['Question6']]
+            answers = [request.form['Answer1'],
+            request.form['Answer2'],
+            request.form['Answer3'],
+            request.form['Answer4'],
+            request.form['Answer5'],
+            request.form['Answer6']]
             pointValues = [request.form['Question1_ExpectedPoints'],
             request.form['Question2_ExpectedPoints'],
             request.form['Question3_ExpectedPoints'],
