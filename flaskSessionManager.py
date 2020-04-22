@@ -25,9 +25,16 @@ class FlaskSessionManager:
     def isAdminGameIdSet(self):
         return self.adminGameId in session
 
+    def isPlayerGameIdSet(self):
+        return self.playerGameId in session
+
     def removeAdminGame(self):
         if self.adminGameId in session:
             session.pop(self.adminGameId, None)
+
+    def removePlayerGame(self):
+        if self.playerGameId in session:
+            session.pop(self.playerGameId, None)
     
     def isTeamRegistered(self):
         return self.teamName in session
