@@ -113,7 +113,7 @@ def playRound():
             return redirect(url_for("main.gameWaitingRoom"))
         sessionManager.setRoundId(request.form["roundId"])
         if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
-            return render_template("main/round.html", teamName=sessionManager.getTeamName(), roundId=sessionManager.getRoundId())
+            return render_template("main/round.html", teamName=sessionManager.getTeamName(), gameId=sessionManager.getPlayerGameId(), roundId=sessionManager.getRoundId())
         return redirect(url_for("main.gamePlayRoom", message="Woah there... " + request.form["roundId"] + " isn't enabled yet, hold your horses!"))
     else:
         sessionManager.setMessage("Stick to clicking buttons, entering url's directly wont get you anywhere. Let's start over.")
