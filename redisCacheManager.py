@@ -1,7 +1,6 @@
 import redis, os
 from flask import session
 import flaskSessionManager as flaskManager
-import numpy
 
 QuestionNames = ["Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]
 
@@ -115,11 +114,11 @@ class RedisClass:
     def submitTeamAnswers(self, gameId, teamName, roundId, form):
         key = gameId.lower() + '_' + roundId
         answers = ""
-        print("SUBMITTING ANSWERS")
+        # print("SUBMITTING ANSWERS")
         if len(form) > 0:
-            print("UPDATING ANSWERS")
+            # print("UPDATING ANSWERS")
             answers = self.WordDelimiter.join(map(str, form.values()))
-            print(answers)
+            # print(answers)
             self.redisCxn.hset(key, teamName, answers)
 
     # Get all all answers
@@ -127,8 +126,8 @@ class RedisClass:
         key = gameId.lower() + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
         # Return as dictionary teamName:[Answers]
-        print("redis. IN GETROUND ANSWERS")
-        print(teamAnswerDict)
+        # print("redis. IN GETROUND ANSWERS")
+        # print(teamAnswerDict)
         rowsOfRows = []
         for key in teamAnswerDict:
             row = [key]
@@ -145,14 +144,13 @@ class RedisClass:
             rowsOfRows.append(row)
 
         # Sort rows based on first column
-        print("IN redis. GETROUND ANSWERS")
-        # sorted_array = rowsOfRows[numpy.argsort(rowsOfRows[0])]
+        # print("IN redis. GETROUND ANSWERS")
         # print(sorted_array)
         # print("sorted_array")
         sortedRowsOfRows = sorted(rowsOfRows, key=lambda row: row[0].lower(), reverse=False)
-        print("sortedlist")
-        print(sortedRowsOfRows)
-        return sortedRowsOfRows
+        # print("sortedlist")
+        # print(sortedRowsOfRows)
+        return rowsOfRows
 
     def getTeamResponseCount(self, gameId, roundId):
         key = gameId.lower() + '_' + roundId
@@ -165,8 +163,8 @@ class RedisClass:
         answersString = self.WordDelimiter.join(answers)
         pointValuesString = self.WordDelimiter.join(pointValues)
         finalAnswerKeyString = answersString + self.LineDelimeter + pointValuesString
-        print("redis . IN SUBMIT ANSWER KEY")
-        print(finalAnswerKeyString)
+        # print("redis . IN SUBMIT ANSWER KEY")
+        # print(finalAnswerKeyString)
         self.redisCxn.set(key, finalAnswerKeyString)
 
     def getAnswerKey(self, gameId, roundId):
