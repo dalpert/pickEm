@@ -4,18 +4,20 @@
   <head>
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body>
+  <body class="body">
     <header>
       <div class="container">
       <h1 class="logo">Town Hall Trivia</h1>
     </header>
-    <h2>{{ message }}</h2>
-    <h1>Welcome to the Game Waiting room where you can wait for the game to start.</h1>
-    <h2>Waiting for Game with Game Id: {{ gameId }}</h2>
-    <h2>Once we enable this game, you will be able to register a team with the link below, until then the link won't get you anywhere.</h2>
-    <form method="get" action="{{ url_for('main.gameWaitingRoom') }}">
-      <input type="submit" value="Click here to check if the Game is on!" />
-    </form><br><br><br>
+    <h1>Hang tight folks, the game will start soon!</h1><br><br>
+    <h2>Waiting for game with game id: {{ gameId }}</h2>
+    <h2>Once we enable this game you will be able to register your team with the button below, until then the link won't get you anywhere.</h2>
+    <div class="waitingRoomContainer">
+      <form method="get" action="{{ url_for('main.gameWaitingRoom') }}">
+        <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Check again</button>
+      </form>
+    </div>
   </body>
 </html>
