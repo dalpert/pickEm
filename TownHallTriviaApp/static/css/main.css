@@ -109,7 +109,7 @@ p.teamName {
 
 body.body {
   background-color: #030302; 
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   margin-left: 20px;
   margin-right: 20px;
   padding: 0;
@@ -164,3 +164,17 @@ h2.waitingRoom {
   text-align: center;
 }
 /* gameWaitingRoom.html */
+
+/* loginAsExistingTeam.html */
+form.existingTeam{
+  display: flex;
+  justify-content: center;
+}
+/* loginAsExistingTeam.html */
+
+
+/* endGame.html */
+h2.endGame {
+  text-align: center;
+}
+/* endGame.html */

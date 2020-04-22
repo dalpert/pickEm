@@ -9,37 +9,35 @@
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
     <div class="container">
-      <div class="picks">
-        <h1 class="title">{{ roundId }}</h1>
-        <p class="teamName">Team: {{ teamName }}</p>
-		    <form method="post" action="{{ url_for('main.submitTeamAnswers') }}">
-          <div class="form-group">
-            <label for="Question1">Question 1</label>
-            <input type="text" class="form-control form-control-lg" name="Question1" id="Question1">
-          </div>
-          <div class="form-group">
-            <label for="Question2">Question 2</label>
-            <input type="text" class="form-control form-control-lg" name="Question2" id="Question2">
-          </div>
-          <div class="form-group">
-            <label for="Question3">Question 3</label>
-            <input type="text" class="form-control form-control-lg" name="Question3" id="Question3">
-          </div>
-          <div class="form-group">
-            <label for="Question4">Question 4</label>
-            <input type="text" class="form-control form-control-lg" name="Question4" id="Question4">
-          </div>
-          <div class="form-group">
-            <label for="Question5">Question 5</label>
-            <input type="text" class="form-control form-control-lg" name="Question5" id="Question5" >
-          </div>
-          <div class="form-group">
-            <label for="Question6">Question 6</label>
-            <input type="text" class="form-control form-control-lg" name="Question6" id="Question6">
-          </div>
-          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Submit</button>
-        </form>
-      </div>
+      <h1 class="title">{{ roundId }}</h1>
+      <p class="teamName">Team: {{ teamName }}</p>
+      <form class="registration" method="post" action="{{ url_for('main.submitTeamAnswers') }}">
+        <div class="form-group">
+          <label for="Question1" class="label">QUESTION 1</label>
+          <input type="text" class="form-control form-control-lg" name="Question1" id="Question1">
+        </div>
+        <div class="form-group">
+          <label for="Question2" class="label">QUESTION 2</label>
+          <input type="text" class="form-control form-control-lg" name="Question2" id="Question2">
+        </div>
+        <div class="form-group">
+          <label for="Question3" class="label">QUESTION 3</label>
+          <input type="text" class="form-control form-control-lg" name="Question3" id="Question3">
+        </div>
+        <div class="form-group">
+          <label for="Question4" class="label">QUESTION 4</label>
+          <input type="text" class="form-control form-control-lg" name="Question4" id="Question4">
+        </div>
+        <div class="form-group">
+          <label for="Question5" class="label">QUESTION 5</label>
+          <input type="text" class="form-control form-control-lg" name="Question5" id="Question5" >
+        </div>
+        <div class="form-group">
+          <label for="Question6" class="label">QUESTION 6</label>
+          <input type="text" class="form-control form-control-lg" name="Question6" id="Question6">
+        </div>
+        <button type="submit" value="Submit" class="btn btn-primary submit submitButton">SUBMIT</button>
+      </form>
     </div>
   </body>
 </html>
