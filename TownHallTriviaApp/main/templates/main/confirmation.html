@@ -9,21 +9,20 @@
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
 
-    <div class="teamBanner">
-      <h1 class="teamBannerTitle">TEAM NAME: </h1>
+    <div class="navMenuBanner">
+      <h1 class="navMenuBannerTitle">TEAM NAME: </h1>
       <h1 class="teamBannerSeparator"> {{ teamName }}</h1>
-      <h1 class="teamBannerTitle">GAME ID: </h1>
+      <h1 class="navMenuBannerTitle">GAME ID: </h1>
       <h1> {{ gameId }}</h1>
     </div>
 
     <div class="container">
-      <br><br><br>
       <h1 class="title">{{ message }}</h1><br><br><br>
       <h2 class="waitingRoom">LET'S CONTINUE WITH THE GAME!
       </h2><br>
       <div class="waitingRoomContainer">
         <form action="{{ url_for('main.gamePlayRoom') }}">
-          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">GAME PLAY ROOM</button>
+          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">WAITING ROOM</button>
         </form>
       </div>
     </div>
