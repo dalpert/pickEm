@@ -182,7 +182,13 @@ div.titleSmall {
   margin-top: 20px;
   font-size: 40px;
   padding: 0;
+
+}
+div.wait {
   margin-left: 275px;
+}
+div.lobby {
+  margin-left: 305px;
 }
 .waitingRoomContainer {
   display: flex;
