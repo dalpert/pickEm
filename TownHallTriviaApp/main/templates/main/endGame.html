@@ -11,18 +11,8 @@
     <br><br>
     <h1 class="title">THANKS FOR PLAYING!</h1>
     <h2 class="endGame">WE'LL ANNOUNCE THE SCORES SHORTLY</h2><br>
-    <form method="get" class="existingTeam" action="{{ url_for('main.enterGameId') }}">
-      <button type="submit" value="Submit" class="btn btn-primary submit submitButton">JOIN A NEW GAME</button>
+    <form method="get" class="existingTeam" action="https://docs.google.com/spreadsheets/d/1RAkjYa7G8byVnfHKc0nniQpsi42vtenlHWa1QNU4XNU/edit?usp=sharing">
+      <button type="submit" value="Submit" class="btn btn-primary submit submitButton">SIGN UP FOR NEXT WEEK</button>
     </form>
-    <!-- <div class="registrationContainer">
-        <form class="registration" method="post" action="{{ url_for('main.registerTeamForNextWeek') }}">
-          <div class="form-group">
-            <label class="label col-form-label" for="teamName">REGISTER FOR NEXT WEEK:</label>
-            <input type="text" placeholder="Team Name" class="form-control form-control-lg" name="teamName" id="teamName">
-            <input type="text" placeholder="Primary Email Contact" class="form-control form-control-lg" name="emailContact" id="emailContact">
-          </div>
-          <button type="submit" value="Submit" class="btn btn-primary submit submitButton">REGISTER</button>
-        </form>
-      </div> -->
   </body>
 </html>
