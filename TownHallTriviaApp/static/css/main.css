@@ -63,6 +63,10 @@ h1.title {
   font-size: 60px !important;
   text-align: center;
 }
+h1.title.small {
+  font-size: 40px !important;
+  text-align: center;
+}
 /* Header */
 
 /* Forms */
