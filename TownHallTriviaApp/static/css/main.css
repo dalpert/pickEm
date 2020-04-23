@@ -145,9 +145,6 @@ h2.teamBannerTitle {
   flex-grow: 1;
   text-align: center;
 }
-h2.teamBannerSeparator {
-  padding-right: 300px;
-}
 div.navMenuBanner {
   background: #262625;
   display: flex;
@@ -164,9 +161,13 @@ input.navMenu {
 h1.navMenuBannerTitle {
   color: #cf2971;
   padding-right: 5px;
+  flex-grow: 1;
+  text-align: center;
 }
-h1.teamBannerSeparator {
-  padding-right: 300px;
+span.navMenuBannerContent {
+  padding: 0px;
+  margin: 0px;
+  color: white;
 }
 form.navMenu {
   padding-right: 10px;
