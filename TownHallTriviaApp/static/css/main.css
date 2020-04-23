@@ -142,6 +142,8 @@ div.teamBanner {
 }
 h2.teamBannerTitle {
   padding: 0px;
+  flex-grow: 1;
+  text-align: center;
 }
 h2.teamBannerSeparator {
   padding-right: 300px;
