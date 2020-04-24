@@ -7,10 +7,14 @@ redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
 
 @main.route('/')
-def enterGameId():
+def homePage():
     sessionManager.removePlayerGame()
     sessionManager.unregisterTeam()
-    return render_template('main/enterGameId.html')
+    # shouldPresentSignUpPage, date = redisManager.presentSignUpFormOnHomePage()
+    if False:
+        return render_template("main/signUpForNextWeek.html")
+    else:
+        return render_template('main/enterGameId.html')
 
 @main.route('/validateGameId', methods = ["POST", "GET"])
 def validateGameId():
@@ -25,7 +29,7 @@ def validateGameId():
         else:
             return redirect(url_for("main.gameWaitingRoom"))
     else:
-        return redirect(url_for("main.enterGameId"))
+        return redirect(url_for("main.homePage"))
 
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
@@ -149,4 +153,4 @@ def registerTeamForNextWeek():
     if request.method == "POST":
         if not redisManager.registerTeamForNextWeek(sessionManager.getPlayerGameId(), request.form["teamName"], request.form["emailContact"]):
             return redirect(url_for("main.endGame"))
-        return redirect(url_for("main.enterGameId"))
+        return redirect(url_for("main.homePage"))
