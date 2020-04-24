@@ -9,21 +9,15 @@
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
     <div class="container">
-      <!-- <h1 class="title">WELCOME!</h1> -->
-      <h1 class="title">HOPE YOU ENJOYED TRIVIA!</h1>
-      <h1 class="title small">SEE YOU AGAIN NEXT WEDNESDAY</h1>
-      <h1 class="title small">APRIL 29 @ 9PM EST</h1>
+      <h1 class="title">WELCOME!</h1>
       <div class="registrationContainer">
-        <!-- <form class="registration" method="post" action="{{ url_for('main.validateGameId') }}">
+        <form class="registration" method="post" action="{{ url_for('main.validateGameId') }}">
           <div class="form-group">
             <label class="primaryLabel label col-form-label" for="gameId">ENTER THE GAME ID:</label>
             <small id="idHelp" class="secondaryLabel form-text text-muted">(SENT VIA EMAIL OR IN THE FACEBOOK GROUP)</small>
             <input type="text" class="form-control form-control-lg" name="gameId" id="gameId">
           </div>
           <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">LET'S PLAY!</button>
-        </form> -->
-        <form method="get" class="existingTeam" action="https://docs.google.com/spreadsheets/d/1RAkjYa7G8byVnfHKc0nniQpsi42vtenlHWa1QNU4XNU/edit?usp=sharing">
-          <button type="submit" value="Submit" class="btn btn-primary submit submitButton">SIGN UP</button>
         </form>
       </div>
     </div>

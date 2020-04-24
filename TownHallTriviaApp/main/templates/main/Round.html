@@ -16,7 +16,7 @@
 
     <div class="container">
       <h1 class="title">{{ roundId }}</h1>
-      <form class="registration" method="post" action="{{ url_for('main.submitTeamAnswers') }}">
+      <form class="registration" autocomplete="off" method="post" action="{{ url_for('main.submitTeamAnswers') }}">
         <div class="form-group">
           <label for="Question1" class="label">QUESTION 1</label>
           <input type="text" placeholder="Your answer here" class="form-control form-control-lg" name="Question1" id="Question1">
