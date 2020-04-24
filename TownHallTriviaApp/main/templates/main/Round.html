@@ -5,14 +5,18 @@
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='javascript/countdownClock.js') }}"></script>
   </head>
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
-
     <div class="navMenuBanner">
       <h1 class="navMenuBannerTitle">TEAM NAME: <span class="navMenuBannerContent">{{ teamName }}</span></h1>
       <h1 class="navMenuBannerTitle">GAME ID: <span class="navMenuBannerContent">{{ gameId }}</span></h1>
     </div>
+
+    
+    <div id="clockdiv"></div>
+    <script>initializeClock("clockdiv", 'April 26 2020');</script>
 
     <div class="container">
       <h1 class="title">{{ roundId }}</h1>
