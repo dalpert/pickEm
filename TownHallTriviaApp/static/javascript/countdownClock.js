@@ -23,7 +23,7 @@ function initializeClock(clockId, buttonId, endtime) {
     minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
     secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-    if (t.total <= 0) {
+    if (t.minutes <= 0 && t.seconds <= 0) {
       clearInterval(timeinterval);
     }
   }
