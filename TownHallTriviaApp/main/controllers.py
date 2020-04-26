@@ -133,7 +133,7 @@ def checkCountdownClock():
     # Convert dict to string
     info = json.dumps(info)
     # enabled = True
-    info = "enabled: " + str(enabled) + ", endTime: " + endTime
+    # info = "enabled: " + str(enabled) + ", endTime: " + endTime
     if enabled:
         sessionManager.toggleCountdownClockEnabled(True)
     return info
