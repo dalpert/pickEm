@@ -21,11 +21,11 @@ function initializeClock(id, endtime){
                       'hours: '+ t.hours + '<br>' +
                       'minutes: ' + t.minutes + '<br>' +
                       'seconds: ' + t.seconds;
+    // clock.innerHTML = 'seconds: ' + t.seconds;
     if(t.total<=0){
       clearInterval(timeinterval);
     }
   },1000);
 }
 
-// var deadline = 'April 26 2020';
-// initializeClock('clockdiv', deadline);
+

@@ -5,6 +5,7 @@
     <title>Town Hall Trivia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='javascript/countdownClock.js') }}"></script>
   </head>
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
@@ -15,8 +16,27 @@
     </div>
 
     
-    <div id="clockdiv"></div>
-    <script>initializeClock("clockdiv", 'April 26 2020');</script>
+    <h1 id="countdownClock">HOVER HERE TO SEE COUNTDOWN CLOCK</h1>
+    <script>
+      $("#countdownClock").on("mouseenter", function(){
+          $.ajax({
+            url: "/checkCountdownClock",
+            type: "get",
+            data: "",
+            success: function(response) {
+              console.log(response)
+              response = JSON.parse(response)
+              
+              if (response["AdminEnabled"] && !response["ClientEnabled"]) {
+                initializeClock("countdownClock", response["EndTime"]);
+              }
+            },
+            error: function(xhr) {
+              //Do Something to handle error
+            }
+          });
+      });
+    </script>
 
     <div class="container">
       <h1 class="title">{{ roundId }}</h1>

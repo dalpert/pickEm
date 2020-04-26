@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, session, url_for, redirect, request
+import json
 import redisCacheManager
 import flaskSessionManager
 
@@ -116,12 +117,24 @@ def playRound():
             sessionManager.setMessage("Trivia Game \"" + sessionManager.getPlayerGameId() + "\" is no longer Enabled")
             return redirect(url_for("main.gameWaitingRoom"))
         sessionManager.setRoundId(request.form["roundId"])
+        sessionManager.toggleCountdownClockEnabled(False)
+        redisManager.disableCountdownClock(sessionManager.getPlayerGameId())
         if redisManager.isRoundEnabled(sessionManager.getPlayerGameId(), sessionManager.getRoundId()):
             return render_template("main/round.html", teamName=sessionManager.getTeamName(), gameId=sessionManager.getPlayerGameId(), roundId=sessionManager.getRoundId())
         return redirect(url_for("main.gamePlayRoom", message="Woah there... " + request.form["roundId"] + " isn't enabled yet, hold your horses!"))
     else:
         sessionManager.setMessage("Stick to clicking buttons, entering url's directly wont get you anywhere. Let's start over.")
         return redirect(url_for("main.error"))
+
+@main.route("/checkCountdownClock")
+def checkCountdownClock():
+    enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getPlayerGameId())
+    info = {"AdminEnabled" : enabled, "EndTime" : endTime, "ClientEnabled" : sessionManager.getCountdownClockEnabled()}
+    # Convert dict to string
+    info = json.dumps(info)
+    if enabled:
+        sessionManager.toggleCountdownClockEnabled(True)
+    return info
 
 @main.route('/submitTeamAnswers', methods = ["POST", "GET"])
 def submitTeamAnswers():

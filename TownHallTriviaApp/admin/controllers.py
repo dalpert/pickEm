@@ -106,6 +106,24 @@ def toggleRound():
     else:
         return redirect(url_for("admin.adminLogin"))
 
+@admin.route('/setCountdownClockInfo', methods=["POST"])
+def setCountdownClockInfo():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            remainingSeconds = 0
+            try:
+                remainingSeconds = int(request.form["remainingSeconds"])
+            except ValueError:
+                print(request.form["remainingSeconds"] + " Can't be converted to an INT")
+                sessionManager.setMessage("\"" + request.form["remainingSeconds"] + "\" is not a valid value for the countdownClock")
+                return redirect(url_for('admin.controlPanel'))
+            redisManager.setCountdownClockInfo(sessionManager.getAdminGameId(), remainingSeconds)
+            sessionManager.setMessage("Enabled countDown Clock with " + request.form["remainingSeconds"] + " seconds remaining")
+        return redirect(url_for('admin.controlPanel'))
+    else:
+        return redirect(url_for("admin.adminLogin"))
+
+
 @admin.route('/getRoundResults', methods=["POST"])
 def getRoundResults():
     if sessionManager.isAdminLoggedIn():

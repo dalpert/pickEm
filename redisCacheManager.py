@@ -1,6 +1,7 @@
 import redis, os
 from flask import session
 import flaskSessionManager as flaskManager
+from datetime import datetime, timedelta
 
 QuestionNames = ["Question1", "Question2", "Question3", "Question4", "Question5", "Question6"]
 
@@ -22,7 +23,8 @@ class RedisClass:
         self.AnswerKey = "_AnswerKey"
         self.WordDelimiter = "]::["
         self.LineDelimeter = "(\n)"
-        self.RegisterTeamForNextWeek = "NextWeek"
+        self.CountdownClock = "_CountdownClock"
+
 
 # Game Level Functions
     def createGame(self, gameId):
@@ -124,6 +126,25 @@ class RedisClass:
     def isRoundEnabled(self, gameId, roundId):
         enabledRounds = self.getEnabledRounds(gameId.lower())
         return roundId in enabledRounds
+
+    def setCountdownClockInfo(self, gameId, remainingSeconds):
+        key = gameId.lower() + self.CountdownClock
+        endTime = datetime.now() + timedelta(0, remainingSeconds)
+        info = self.Enabled + self.WordDelimiter + endTime.strftime("%B %d %Y %H:%M:%S")
+        return self.redisCxn.set(key, info)
+
+    def disableCountdownClock(self, gameId):
+        key = gameId.lower() + self.CountdownClock
+        info = self.Disabled + self.WordDelimiter + "endTime"
+        return self.redisCxn.set(key, info)
+
+    def getCountdownClockInfo(self, gameId):
+        key = gameId.lower() + self.CountdownClock
+        if not self.redisCxn.exists(key):
+            return False, "endTime"
+        info = self.redisCxn.get(key)
+        infoList = info.split(self.WordDelimiter)
+        return self.Enabled == infoList[0], infoList[1]
 
 # Round Answer Operations
     def submitTeamAnswers(self, gameId, teamName, roundId, form):

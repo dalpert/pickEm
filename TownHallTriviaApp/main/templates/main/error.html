@@ -14,7 +14,7 @@
       <h2 class="waitingRoom">GAME ID: {{ gameId }}</h2>
       <h2 class="waitingRoom">{{ message }}</h2>
       <div class="errorContainer">
-        <form method="get" action="{{ url_for('main.enterGameId') }}">
+        <form method="get" action="{{ url_for('main.homePage') }}">
           <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">TRY AGAIN</button>
         </form>
       </div>
