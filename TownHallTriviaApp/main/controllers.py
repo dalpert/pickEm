@@ -129,7 +129,7 @@ def playRound():
 @main.route("/checkCountdownClock")
 def checkCountdownClock():
     enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getPlayerGameId())
-    # info = {"AdminEnabled" : enabled, "EndTime" : endTime, "ClientEnabled" : sessionManager.getCountdownClockEnabled()}
+    info = {"AdminEnabled" : enabled, "EndTime" : endTime, "ClientEnabled" : sessionManager.getCountdownClockEnabled()}
     # Convert dict to string
     # info = json.dumps(info)
     enabled = True
