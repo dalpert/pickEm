@@ -8,17 +8,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='javascript/countdownClock.js') }}"></script>
   </head>
-  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <!-- <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}"> -->
   <body class="body">
-    <div class="navMenuBanner">
+    <br><br><div class="navMenuBanner">
       <h1 class="navMenuBannerTitle">TEAM NAME: <span class="navMenuBannerContent">{{ teamName }}</span></h1>
       <h1 class="navMenuBannerTitle">GAME ID: <span class="navMenuBannerContent">{{ gameId }}</span></h1>
     </div>
 
-    
-    <h1 id="countdownClock">HOVER HERE TO SEE COUNTDOWN CLOCK</h1>
+    <body class="clock">
+      <div id="clockdiv">
+        <div>
+          <span class="minutes"></span>
+          <div class="smalltext">Minutes</div>
+        </div>
+        <div>
+          <span class="seconds"></span>
+          <div class="smalltext">Seconds</div>
+        </div>
+      </div>
+    </body>
+
+    <button id="clockhover" class="btn btn-primary submit text-left clockHoverButton">Hover to see Countdown Clock Once Enabled</button>
     <script>
-      $("#countdownClock").on("mouseenter", function(){
+      $("#clockhover").on("mouseenter", function(){
           $.ajax({
             url: "/checkCountdownClock",
             type: "get",
@@ -28,7 +40,7 @@
               response = JSON.parse(response)
               
               if (response["AdminEnabled"] && !response["ClientEnabled"]) {
-                initializeClock("countdownClock", response["EndTime"]);
+                initializeClock("clockdiv", "clockhover",  response["EndTime"]);
               }
             },
             error: function(xhr) {
