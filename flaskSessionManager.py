@@ -12,6 +12,7 @@ class FlaskSessionManager:
         self.playerGameId = "playerGameId"
         self.message = "message"
         self.adminLogin = "adminLogin"
+        self.countdownClockEnabled = "countdownClockEnabled"
 
     def toggleAdminLoggedInState(self, loggedIn):
         session[self.adminLogin] = loggedIn
@@ -21,6 +22,14 @@ class FlaskSessionManager:
         if loggedIn:
             loggedIn = session[self.adminLogin] == True
         return loggedIn
+
+    def toggleCountdownClockEnabled(self, enable):
+        session[self.countdownClockEnabled] = enable
+
+    def getCountdownClockEnabled(self):
+        if self.countdownClockEnabled not in session:
+            return False
+        return session[self.countdownClockEnabled] == True
 
     def isAdminGameIdSet(self):
         return self.adminGameId in session

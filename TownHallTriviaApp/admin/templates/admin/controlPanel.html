@@ -43,6 +43,12 @@
       <input type="submit" name="submit" value="Disabled"/>
     </form>
 
+    <form method = "post" action = "{{ url_for('admin.setCountdownClockInfo') }}">
+      <label for="setCountdownClockInfo">Enable Coundown Clock:</label><br>
+      <input type="text" placeholder="Remaining time (in seconds)" id="setCountdownClockInfo" name="remainingSeconds" size="50"><br>
+      <input type="submit" value="Submit">
+    </form>
+
     <h3>Round Answer Zone</h3>
     <form method="post" action="{{ url_for('admin.getTeamResponseCount') }}">
       <label for="getTeamResponseCount">Get team response count:</label>

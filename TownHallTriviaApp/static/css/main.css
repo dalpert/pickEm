@@ -111,6 +111,63 @@ body.body {
   padding: 0;
   color: white;
 }
+
+/* Countdown clock */
+button.clockHoverButton {
+  text-align: left;
+  margin-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 16px;
+}
+
+body.clock{
+    text-align: center;
+    background: #00ECB9;
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+h1.clock.{
+  color: #396;
+  font-weight: 100;
+  font-size: 40px;
+  margin: 40px 0px 20px;
+  text-align: right;
+}
+
+#clockdiv{
+    font-family: sans-serif;
+    color: #fff;
+    display: none;
+    font-weight: 100;
+    text-align: center;
+    font-size: 30px;
+}
+
+#clockdiv > div{
+    padding: 10px;
+    border-radius: 3px;
+    /*background: #00BF96;*/
+    display: inline-block;
+    background-color: #cf2971;
+    border-color: white;
+}
+
+#clockdiv div > span{
+    padding: 15px;
+    border-radius: 3px;
+    background: #e75480;
+    display: inline-block;
+}
+
+.smalltext{
+    padding-top: 5px;
+    font-size: 16px;
+}
+/* Countdown clock */
 /* Round.html */
 
 
