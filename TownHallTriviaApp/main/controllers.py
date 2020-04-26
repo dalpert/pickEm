@@ -131,7 +131,7 @@ def checkCountdownClock():
     # enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getPlayerGameId())
     info = {"AdminEnabled" : enabled, "EndTime" : endTime, "ClientEnabled" : sessionManager.getCountdownClockEnabled()}
     # Convert dict to string
-    info = json.dumps(info)
+    # info = json.dumps(info)
     if enabled:
         sessionManager.toggleCountdownClockEnabled(True)
     return info
