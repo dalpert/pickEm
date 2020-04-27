@@ -3,7 +3,7 @@
     {% extends "admin/layout.html" %}
     {% block content %}
     <h1>Game Id: {{ gameId }}</h1>
-    <h2>Update Message: <strong>{{ message }}</strong></h2>
+    <h2 id="message">Update Message: <strong>{{ message }}</strong></h2>
     <h3>Game Management Zone</h3>
     <h4>Is Game Enabled: {{ isGameEnabled }}</h4>
     <form method="post" action="{{ url_for('admin.toggleGame') }}">
@@ -48,6 +48,54 @@
       <input type="text" placeholder="Remaining time (in seconds)" id="setCountdownClockInfo" name="remainingSeconds" size="50"><br>
       <input type="submit" value="Submit">
     </form>
+
+    <form method="post" id="autoDisableRound" action="{{ url_for('admin.getRoundEndTime') }}">
+      <label for="autoDisableRound">Select A Round To AUTO-DISABLE:</label>
+      <select id="autoDisableRound" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <input type="submit" name="submit" value="submit"/>
+    </form>
+
+    <body class="clock">
+      <div id="clockdiv">
+        <div>
+          <span class="minutes"></span>
+          <div class="smalltext">Minutes</div>
+        </div>
+        <div>
+          <span class="seconds"></span>
+          <div class="smalltext">Seconds</div>
+        </div>
+      </div>
+    </body>
+
+    <script>
+      $("#autoDisableRound").submit(function(event){
+        event.preventDefault(); //prevent default action 
+        var post_url = $(this).attr("action"); //get form action url
+        var request_method = $(this).attr("method"); //get form GET/POST method
+        var form_data = $(this).serialize(); //Encode form elements for submission
+        $.ajax({
+          url : post_url,
+          type: request_method,
+          data : form_data,
+          success: function(response) {
+            console.log(response)
+            response = JSON.parse(response)
+            autoDisableRound("clockdiv", form_data, response["endTime"]);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+          }
+        })
+      });
+    </script>
 
     <h3>Round Answer Zone</h3>
     <form method="post" action="{{ url_for('admin.getTeamResponseCount') }}">

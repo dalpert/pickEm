@@ -131,7 +131,7 @@ class RedisClass:
         key = gameId.lower() + self.CountdownClock
         endTime = datetime.now() + timedelta(0, remainingSeconds)
         info = self.Enabled + self.WordDelimiter + endTime.strftime("%B %d %Y %H:%M:%S")
-        return self.redisCxn.set(key, info)
+        return self.redisCxn.set(key, info), endTime.strftime("%B %d %Y %H:%M:%S")
 
     def disableCountdownClock(self, gameId):
         key = gameId.lower() + self.CountdownClock
@@ -144,6 +144,7 @@ class RedisClass:
             return False, "endTime"
         info = self.redisCxn.get(key)
         infoList = info.split(self.WordDelimiter)
+        # Enabled, endTime
         return self.Enabled == infoList[0], infoList[1]
 
 # Round Answer Operations

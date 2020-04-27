@@ -1,0 +1,121 @@
+---
+Team_Name --> Overall_Score
+Question_X, Exp_Score, Act_Score, Team_Ans | Official_Ans
+---
+
+ --> 0
+Question_1	1	0	i am 	|	a
+Question_2	1	0	trying 	|	a
+Question_3	1	0	to finish	|	a
+Question_4	1	0	but it looks like i may	|	a
+Question_5	1	0	run out of time before i can p	|	a
+Question_6	1	0	[No Answer]	|	a
+
+1 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+123 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+1234 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+12356 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+bloop --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+EmTest --> 3
+Question_3	1	0	b	|	a
+Question_4	1	0	b	|	a
+Question_6	1	0	c	|	a
+
+Middle of the Pack --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+ricolas --> 0
+Question_1	1	0	emily sucks at IT	|	a
+Question_2	1	0	emily sucks at IT	|	a
+Question_3	1	0	emily sucks at IT	|	a
+Question_4	1	0	emily sucks at IT	|	a
+Question_5	1	0	emily sucks at IT	|	a
+Question_6	1	0	emily sucks at IT	|	a
+
+sploop --> 0
+Question_1	1	0	sd	|	a
+Question_2	1	0	fgc	|	a
+Question_3	1	0	gfc	|	a
+Question_4	1	0	gfc	|	a
+Question_5	1	0	gfc	|	a
+Question_6	1	0	gfc	|	a
+
+team 10 --> 0
+Question_1	1	0	q	|	a
+Question_2	1	0	q	|	a
+Question_3	1	0	q	|	a
+Question_4	1	0	q	|	a
+Question_5	1	0	q	|	a
+Question_6	1	0	q	|	a
+
+team1 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+team10 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+team9 --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a
+
+Test --> 0
+Question_1	1	0	[No Answer]	|	a
+Question_2	1	0	[No Answer]	|	a
+Question_3	1	0	[No Answer]	|	a
+Question_4	1	0	[No Answer]	|	a
+Question_5	1	0	[No Answer]	|	a
+Question_6	1	0	[No Answer]	|	a

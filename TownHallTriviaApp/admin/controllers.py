@@ -3,6 +3,7 @@ import redisCacheManager
 import flaskSessionManager
 import autoGrader as autoGraderClass
 import os, csv
+import json
 
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="")
 redisManager = redisCacheManager.RedisClass()
@@ -95,7 +96,9 @@ def toggleGame():
 def toggleRound():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
-            if request.form["submit"] == "Enabled":
+            print(request.form)
+            print(request.form.get("submit"))
+            if request.form.get("submit") == "Enabled":
                 redisManager.enableRound(sessionManager.getAdminGameId(), request.form["roundId"])
             elif request.form["submit"] == "Disabled":
                 redisManager.disableRound(sessionManager.getAdminGameId(), request.form["roundId"])
@@ -103,6 +106,21 @@ def toggleRound():
                 return redirect(url_for("admin.gameIdError", gameId=sessionManager.getAdminGameId(), message="Expected: Enabled/Disabled" + request.form["submit"]))
         sessionManager.setMessage(request.form["submit"] + " " + request.form["roundId"])
         return redirect(url_for('admin.controlPanel'))
+    else:
+        return redirect(url_for("admin.adminLogin"))
+
+@admin.route('/getRoundEndTime', methods=["POST"])
+def getRoundEndTime():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            request.form["roundId"]
+            enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getAdminGameId())
+            sessionManager.setMessage("AutoDisabled has been enabled for " + request.form["roundId"])
+            info = {"endTime" : endTime}
+            # Convert dict to string
+            info = json.dumps(info)
+            print(info)
+            return info
     else:
         return redirect(url_for("admin.adminLogin"))
 
@@ -117,8 +135,8 @@ def setCountdownClockInfo():
                 print(request.form["remainingSeconds"] + " Can't be converted to an INT")
                 sessionManager.setMessage("\"" + request.form["remainingSeconds"] + "\" is not a valid value for the countdownClock")
                 return redirect(url_for('admin.controlPanel'))
-            redisManager.setCountdownClockInfo(sessionManager.getAdminGameId(), remainingSeconds)
-            sessionManager.setMessage("Enabled countDown Clock with " + request.form["remainingSeconds"] + " seconds remaining")
+            success, endtime = redisManager.setCountdownClockInfo(sessionManager.getAdminGameId(), remainingSeconds)
+            sessionManager.setMessage("Enabled countDown Clock with " + request.form["remainingSeconds"] + " seconds remaining. Auto Submissions at: " + endtime)
         return redirect(url_for('admin.controlPanel'))
     else:
         return redirect(url_for("admin.adminLogin"))

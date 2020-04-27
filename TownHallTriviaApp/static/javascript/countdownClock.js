@@ -12,8 +12,6 @@ function getTimeRemaining(endtime) {
 function initializeClock(clockId, buttonId, endtime) {
   var clock = document.getElementById(clockId);
   clock.style.display = 'block';
-  var button = document.getElementById(buttonId);
-  button.style.display = 'none';
   var minutesSpan = clock.querySelector('.minutes');
   var secondsSpan = clock.querySelector('.seconds');
 
@@ -24,6 +22,7 @@ function initializeClock(clockId, buttonId, endtime) {
     secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
     if (t.minutes <= 0 && t.seconds <= 0) {
+      document.getElementById("roundForm").submit();
       clearInterval(timeinterval);
     }
   }
