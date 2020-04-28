@@ -16,7 +16,7 @@
     </form>
 
     <h3>Round Management Zone</h3>
-    <h4>List of Enabled Rounds: {{ enabledRounds }}</h4>
+    <h5>List of Enabled Rounds: {{ enabledRounds }}</h5>
     <form method="post" action="{{ url_for('admin.toggleRound') }}">
       <label for="enableRound">Select A Round To ENABLE:</label>
       <select id="enableRound" name="roundId">
@@ -56,7 +56,10 @@
       </div>
     </body>
 
+    <h5>Auto-Disable rounds with fancy countdown clock</h5>
     <form method = "post" id="autoDisableRound" action = "{{ url_for('admin.setCountdownClockInfo') }}">
+      <label for="remainingSeconds">Input Remaining Time:</label><br>
+      <input type="text" placeholder="Remaining time (in seconds)" id="remainingSeconds" name="remainingSeconds" size="50"><br>
       <label for="roundId">Select A Round To AUTO-DISABLE:</label>
       <select id="roundId" name="roundId">
         <option value="Round_1">Round 1</option>
@@ -66,10 +69,9 @@
         <option value="Round_5">Round 5</option>
         <option value="Round_6">Round 6</option>
       </select>
-      <label for="remainingSeconds">Input Remaining Time:</label><br>
-      <input type="text" placeholder="Remaining time (in seconds)" id="remainingSeconds" name="remainingSeconds" size="50"><br>
       <input type="submit" name="submit" value="Submit">
     </form>
+    <h6><strong>Note:</strong> The admin clock is 10 seconds behind the players' clock. The player's forms will auto-submit when their clock hits 0, and the round will be disabled when the admin clock reaches 0.</h6>
 
     <script>
       $("#autoDisableRound").submit(function(event){

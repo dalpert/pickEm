@@ -31,7 +31,8 @@ function autoDisableRound(clockId, roundId, endTime) {
                     function(data,status){ 
                         var message = document.getElementById("message");
                         message.innerHTML = "Disabled " + roundId;
-                        window.location.reload(true);
+                        console.log(window.location.href )
+                        location.assign(window.location.href)
                     });
                 clearInterval(timeinterval);
             }

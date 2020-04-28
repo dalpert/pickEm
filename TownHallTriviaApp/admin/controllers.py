@@ -119,7 +119,7 @@ def getRoundEndTime():
             # lock the round 2 seconds after the client's forced form submission
             endTimeObject = datetime.strptime(endTime, "%B %d %Y %H:%M:%S")
             print("in getRoundEndTime::::")
-            endTimeObject = endTimeObject + timedelta(0, 1)
+            endTimeObject = endTimeObject + timedelta(0, 10)
             endTime = endTimeObject.strftime("%B %d %Y %H:%M:%S")
             print(" in py. getRoundEntime")
             print(endTime)
@@ -148,7 +148,6 @@ def setCountdownClockInfo():
         return redirect(url_for('admin.controlPanel'))
     else:
         return redirect(url_for("admin.adminLogin"))
-
 
 @admin.route('/getRoundResults', methods=["POST"])
 def getRoundResults():
