@@ -18,7 +18,6 @@ class autoGraderClass:
         self.roundId = ""
     
     def gradeAndWriteFiles(self, allTeamAnswers, fullAnswerKey, roundId):
-        print("In autoGrader")
         self.initializeOutputFileHeaders()
         self.parseAnswerKey(fullAnswerKey)
         self.roundId = roundId
@@ -44,10 +43,6 @@ class autoGraderClass:
         return correct
     
     def CheckAnswers(self, teamName, teamAnswers):
-        print("autoGrader . in CHECK ANSWERS")
-        print("teamName: " + teamName)
-        print("teamAnswers:")
-        print(teamAnswers)
         answerInfoInsertLocation = len(self.perAnswerInfo)
         score = 0
         for i in range(0, len(teamAnswers)):
@@ -86,15 +81,11 @@ class autoGraderClass:
         info = ""
         for line in self.perAnswerInfo:
             info = info + line + "\n"
-        print("AUTO GRADER DIR")
-        print(os.listdir())
         outputFile = open(os.path.join(self.outputFolder, self.roundId + self.detailedOutputFileName), "w")
         outputFile.write(info)
         outputFile.close()
 
     def writeRawDataToTextFile(self, rawData):
-        print("writing raw data:")
-        print(rawData)
         rawData.insert(0, ["Team Name", "Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"])
         with open(os.path.join(self.outputFolder, self.roundId + self.rawOutputFileName), "w", newline="") as f:
             writer = csv.writer(f)
