@@ -113,9 +113,10 @@ def toggleRound():
 def getRoundEndTime():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
-            request.form["roundId"]
             enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getAdminGameId())
-            sessionManager.setMessage("AutoDisabled has been enabled for " + request.form["roundId"])
+            print(" in py. getRoundEntime")
+            print(request.form)
+            sessionManager.setMessage("Auto-Disable has been enabled for " + request.form["roundId"])
             info = {"endTime" : endTime}
             # Convert dict to string
             info = json.dumps(info)

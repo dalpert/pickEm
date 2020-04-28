@@ -11,7 +11,7 @@ function getTimeRemaining(endtime) {
 
 function autoDisableRound(clockId, roundId, endTime) {
     if (Date.parse(endTime) > Date.parse(new Date())) {
-        roundId = roundId.split("=")[1]
+        console.log("in js. autoDisableRound")
         var clock = document.getElementById(clockId);
         clock.style.display = 'block';
         var minutesSpan = clock.querySelector('.minutes');
@@ -22,7 +22,6 @@ function autoDisableRound(clockId, roundId, endTime) {
 
             minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
             secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-            console.log(roundId)
             if (t.minutes <= 0 && t.seconds <= 0) {
                 $.post("toggleRound",
                     {

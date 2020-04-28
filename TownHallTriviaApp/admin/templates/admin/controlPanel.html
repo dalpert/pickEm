@@ -43,25 +43,6 @@
       <input type="submit" name="submit" value="Disabled"/>
     </form>
 
-    <form method = "post" action = "{{ url_for('admin.setCountdownClockInfo') }}">
-      <label for="setCountdownClockInfo">Enable Coundown Clock:</label><br>
-      <input type="text" placeholder="Remaining time (in seconds)" id="setCountdownClockInfo" name="remainingSeconds" size="50"><br>
-      <input type="submit" value="Submit">
-    </form>
-
-    <form method="post" id="autoDisableRound" action="{{ url_for('admin.getRoundEndTime') }}">
-      <label for="autoDisableRound">Select A Round To AUTO-DISABLE:</label>
-      <select id="autoDisableRound" name="roundId">
-        <option value="Round_1">Round 1</option>
-        <option value="Round_2">Round 2</option>
-        <option value="Round_3">Round 3</option>
-        <option value="Round_4">Round 4</option>
-        <option value="Round_5">Round 5</option>
-        <option value="Round_6">Round 6</option>
-      </select>
-      <input type="submit" name="submit" value="submit"/>
-    </form>
-
     <body class="clock">
       <div id="clockdiv">
         <div>
@@ -75,20 +56,45 @@
       </div>
     </body>
 
+    <form method = "post" id="autoDisableRound" action = "{{ url_for('admin.setCountdownClockInfo') }}">
+      <label for="roundId">Select A Round To AUTO-DISABLE:</label>
+      <select id="roundId" name="roundId">
+        <option value="Round_1">Round 1</option>
+        <option value="Round_2">Round 2</option>
+        <option value="Round_3">Round 3</option>
+        <option value="Round_4">Round 4</option>
+        <option value="Round_5">Round 5</option>
+        <option value="Round_6">Round 6</option>
+      </select>
+      <label for="remainingSeconds">Input Remaining Time:</label><br>
+      <input type="text" placeholder="Remaining time (in seconds)" id="remainingSeconds" name="remainingSeconds" size="50"><br>
+      <input type="submit" name="submit" value="Submit">
+    </form>
+
     <script>
       $("#autoDisableRound").submit(function(event){
-        event.preventDefault(); //prevent default action 
+        event.preventDefault(); //prevent default action
         var post_url = $(this).attr("action"); //get form action url
         var request_method = $(this).attr("method"); //get form GET/POST method
         var form_data = $(this).serialize(); //Encode form elements for submission
+        console.log("Before post call to setCountDownClock")
+        console.log(form_data)
+        console.log($("#remainingSeconds").val())
+        $.post(post_url,
+        {
+            remainingSeconds: $("#remainingSeconds").val(),
+        },
+        function(data,status){});
+
         $.ajax({
-          url : post_url,
+          url : "getRoundEndTime",
           type: request_method,
-          data : form_data,
+          data : $("#roundId").serialize(),
           success: function(response) {
+            console.log("Getting response in ajax request")
             console.log(response)
             response = JSON.parse(response)
-            autoDisableRound("clockdiv", form_data, response["endTime"]);
+            autoDisableRound("clockdiv", $("#roundId").val(), response["endTime"]);
           },
           error: function(xhr) {
             //Do Something to handle error
