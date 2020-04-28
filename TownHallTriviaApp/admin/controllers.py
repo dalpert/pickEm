@@ -4,6 +4,7 @@ import flaskSessionManager
 import autoGrader as autoGraderClass
 import os, csv
 import json
+from datetime import datetime, timedelta
 
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="")
 redisManager = redisCacheManager.RedisClass()
@@ -113,9 +114,16 @@ def toggleRound():
 def getRoundEndTime():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
-            request.form["roundId"]
             enabled, endTime = redisManager.getCountdownClockInfo(sessionManager.getAdminGameId())
-            sessionManager.setMessage("AutoDisabled has been enabled for " + request.form["roundId"])
+            
+            # lock the round 2 seconds after the client's forced form submission
+            endTimeObject = datetime.strptime(endTime, "%B %d %Y %H:%M:%S")
+            print("in getRoundEndTime::::")
+            endTimeObject = endTimeObject + timedelta(0, 1)
+            endTime = endTimeObject.strftime("%B %d %Y %H:%M:%S")
+            print(" in py. getRoundEntime")
+            print(endTime)
+            sessionManager.setMessage("Auto-Disable has been enabled for " + request.form["roundId"])
             info = {"endTime" : endTime}
             # Convert dict to string
             info = json.dumps(info)
