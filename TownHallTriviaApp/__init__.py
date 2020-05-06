@@ -6,4 +6,4 @@ app = Flask(__name__)
 
 app.register_blueprint(main, url_prefix='/')
 app.register_blueprint(admin, url_prefix='/admin')
-app.secret_key = "abc"
+app.secret_key = "moopGroup"
