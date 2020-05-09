@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, session, url_for, redirect, request, send_file, send_from_directory
 import redisCacheManager
 import flaskSessionManager
-import autoGrader as autoGraderClass
-from zipFileManagement import zipFileManagement
+import TownHallTriviaApp.admin.autoGrader as autoGraderClass
+from TownHallTriviaApp.admin.zipFileManagement import zipFileManagement
 import os, csv
 import json
 from datetime import datetime, timedelta
@@ -242,7 +242,7 @@ def getGameAnswerKeys():
             print(zipFileClass.getZipFilePath())
             print("ZIP FILE NAME::")
             print(zipFileClass.getZipFileName())
-            return send_file("admin/output/AnswerKeys.zip", attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
+            return send_file(zipFileClass.getZipFilePath(), attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))
 

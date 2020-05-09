@@ -1,5 +1,6 @@
 # importing csv module 
 import os
+from os.path import basename
 import zipfile
 
 class zipFileManagement(object):
@@ -26,25 +27,22 @@ class zipFileManagement(object):
     
         # writing files to a zipfile 
         with zipfile.ZipFile(self.getZipFilePath(),'w') as zip: 
-            # writing each file one by one 
-            for file in file_paths: 
-                zip.write(file)
+            for file in file_paths:
+                zip.write(file, basename(file))
 
     def emptyOutputFolder(self):
         filelist = [ f for f in os.listdir(self.pathToOutputFolder) ]
         for file in filelist:
-            # print("FILE: " + file)
             os.remove(os.path.join(self.pathToOutputFolder, file))
 
-    def get_all_file_paths(self): 
+    def get_all_file_paths(self):
         # initializing empty file paths list 
         file_paths = []
         # crawling through directory and subdirectories 
         for root, directories, files in os.walk(self.pathToOutputFolder): 
-            for filename in files: 
+            for filename in files:
                 # join the two strings in order to form the full filepath. 
-                # filepath = os.path.join(self.pathToOutputFolder, filename) 
-                filepath = filename
+                filepath = os.path.join(self.pathToOutputFolder, filename)
                 file_paths.append(filepath) 
         # returning all file paths 
         return file_paths 
