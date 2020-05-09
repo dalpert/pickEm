@@ -4,15 +4,14 @@ import operator, flask
 import zipfile
 
 class autoGraderClass:
-    def __init__(self):
+    def __init__(self, pathToOutputDirectory):
         self.answerKey = []
         self.answerPoints = []
-        self.outputFolder = "TownHallTriviaApp/admin/roundResults"
+        self.outputFolder = os.path.join(pathToOutputDirectory, "output")
         self.rawOutputFileName = "_rawAnswers.csv"
         self.detailedOutputFileName = "_details.txt"
         self.answerKeyFileName = "_answerKey.csv"
         self.teamScoresOutputCsvName = "_scores.csv"
-        self.zipFileName = "Results.zip"
         self.perAnswerInfo = []
         self.perTeamInfo = []
         self.roundId = ""
@@ -28,7 +27,7 @@ class autoGraderClass:
         self.writeDetailedInfoToTextFile()
         self.writeTeamScoresToCsvFile()
         self.writeRawDataToTextFile(allTeamAnswers)
-        self.writeAnswerKeyToTextFile(fullAnswerKey)
+        self.writeAnswerKeyToTextFile(fullAnswerKey, roundId)
 
     def parseAnswerKey(self, answerKey):
         self.answerKey = answerKey[0]
@@ -91,11 +90,11 @@ class autoGraderClass:
             writer = csv.writer(f)
             writer.writerows(rawData)
 
-    def writeAnswerKeyToTextFile(self, answerKey):
+    def writeAnswerKeyToTextFile(self, answerKey, roundId):
         answerKey.insert(0, ["Question Numbers", "Question 1", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6"])
         answerKey[1].insert(0, "Correct Answer")
         answerKey[2].insert(0, "Max Score")
-        with open(os.path.join(self.outputFolder, self.roundId + self.answerKeyFileName), "w", newline="") as f:
+        with open(os.path.join(self.outputFolder, roundId + self.answerKeyFileName), "w", newline="") as f:
             writer = csv.writer(f)
             writer.writerows(answerKey)
     
@@ -109,28 +108,5 @@ class autoGraderClass:
     def initializeOutputFileHeaders(self):
         self.perAnswerInfo = ["---\nTeam_Name --> Overall_Score\nQuestion_X, Exp_Score, Act_Score, Team_Ans | Official_Ans\n---"]
         self.perTeamInfo = [["Team Name","Total Score"]]
-
-    def createZipFile(self):
-        # calling function to get all file paths in the directory 
-        file_paths = self.get_all_file_paths(self.outputFolder)
-    
-        # writing files to a zipfile 
-        with zipfile.ZipFile(os.path.join(self.outputFolder, self.zipFileName),'w') as zip: 
-            # writing each file one by one 
-            for file in file_paths: 
-                zip.write(file)
-        return self.zipFileName
-
-    def get_all_file_paths(self, directory): 
-        # initializing empty file paths list 
-        file_paths = [] 
-        # crawling through directory and subdirectories 
-        for root, directories, files in os.walk(directory): 
-            for filename in files: 
-                # join the two strings in order to form the full filepath. 
-                filepath = os.path.join(root, filename) 
-                file_paths.append(filepath) 
-        # returning all file paths 
-        return file_paths 
 
 

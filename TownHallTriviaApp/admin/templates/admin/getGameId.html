@@ -21,5 +21,10 @@
       <input type="hidden" name="operation" value="Find">
       <input type="submit" value="Submit">
     </form><br>
+    <form method = "post" action = "{{ url_for('admin.getGameAnswerKeys') }}">
+      <label for="gameId">Download Game Answer Keys:</label><br>
+      <input type="text" id="gameId" name="gameId"><br>
+      <input type="submit" value="Submit">
+    </form><br>
   </body>  
 </html> 
