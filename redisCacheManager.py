@@ -85,13 +85,28 @@ class RedisClass:
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
-    def registerTeamForNextWeek(self, gameId, teamName, contactEmail):
+    def registerTeamForNextWeek(self, gameId, firstName, lastName, teamName, contactEmail):
         key = gameId.lower() + self.RegisterTeamForNextWeek
-        teamInfoString = ", ".join(["[" + teamName, contactEmail + "]"])
+        teamInfoString = self.WordDelimiter.join(firstName, lastName, teamName, contactEmail)
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
         existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
-        return expectedLength == self.redisCxn.rpush(key, teamInfoString)
+        success = True
+        responseMsg = "Team Registration Successful"
+        # Check for uniqueness
+        for team in existingTeams:
+            # Check Team Name
+            teamObjs = team.split(self.WordDelimiter)
+            # Check Email
+            if teamName in teamObjs:
+                success = False
+                responseMsg = "Team Name already exists"
+            if contactEmail in teamObjs:
+                success = False
+                responseMsg = "Email already used for a different team. Please use a unique email address."
+        if success:
+            success = expectedLength == self.redisCxn.rpush(key, teamInfoString)
+        return success, responseMsg
 
     def getTeamsForNextWeek(self, gameId):
         key = gameId.lower() + self.RegisterTeamForNextWeek
