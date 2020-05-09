@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, session, url_for, redirect, reques
 import redisCacheManager
 import flaskSessionManager
 import autoGrader as autoGraderClass
+from zipFileManagement import zipFileManagement
 import os, csv
 import json
 from datetime import datetime, timedelta
@@ -9,7 +10,7 @@ from datetime import datetime, timedelta
 admin = Blueprint("admin", __name__, template_folder="templates", static_folder="")
 redisManager = redisCacheManager.RedisClass()
 sessionManager = flaskSessionManager.FlaskSessionManager()
-autoGrader = autoGraderClass.autoGraderClass()
+autoGrader = autoGraderClass.autoGraderClass(admin.static_folder)
 
 @admin.route('/')
 def adminLogin():
@@ -155,31 +156,14 @@ def getRoundResults():
         if request.method == "POST":
             roundAnswers = redisManager.getRoundAnswers(sessionManager.getAdminGameId(), request.form["roundId"])
             answerKey = redisManager.getAnswerKey(sessionManager.getAdminGameId(), request.form["roundId"])
-            # THIS IS WHERE WE INVOKE AUTOMATIC GRADING
             if len(answerKey) == 0:
                 sessionManager.setMessage("Someone didnt submit an answer key for " + request.form["roundId"])
                 return redirect(url_for("admin.controlPanel"))
-            print("answerKey")
-
-            print(answerKey)
-            print("controller.py:: Running Auto Grader:")
-            print(os.listdir())
-            pathToResultsFolder = os.path.join(admin.static_folder, "roundResults")
-            filelist = [ f for f in os.listdir(pathToResultsFolder) ]
-            for file in filelist:
-                print("FILE: " + file)
-                os.remove(os.path.join(pathToResultsFolder, file))
+            zipFileClass = zipFileManagement("Results.zip", admin.static_folder)
+            zipFileClass.emptyOutputFolder()
             autoGrader.gradeAndWriteFiles(roundAnswers, answerKey, request.form["roundId"])
-            # Empty Results Folder
-            zipFileName = autoGrader.createZipFile()
-            # print(admin.static_folder)
-            # print(os.path.join(admin.static_folder, "roundResults", zipFileName))
-            # root_dir = os.path.dirname(os.getcwd())
-            # print("root_dir")
-            # print(root_dir)
-            # return send_from_directory(os.path.join(root_dir, 'TownHallTrivia', "TownHallTriviaApp", 'roundResults'), zipFileName)
-            # return admin.send_static_file(os.path.join(admin.static_folder, "roundResults", zipFileName))
-            return send_file(os.path.join(pathToResultsFolder, zipFileName), attachment_filename=zipFileName, as_attachment = False, cache_timeout=0)
+            zipFileClass.createZipFileFromOutputFolder()
+            return send_file(zipFileClass.getZipFilePath(), attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))
 
@@ -235,6 +219,30 @@ def getTeamResponseCount():
             teamsThatHaveAnswered, totalTeamCount = redisManager.getTeamResponseCount(sessionManager.getAdminGameId(), request.form["roundId"])
             sessionManager.setMessage(str(teamsThatHaveAnswered) + "/" + str(totalTeamCount) + " have responded")
             return redirect(url_for("admin.controlPanel"))
+    else:
+        return redirect(url_for("admin.adminLogin"))
+
+@admin.route('/getGameAnswerKeys', methods=["POST"])
+def getGameAnswerKeys():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            zipFileClass = zipFileManagement("AnswerKeys.zip", admin.static_folder)
+            zipFileClass.emptyOutputFolder()
+            roundIds = ["Round_1", "Round_2", "Round_3", "Round_4", "Round_5", "Round_6"]
+            for roundId in roundIds:
+                answerKey = redisManager.getAnswerKey(request.form["gameId"], roundId)
+                if len(answerKey) == 0:
+                    continue
+                # NNED TO ADD ROUND ID TO THIS FUNCTIN HEADER
+                autoGrader.writeAnswerKeyToTextFile(answerKey, roundId)
+            zipFileClass.createZipFileFromOutputFolder()
+            print("STATIC FOLDER PATH::")
+            print(admin.static_folder)
+            print("ZIP FILE PATH::")
+            print(zipFileClass.getZipFilePath())
+            print("ZIP FILE NAME::")
+            print(zipFileClass.getZipFileName())
+            return send_file("admin/output/AnswerKeys.zip", attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))
 

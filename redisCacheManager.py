@@ -162,9 +162,6 @@ class RedisClass:
     def getRoundAnswers(self, gameId, roundId):
         key = gameId.lower() + '_' + roundId
         teamAnswerDict = self.redisCxn.hgetall(key)
-        # Return as dictionary teamName:[Answers]
-        # print("redis. IN GETROUND ANSWERS")
-        # print(teamAnswerDict)
         rowsOfRows = []
         for key in teamAnswerDict:
             row = [key]
@@ -179,14 +176,7 @@ class RedisClass:
         for missingTeam in missingTeams:
             row = [missingTeam, "", "", "", "", "", ""]
             rowsOfRows.append(row)
-
-        # Sort rows based on first column
-        # print("IN redis. GETROUND ANSWERS")
-        # print(sorted_array)
-        # print("sorted_array")
         sortedRowsOfRows = sorted(rowsOfRows, key=lambda row: row[0].lower(), reverse=False)
-        # print("sortedlist")
-        # print(sortedRowsOfRows)
         return sortedRowsOfRows
 
     def getTeamResponseCount(self, gameId, roundId):
@@ -225,7 +215,6 @@ class RedisClass:
         print("CLIENT LIST returned : ")
         for c in result:
             print("id : " + c['id'] + ", addr : " + c['addr'])
-
 
 
 
