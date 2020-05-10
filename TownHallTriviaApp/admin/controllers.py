@@ -199,10 +199,20 @@ def submitAnswerKeySuccess():
 @admin.route('/getAllTeams')
 def getAllTeams():
     if sessionManager.isAdminLoggedIn():
-        teamNames = redisManager.getAllTeams(sessionManager.getAdminGameId())
-        teamsCount = len(teamNames)
-        teamNameString = ",  ".join(teamNames)
-        return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
+        thisWeekTeams = redisManager.getAllTeams(sessionManager.getAdminGameId())
+        thisWeekTeamsCount = len(thisWeekTeams)
+        thisWeekTeamString = ",  ".join(thisWeekTeams)
+        nextWeekTeams = redisManager.getTeamsForNextWeek()
+        nextWeekTeamsCount = len(nextWeekTeams)
+        nextWeekTeamString = ""
+        for nextWeekTeam in nextWeekTeams:
+            nextWeekTeamString += " ".join(nextWeekTeam)
+            nextWeekTeamString += ",   "
+        return render_template("admin/getAllTeams.html",
+            thisWeekList=thisWeekTeamString,
+            thisWeekCount=thisWeekTeamsCount,
+            nextWeekList=nextWeekTeamString,
+            nextWeekCount=nextWeekTeamsCount)
 
 @admin.route('/getTeamResponseCount', methods=["POST"])
 def getTeamResponseCount():

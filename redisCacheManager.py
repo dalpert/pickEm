@@ -24,6 +24,7 @@ class RedisClass:
         self.WordDelimiter = "]::["
         self.LineDelimeter = "(\n)"
         self.CountdownClock = "_CountdownClock"
+        self.RegisterTeamForNextWeek = "_RegisterTeamForNextWeek"
 
 
 # Game Level Functions
@@ -85,9 +86,9 @@ class RedisClass:
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
-    def registerTeamForNextWeek(self, gameId, firstName, lastName, teamName, contactEmail):
-        key = gameId.lower() + self.RegisterTeamForNextWeek
-        teamInfoString = self.WordDelimiter.join(firstName, lastName, teamName, contactEmail)
+    def registerTeamForNextWeek(self, firstName, lastName, teamName, contactEmail):
+        key = self.RegisterTeamForNextWeek
+        teamInfoString = self.WordDelimiter.join([firstName, lastName, teamName, contactEmail])
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
         existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
@@ -105,14 +106,23 @@ class RedisClass:
                 success = False
                 responseMsg = "Email already used for a different team. Please use a unique email address."
         if success:
-            success = expectedLength == self.redisCxn.rpush(key, teamInfoString)
+            self.redisCxn.rpush(key, teamInfoString)
         return success, responseMsg
 
-    def getTeamsForNextWeek(self, gameId):
-        key = gameId.lower() + self.RegisterTeamForNextWeek
+    def getTeamsForNextWeek(self):
+        key = self.RegisterTeamForNextWeek
         teamsListLength = self.redisCxn.llen(key)
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
-        return teamNames
+        entries = []
+        for teamName in teamNames:
+            print("REDIS:::")
+            print(teamName)
+            entries.append(teamName.split(self.WordDelimiter))
+        return entries
+
+    def deleteTeamsForNextWeek(self):
+        key = self.RegisterTeamForNextWeek
+        self.redisCxn.delete(key)
 
 # Round Operations
     def getEnabledRounds(self, gameId):

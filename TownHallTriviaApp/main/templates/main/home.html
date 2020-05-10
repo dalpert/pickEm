@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <body class="body">
+    <div class="container">
+      <h1 class="title">WELCOME!</h1>
+      <div class="registrationContainer">
+        <form class="registration" method="post" action="https://docs.google.com/forms/d/e/1FAIpQLSdyzfCUEc5TuCHfOkwRXTIAu__umVWeRa6BIeVqwwGOT3n-wA/viewform?usp=sf_link">
+          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Get Merch!</button>
+        </form>
+        <form class="registration" method="get" action="{{ url_for('main.registerForNextWeek') }}">
+          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Register For Next Week!</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

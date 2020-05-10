@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <body class="body">
+    <div class="container">
+      <h1 class="title">TEAM REGISTRATION</h1>
+      <div class="registrationContainer">
+        <form class="registration" method="post" action="{{ url_for('main.registerForNextWeekSubmit') }}">
+          <div class="form-group">
+            <label class="label col-form-label" for="firstName">ENTER YOUR FIRST NAME:</label>
+            <input type="text" placeholder="FIRST NAME" class="form-control form-control-lg" name="firstName" id="firstName">
+            <label class="label col-form-label" for="lastName">ENTER YOUR LAST NAME:</label>
+            <input type="text" placeholder="LAST NAME" class="form-control form-control-lg" name="lastName" id="lastName">
+            <label class="label col-form-label" for="teamName">ENTER YOUR TEAM NAME:</label>
+            <input type="text" placeholder="TEAM NAME" class="form-control form-control-lg" name="teamName" id="teamName">
+            <label class="label col-form-label" for="contactEmail">ENTER YOUR EMAIL:</label>
+            <input type="text" placeholder="EMAIL@EMAIL.EMAIL" class="form-control form-control-lg" name="contactEmail" id="contactEmail">
+          </div>
+          <button type="submit" value="Submit" class="btn btn-primary submit submitButton">REGISTER!</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
