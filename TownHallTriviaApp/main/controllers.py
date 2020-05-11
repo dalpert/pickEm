@@ -26,7 +26,8 @@ def registerForNextWeek():
 @main.route('/registerForNextWeekSubmit', methods = ["POST"])
 def registerForNextWeekSubmit():
     if request.method == "POST":
-        redisManager.registerTeamForNextWeek(request.form["firstName"],
+        redisManager.registerTeamForNextWeek(request.form["date"],
+            request.form["firstName"],
             request.form["lastName"],
             request.form["teamName"],
             request.form["contactEmail"])

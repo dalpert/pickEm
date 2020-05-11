@@ -13,6 +13,8 @@
       <div class="registrationContainer">
         <form class="registration" method="post" action="{{ url_for('main.registerForNextWeekSubmit') }}">
           <div class="form-group">
+            <label for="date">SELECT YOUR TRIVIA DATE:</label>
+            <input type="date" id="date" name="date" min="2020-05-06" step="7">
             <label class="label col-form-label" for="firstName">ENTER YOUR FIRST NAME:</label>
             <input type="text" placeholder="FIRST NAME" class="form-control form-control-lg" name="firstName" id="firstName">
             <label class="label col-form-label" for="lastName">ENTER YOUR LAST NAME:</label>
@@ -24,6 +26,40 @@
           </div>
           <button type="submit" value="Submit" class="btn btn-primary submit submitButton">REGISTER!</button>
         </form>
+        <div class="container1">
+          <button class="add_form_field">Add New Field &nbsp;
+            <span style="font-size:16px; font-weight: bold;">+ </span>
+          </button>
+          <div>
+            <input type="text" name="teamName_1">
+          </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+          $(document).ready(function() {
+              var max_fields      = 10;
+              var wrapper         = $(".container1");
+              var add_button      = $(".add_form_field");
+           
+              var x = 1;
+              $(add_button).click(function(e){
+                  e.preventDefault();
+                  if(x < max_fields){
+                      x++;
+                      fieldName = "teamName_".concat(x.toString());
+                      $(wrapper).append('<div><input type="text" name="' + fieldName + '"/><a href="#" class="delete">Delete</a></div>'); //add input box
+                  }
+            else
+            {
+            alert('You Reached the limits')
+            }
+              });
+           
+              $(wrapper).on("click",".delete", function(e){
+                  e.preventDefault(); $(this).parent('div').remove(); x--;
+              })
+          });
+          </script>
       </div>
     </div>
   </body>

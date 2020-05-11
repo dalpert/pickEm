@@ -86,8 +86,8 @@ class RedisClass:
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
-    def registerTeamForNextWeek(self, firstName, lastName, teamName, contactEmail):
-        key = self.RegisterTeamForNextWeek
+    def registerTeamForNextWeek(self, date, firstName, lastName, teamName, contactEmail):
+        key = date + self.RegisterTeamForNextWeek
         teamInfoString = self.WordDelimiter.join([firstName, lastName, teamName, contactEmail])
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
@@ -109,14 +109,12 @@ class RedisClass:
             self.redisCxn.rpush(key, teamInfoString)
         return success, responseMsg
 
-    def getTeamsForNextWeek(self):
-        key = self.RegisterTeamForNextWeek
+    def getTeamsForNextWeek(self, date):
+        key = date + self.RegisterTeamForNextWeek
         teamsListLength = self.redisCxn.llen(key)
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         entries = []
         for teamName in teamNames:
-            print("REDIS:::")
-            print(teamName)
             entries.append(teamName.split(self.WordDelimiter))
         return entries
 

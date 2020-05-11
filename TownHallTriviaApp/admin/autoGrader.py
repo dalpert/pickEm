@@ -25,7 +25,7 @@ class autoGraderClass:
             scores[teamAnswers[0]] = self.CheckAnswers(teamAnswers[0], teamAnswers[1:len(teamAnswers)])
         
         self.writeDetailedInfoToTextFile()
-        self.writeTeamScoresToCsvFile()
+        self.writeRowsToCsvFile(roundId + self.teamScoresOutputCsvName, self.perTeamInfo)
         self.writeRawDataToTextFile(allTeamAnswers)
         self.writeAnswerKeyToTextFile(fullAnswerKey, roundId)
 
@@ -98,11 +98,10 @@ class autoGraderClass:
             writer = csv.writer(f)
             writer.writerows(answerKey)
     
-    def writeTeamScoresToCsvFile(self):
-        self.perTeamInfo
-        with open(os.path.join(self.outputFolder, self.roundId + self.teamScoresOutputCsvName), mode='w') as result_file:
+    def writeRowsToCsvFile(self, fileName, csvRows):
+        with open(os.path.join(self.outputFolder, fileName), mode='w') as result_file:
             result_writer = csv.writer(result_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            for row in self.perTeamInfo:
+            for row in csvRows:
                 result_writer.writerow(row)
     
     def initializeOutputFileHeaders(self):
