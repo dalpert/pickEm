@@ -2,7 +2,7 @@ function validateForm() {
   var date = document.forms["registerForNextWeek"]["date"].value;
   console.log(date)
   if (!isValidDate(date)) {
-    alert('Invalid date format! Must be in the form: YYYY-MM-DD');
+    alert('Invalid date format! Must be in the form: yyyy-mm-dd AND it must be a Wednseday.');
     document.registerForNextWeek.date.focus();
     return false;
   }
