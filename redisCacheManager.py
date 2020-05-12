@@ -86,9 +86,12 @@ class RedisClass:
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
-    def registerTeamForNextWeek(self, date, firstName, lastName, teamName, contactEmail):
+    def registerTeamForNextWeek(self, date, teamName, contactEmail, teamCaptain, teamMemberNames):
         key = date + self.RegisterTeamForNextWeek
-        teamInfoString = self.WordDelimiter.join([firstName, lastName, teamName, contactEmail])
+        teamInfo = [teamName, str(len(teamMemberNames)), contactEmail, teamCaptain] + teamMemberNames
+        print("REDIS CACHE:::")
+        print(teamInfo)
+        teamInfoString = self.WordDelimiter.join(teamInfo)
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
         existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
@@ -112,14 +115,14 @@ class RedisClass:
     def getTeamsForNextWeek(self, date):
         key = date + self.RegisterTeamForNextWeek
         teamsListLength = self.redisCxn.llen(key)
-        teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
+        teamInfoSet = self.redisCxn.lrange(key, 0, teamsListLength)
         entries = []
-        for teamName in teamNames:
-            entries.append(teamName.split(self.WordDelimiter))
+        for teamInfo in teamInfoSet:
+            entries.append(teamInfo.split(self.WordDelimiter))
         return entries
 
-    def deleteTeamsForNextWeek(self):
-        key = self.RegisterTeamForNextWeek
+    def deleteTeamsForNextWeek(self, date):
+        key = date + self.RegisterTeamForNextWeek
         self.redisCxn.delete(key)
 
 # Round Operations

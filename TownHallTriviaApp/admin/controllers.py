@@ -65,7 +65,7 @@ def downloadNextWeeksTeams():
     if sessionManager.isAdminLoggedIn():
         if request.method == "POST":
             nextWeekTeams = redisManager.getTeamsForNextWeek(request.form["date"])
-            nextWeekTeams.insert(0, ["First Name", "Last Name", "Team Name", "Email"])
+            nextWeekTeams.insert(0, ["Team Name", "Team Member Count", "Contact Email", "TeamCaptain", "Members:"])
             zipFileClass = zipFileManagement("RegisteredTeams.zip", admin.static_folder)
             zipFileClass.emptyOutputFolder()
             autoGrader.writeRowsToCsvFile(request.form["date"] + ".csv", nextWeekTeams)

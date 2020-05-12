@@ -80,6 +80,16 @@ button.submitButton {
   font-size: 28px
 }
 
+button.smallTextButton {
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 18px
+}
+
 div.form-group {
   padding-bottom: 10px;
   margin-bottom: 0;
@@ -92,49 +102,6 @@ div.form-group {
   padding: 0px !important;
 }
 /* Forms */
-
-/* Auto-Extend Form for Team Registration */
-.container1 input[type=text] {
-padding:5px 0px;
-margin:5px 5px 5px 0px;
-}
-
-.add_form_field
-{
-    background-color: #1c97f3;
-    border: none;
-    color: white;
-    padding: 8px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
- border:1px solid #186dad;
-}
-
-input{
-    border: 1px solid #1c97f3;
-    width: 260px;
-    height: 40px;
- margin-bottom:14px;
-}
-
-.delete{
-    background-color: #fd1200;
-    border: none;
-    color: white;
-    padding: 5px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-/* Auto-Extend Form for Team Registration */
-
 
 /* Round.html */
 p.teamName {
@@ -155,16 +122,6 @@ body.body {
 }
 
 /* Countdown clock */
-button.clockHoverButton {
-  text-align: left;
-  margin-right: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  background-color: #cf2971;
-  border-color: white;
-  font-size: 16px;
-}
-
 body.clock{
     text-align: center;
     background: #00ECB9;

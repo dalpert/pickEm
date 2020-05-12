@@ -11,24 +11,24 @@
     </header>
     <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
       <label for="gameId">Create Game:</label><br>
-      <input type="text" id="gameId" name="gameId"><br>
+      <input type="text" placeholder="Game ID" id="gameId" name="gameId"><br>
       <input type="hidden" name="operation" value="Create">
       <input type="submit" value="Submit">
     </form><br>
     <form method = "post" action = "{{ url_for('admin.checkGameId') }}">
       <label for="gameId">Find Existing Game:</label><br>
-      <input type="text" id="gameId" name="gameId"><br>
+      <input type="text" placeholder="Game ID" id="gameId" name="gameId"><br>
       <input type="hidden" name="operation" value="Find">
       <input type="submit" value="Submit">
     </form><br>
     <form method = "post" action = "{{ url_for('admin.downloadNextWeeksTeams') }}">
-      <label for="date">Select trivia date:</label>
-      <input type="date" id="date" name="date" min="2020-05-06" step="7">
+      <label for="date">Get Registered Teams for specific date:</label>
+      <input type="date" placeholder="YYYY-MM-DD" id="date" name="date" min="2020-05-06" step="7">
       <input type="submit" value="Submit">
     </form><br>
     <form method = "post" action = "{{ url_for('admin.getGameAnswerKeys') }}">
       <label for="gameId">Download Game Answer Keys:</label><br>
-      <input type="text" id="gameId" name="gameId"><br>
+      <input type="text" placeholder="Game ID" id="gameId" name="gameId"><br>
       <input type="submit" value="Submit">
     </form><br>
   </body>  
