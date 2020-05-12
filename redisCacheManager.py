@@ -88,7 +88,7 @@ class RedisClass:
 
     def registerTeamForNextWeek(self, date, teamName, contactEmail, teamCaptain, teamMemberNames):
         key = date + self.RegisterTeamForNextWeek
-        teamInfo = [teamName, str(len(teamMemberNames)), contactEmail, teamCaptain] + teamMemberNames
+        teamInfo = [teamName, str(len(teamMemberNames) + 1), contactEmail, teamCaptain] + teamMemberNames
         print("REDIS CACHE:::")
         print(teamInfo)
         teamInfoString = self.WordDelimiter.join(teamInfo)
