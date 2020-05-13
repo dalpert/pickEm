@@ -8,24 +8,22 @@
   </head>
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
-    <div class="container">
-      <div class="col">
+    <div class="homeContainer">
         <h1 class="title">WELCOME!</h1>
-      </div>
       <div class="row">
-        <div class="col-sm">
+        <div class="col">
           <form class="registration" method="get" action="{{ url_for('main.registerForNextWeek') }}">
-            <button type="submit" value="Submit" class="btn btn-primary submitButton">SIGN UP FOR NEXT WEEK</button>
+            <button type="submit" value="Submit" class="btn btn-primary submit homePageButton">SIGN UP FOR NEXT WEEK</button>
           </form>
         </div>
-        <div class="col-sm">
+        <div class="col">
           <form class="registration" method="get" action="{{ url_for('main.enterGameId') }}">
-            <button type="submit" value="Submit" class="btn btn-primary submitButton">I'M HERE TO PLAY</button>
+            <button type="submit" value="Submit" class="btn btn-primary submit homePageButton">I'M HERE TO PLAY</button>
           </form>
         </div>
-        <div class="col-sm">
+        <div class="col">
           <form method="get" class="registration" target="_blank" action="https://docs.google.com/forms/d/e/1FAIpQLSdyzfCUEc5TuCHfOkwRXTIAu__umVWeRa6BIeVqwwGOT3n-wA/viewform?usp=sf_link">
-            <button type="submit" value="Submit" class="btn btn-primary submit submitButton">CHECK OUT THE MERCH</button>
+            <button type="submit" value="Submit" class="btn btn-primary submit homePageButton">BROWSE THE MERCH</button>
           </form>
         </div>
       </div>

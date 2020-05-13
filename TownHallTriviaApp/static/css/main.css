@@ -69,6 +69,21 @@ h1.title.small {
 }
 /* Header */
 
+/* Home Page */
+.homeContainer {
+  justify-content: center;
+  text-align: center;
+  margin-top: 40px;
+  padding: 0px !important;
+}
+
+button.homePageButton {
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 28px
+}
+/* Home Page */
+
 /* Forms */
 button.submitButton {
   float: right;
