@@ -11,11 +11,33 @@ sessionManager = flaskSessionManager.FlaskSessionManager()
 def homePage():
     sessionManager.removePlayerGame()
     sessionManager.unregisterTeam()
-    # shouldPresentSignUpPage, date = redisManager.presentSignUpFormOnHomePage()
-    if False:
-        return render_template("main/signUpForNextWeek.html")
-    else:
-        return render_template('main/enterGameId.html')
+    return render_template('main/home.html')
+
+@main.route('/enterGameId')
+def enterGameId():
+    sessionManager.removePlayerGame()
+    sessionManager.unregisterTeam()
+    return render_template('main/enterGameId.html')
+
+@main.route('/registerForNextWeek')
+def registerForNextWeek():
+    return render_template('main/registerForNextWeek.html')
+
+@main.route('/registerForNextWeekSubmit', methods = ["POST"])
+def registerForNextWeekSubmit():
+    if request.method == "POST":
+        teamMemberNames = []
+        for x in range(int(request.form["maxTeamMembers"])):
+            if "memberName_" + str(x) in request.form:
+                if request.form["memberName_" + str(x)] != "":
+                    teamMemberNames.append(request.form["memberName_" + str(x)])
+
+        redisManager.registerTeamForNextWeek(request.form["date"],
+            request.form["teamName"],
+            request.form["contactEmail"],
+            request.form["teamCaptain"],
+            teamMemberNames)
+    return redirect(url_for("main.homePage"))
 
 @main.route('/validateGameId', methods = ["POST", "GET"])
 def validateGameId():
@@ -23,14 +45,14 @@ def validateGameId():
         sessionManager.setPlayerGameId(request.form["gameId"])
         if not redisManager.doesGameExist(request.form["gameId"]):
             sessionManager.setMessage("That game id isn't valid")
-            return redirect(url_for("main.error", ))
+            return redirect(url_for("main.error"))
         if redisManager.isGameEnabled(request.form["gameId"]):
             sessionManager.setMessage("Let's get ready to rumble!")
             return redirect(url_for("main.registerTeam"))
         else:
             return redirect(url_for("main.gameWaitingRoom"))
     else:
-        return redirect(url_for("main.homePage"))
+        return redirect(url_for("main.enterGameId"))
 
 @main.route('/gameWaitingRoom')
 def gameWaitingRoom():
@@ -160,10 +182,3 @@ def submitTeamAnswers():
 def endGame():
     sessionManager.unregisterTeam()
     return render_template("main/endGame.html")
-
-@main.route('/registerTeamForNextWeek', methods = ["POST"])
-def registerTeamForNextWeek():
-    if request.method == "POST":
-        if not redisManager.registerTeamForNextWeek(sessionManager.getPlayerGameId(), request.form["teamName"], request.form["emailContact"]):
-            return redirect(url_for("main.endGame"))
-        return redirect(url_for("main.homePage"))

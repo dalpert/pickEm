@@ -28,7 +28,7 @@ class zipFileManagement(object):
         # writing files to a zipfile 
         with zipfile.ZipFile(self.getZipFilePath(),'w') as zip: 
             for file in file_paths:
-                zip.write(file, basename(file))
+                zip.write(file, "output/" + basename(file))
 
     def emptyOutputFolder(self):
         filelist = [ f for f in os.listdir(self.pathToOutputFolder) ]

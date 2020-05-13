@@ -60,6 +60,18 @@ def checkGameId():
     else:
         return redirect(url_for("admin.adminLogin"))
 
+@admin.route('/downloadNextWeeksTeams', methods=["POST"])
+def downloadNextWeeksTeams():
+    if sessionManager.isAdminLoggedIn():
+        if request.method == "POST":
+            nextWeekTeams = redisManager.getTeamsForNextWeek(request.form["date"])
+            nextWeekTeams.insert(0, ["Team Name", "Team Member Count", "Contact Email", "TeamCaptain", "Members:"])
+            zipFileClass = zipFileManagement("RegisteredTeams.zip", admin.static_folder)
+            zipFileClass.emptyOutputFolder()
+            autoGrader.writeRowsToCsvFile(request.form["date"] + ".csv", nextWeekTeams)
+            zipFileClass.createZipFileFromOutputFolder()
+            return send_file(zipFileClass.getZipFilePath(), attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
+
 @admin.route('/gameIdError')
 def gameIdError():
     if sessionManager.isAdminLoggedIn():
@@ -196,21 +208,15 @@ def submitAnswerKeySuccess():
             sessionManager.setMessage("Answer Key Submission Successful for " + request.form["roundId"])
             return redirect(url_for("admin.controlPanel"))
 
-@admin.route('/getAllTeams')
-def getAllTeams():
+@admin.route('/teamsRegistrationView')
+def teamsRegistrationView():
     if sessionManager.isAdminLoggedIn():
-        teamNames = redisManager.getAllTeams(sessionManager.getAdminGameId())
-        teamsCount = len(teamNames)
-        teamNameString = ",  ".join(teamNames)
-        return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
-
-@admin.route('/getTeamsForNextWeek')
-def getTeamsForNextWeek():
-    if sessionManager.isAdminLoggedIn():
-        teamNames = redisManager.getTeamsForNextWeek(sessionManager.getAdminGameId())
-        teamsCount = len(teamNames)
-        teamNameString = ",  ".join(teamNames)
-        return render_template("admin/getAllTeams.html", teamsList=teamNameString, teamsCount=teamsCount)
+        thisWeekTeams = redisManager.getAllTeams(sessionManager.getAdminGameId())
+        thisWeekTeamsCount = len(thisWeekTeams)
+        thisWeekTeamString = ",  ".join(thisWeekTeams)
+        return render_template("admin/currentTeams.html",
+            thisWeekList=thisWeekTeamString,
+            thisWeekCount=thisWeekTeamsCount)
 
 @admin.route('/getTeamResponseCount', methods=["POST"])
 def getTeamResponseCount():
@@ -236,12 +242,6 @@ def getGameAnswerKeys():
                 # NNED TO ADD ROUND ID TO THIS FUNCTIN HEADER
                 autoGrader.writeAnswerKeyToTextFile(answerKey, roundId)
             zipFileClass.createZipFileFromOutputFolder()
-            print("STATIC FOLDER PATH::")
-            print(admin.static_folder)
-            print("ZIP FILE PATH::")
-            print(zipFileClass.getZipFilePath())
-            print("ZIP FILE NAME::")
-            print(zipFileClass.getZipFileName())
             return send_file(zipFileClass.getZipFilePath(), attachment_filename=zipFileClass.getZipFileName(), as_attachment = False, cache_timeout=0)
     else:
         return redirect(url_for("admin.adminLogin"))

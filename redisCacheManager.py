@@ -24,6 +24,7 @@ class RedisClass:
         self.WordDelimiter = "]::["
         self.LineDelimeter = "(\n)"
         self.CountdownClock = "_CountdownClock"
+        self.RegisterTeamForNextWeek = "_RegisterTeamForNextWeek"
 
 
 # Game Level Functions
@@ -85,19 +86,44 @@ class RedisClass:
         teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
         return teamNames
 
-    def registerTeamForNextWeek(self, gameId, teamName, contactEmail):
-        key = gameId.lower() + self.RegisterTeamForNextWeek
-        teamInfoString = ", ".join(["[" + teamName, contactEmail + "]"])
+    def registerTeamForNextWeek(self, date, teamName, contactEmail, teamCaptain, teamMemberNames):
+        key = date + self.RegisterTeamForNextWeek
+        teamInfo = [teamName, str(len(teamMemberNames) + 1), contactEmail, teamCaptain] + teamMemberNames
+        print("REDIS CACHE:::")
+        print(teamInfo)
+        teamInfoString = self.WordDelimiter.join(teamInfo)
         teamsListLength = self.redisCxn.llen(key)
         expectedLength = teamsListLength + 1
         existingTeams = self.redisCxn.lrange(key, 0, teamsListLength)
-        return expectedLength == self.redisCxn.rpush(key, teamInfoString)
+        success = True
+        responseMsg = "Team Registration Successful"
+        # Check for uniqueness
+        for team in existingTeams:
+            # Check Team Name
+            teamObjs = team.split(self.WordDelimiter)
+            # Check Email
+            if teamName in teamObjs:
+                success = False
+                responseMsg = "Team Name already exists"
+            if contactEmail in teamObjs:
+                success = False
+                responseMsg = "Email already used for a different team. Please use a unique email address."
+        if success:
+            self.redisCxn.rpush(key, teamInfoString)
+        return success, responseMsg
 
-    def getTeamsForNextWeek(self, gameId):
-        key = gameId.lower() + self.RegisterTeamForNextWeek
+    def getTeamsForNextWeek(self, date):
+        key = date + self.RegisterTeamForNextWeek
         teamsListLength = self.redisCxn.llen(key)
-        teamNames = self.redisCxn.lrange(key, 0, teamsListLength)
-        return teamNames
+        teamInfoSet = self.redisCxn.lrange(key, 0, teamsListLength)
+        entries = []
+        for teamInfo in teamInfoSet:
+            entries.append(teamInfo.split(self.WordDelimiter))
+        return entries
+
+    def deleteTeamsForNextWeek(self, date):
+        key = date + self.RegisterTeamForNextWeek
+        self.redisCxn.delete(key)
 
 # Round Operations
     def getEnabledRounds(self, gameId):

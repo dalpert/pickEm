@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Town Hall Trivia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='javascript/validateRegistrationForm.js') }}"></script>
+  </head>
+  <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
+  <body class="body">
+    <div class="container">
+      <h1 class="title">TEAM REGISTRATION</h1>
+      <div class="registrationContainer">
+        <form class="registration" name="registerForNextWeek" onsubmit="return validateForm()" method="post" action="{{ url_for('main.registerForNextWeekSubmit') }}">
+          <div class="form-group">
+            <label class="label col-form-label" for="date">SELECT YOUR TRIVIA DATE:</label>
+            <input type="date" placeholder="YYYY-MM-DD" class="form-control form-control-lg" id="date" name="date" min="2020-05-06" step="7" required>
+            <label class="label col-form-label" for="teamName">TEAM NAME:</label>
+            <input type="text" placeholder="TEAM NAME" class="form-control form-control-lg" name="teamName" id="teamName" required>
+            <label class="label col-form-label" for="contactEmail">EMAIL (to receive zoom link):</label>
+            <input type="text" placeholder="EMAIL@EMAIL.EMAIL" class="form-control form-control-lg" name="contactEmail" id="contactEmail" required>
+            <label class="label col-form-label" for="teamCaptain">TEAM CAPTAIN NAME:</label>
+            <input type="text" placeholder="JONATHAN DOE" class="form-control form-control-lg" name="teamCaptain" id="teamCaptain" required>
+            <button class="btn btn-primary submit smallTextButton" id="addFieldBtn">Add A Team Member</button>
+            <div class="input-group"></div>
+          </div>
+           <input type="hidden" id="maxTeamMembers" name="maxTeamMembers" value="8">
+          <button type="submit" value="Submit" class="btn btn-primary submit submitButton">REGISTER!</button>
+        </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script>
+          $(document).ready(function() {
+              var max_fields = 8;
+              var wrapper = $(".input-group");
+              var add_button = $("#addFieldBtn");
+           
+              var x = 0;
+              $(add_button).click(function(e){
+                  e.preventDefault();
+                  if(x < max_fields){
+                      $(wrapper).append('<div><input type="text" class="form-control" placeholder="TEAM MEMBER" name="memberName_' + x.toString() + '"><button class="btn btn-primary submit smallTextButton" type="button" id="deleteBtn">Remove Member</button></div>');
+                      x++;
+                  }
+            else
+            {
+              alert('WHOOPS! Max 8 Players! Sorry bout it')
+            }
+              });
+           
+              $(wrapper).on("click","#deleteBtn", function(e){
+                  e.preventDefault(); $(this).parent('div').remove(); x--;
+              })
+          });
+          </script>
+      </div>
+    </div>
+  </body>
+</html>

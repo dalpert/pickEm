@@ -69,6 +69,21 @@ h1.title.small {
 }
 /* Header */
 
+/* Home Page */
+.homeContainer {
+  justify-content: center;
+  text-align: center;
+  margin-top: 40px;
+  padding: 0px !important;
+}
+
+button.homePageButton {
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 28px
+}
+/* Home Page */
+
 /* Forms */
 button.submitButton {
   float: right;
@@ -78,6 +93,16 @@ button.submitButton {
   background-color: #cf2971;
   border-color: white;
   font-size: 28px
+}
+
+button.smallTextButton {
+  float: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: #cf2971;
+  border-color: white;
+  font-size: 18px
 }
 
 div.form-group {
@@ -92,7 +117,6 @@ div.form-group {
   padding: 0px !important;
 }
 /* Forms */
-
 
 /* Round.html */
 p.teamName {
@@ -113,16 +137,6 @@ body.body {
 }
 
 /* Countdown clock */
-button.clockHoverButton {
-  text-align: left;
-  margin-right: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  background-color: #cf2971;
-  border-color: white;
-  font-size: 16px;
-}
-
 body.clock{
     text-align: center;
     background: #00ECB9;
