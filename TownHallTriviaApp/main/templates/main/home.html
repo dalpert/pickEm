@@ -9,14 +9,25 @@
   <img class="logo" src="{{ url_for('static', filename='images/banner.png') }}">
   <body class="body">
     <div class="container">
-      <h1 class="title">WELCOME!</h1>
-      <div class="registrationContainer">
-        <form class="registration" method="post" action="https://docs.google.com/forms/d/e/1FAIpQLSdyzfCUEc5TuCHfOkwRXTIAu__umVWeRa6BIeVqwwGOT3n-wA/viewform?usp=sf_link">
-          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Get Merch!</button>
-        </form>
-        <form class="registration" method="get" action="{{ url_for('main.registerForNextWeek') }}">
-          <button type="submit" value="Submit" class="btn btn-primary submit text-right submitButton">Register For Next Week!</button>
-        </form>
+      <div class="col">
+        <h1 class="title">WELCOME!</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <form class="registration" method="get" action="{{ url_for('main.registerForNextWeek') }}">
+            <button type="submit" value="Submit" class="btn btn-primary submitButton">SIGN UP FOR NEXT WEEK</button>
+          </form>
+        </div>
+        <div class="col-sm">
+          <form class="registration" method="get" action="{{ url_for('main.enterGameId') }}">
+            <button type="submit" value="Submit" class="btn btn-primary submitButton">I'M HERE TO PLAY</button>
+          </form>
+        </div>
+        <div class="col-sm">
+          <form method="get" class="registration" target="_blank" action="https://docs.google.com/forms/d/e/1FAIpQLSdyzfCUEc5TuCHfOkwRXTIAu__umVWeRa6BIeVqwwGOT3n-wA/viewform?usp=sf_link">
+            <button type="submit" value="Submit" class="btn btn-primary submit submitButton">CHECK OUT THE MERCH</button>
+          </form>
+        </div>
       </div>
     </div>
   </body>

@@ -26,14 +26,11 @@ def registerForNextWeek():
 @main.route('/registerForNextWeekSubmit', methods = ["POST"])
 def registerForNextWeekSubmit():
     if request.method == "POST":
-        print("CONTROLLER.PY:::::")
         teamMemberNames = []
-        print(request.form)
-        print("entering for loop")
         for x in range(int(request.form["maxTeamMembers"])):
             if "memberName_" + str(x) in request.form:
-                print(request.form["memberName_" + str(x)])
-                teamMemberNames.append(request.form["memberName_" + str(x)])
+                if request.form["memberName_" + str(x)] != "":
+                    teamMemberNames.append(request.form["memberName_" + str(x)])
 
         redisManager.registerTeamForNextWeek(request.form["date"],
             request.form["teamName"],
