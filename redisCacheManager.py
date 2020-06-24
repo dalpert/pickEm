@@ -54,9 +54,6 @@ class RedisClass:
         key = gameId.lower()
         return self.redisCxn.set(key, self.Disabled)
 
-    def flushDb(self):
-        self.redisCxn.flushdb()
-
 
 # Team Operations
     def addTeamToGame(self, gameId, teamName):
@@ -241,6 +238,9 @@ class RedisClass:
         print("CLIENT LIST returned : ")
         for c in result:
             print("id : " + c['id'] + ", addr : " + c['addr'])
+
+    def flushDb(self):
+        self.redisCxn.flushdb()
 
 
 
